@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0057)file:///C:/Users/ammar/Downloads/index-with-footer_2.html -->
+<!-- saved from url=(0057)file:///C:/Users/ammar/Downloads/index-with-footer_4.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -86,6 +86,8 @@ nav::after{content:'';position:absolute;bottom:0;left:64px;right:64px;height:1px
 .product-name{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--black);margin-bottom:10px;}
 .product-price{font-size:13px;font-weight:400;color:var(--black);}
 .product-price del{color:var(--grey-light);margin-left:8px;font-size:11px;text-decoration:line-through;}
+.product-sizes{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px;}
+.size-tag{padding:3px 8px;border:1px solid var(--grey-light);font-size:9px;letter-spacing:1px;color:var(--grey);text-transform:uppercase;}
 .product-line{width:0;height:1px;background:var(--gold);transition:width 0.4s;margin-top:16px;}
 .product-card:hover .product-line{width:100%;}
 .quick-view-btn{width:100%;padding:10px;background:var(--gold);color:var(--white);border:none;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;margin-top:12px;transition:background 0.3s;}
@@ -198,7 +200,7 @@ footer{background:var(--black);color:var(--white);padding:80px 64px 40px;}
 <body>
 
 <nav>
-  <a href="file:///C:/Users/ammar/Downloads/index-with-footer_2.html#" class="nav-brand">Libas <em>&amp; Co.</em></a>
+  <a href="file:///C:/Users/ammar/Downloads/index-with-footer_4.html#" class="nav-brand">Libas <em>&amp; Co.</em></a>
   <div style="position:relative;cursor:pointer;font-size:16px;" onclick="openCart()">
     🛒 <span id="cartCount">0</span>
   </div>
@@ -246,20 +248,110 @@ footer{background:var(--black);color:var(--white);padding:80px 64px 40px;}
   </div>
 </div>
 
-<div class="category-filter" id="categoryFilter"><button class="filter-btn" onclick="filterByCategory(&#39;all&#39;, this)">
+<div class="category-filter" id="categoryFilter"><button class="filter-btn active" onclick="filterByCategory(&#39;all&#39;, this)">
       All Products
-    </button><button class="filter-btn active" onclick="filterByCategory(&#39;mens&#39;, this)">
+    </button><button class="filter-btn " onclick="filterByCategory(&#39;mens&#39;, this)">
       Mens
-    </button><button class="filter-btn" onclick="filterByCategory(&#39;kids&#39;, this)">
+    </button><button class="filter-btn " onclick="filterByCategory(&#39;kids&#39;, this)">
       Kids
-    </button><button class="filter-btn" onclick="filterByCategory(&#39;festive&#39;, this)">
+    </button><button class="filter-btn " onclick="filterByCategory(&#39;festive&#39;, this)">
       Festive
     </button></div>
-<div class="subcategory-filter" id="subcategoryFilter" style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; padding: 0px 64px 20px;"><button class="sub-btn active" onclick="filterBySubcategory(&#39;&#39;,this)">All Mens</button><button class="sub-btn" onclick="filterBySubcategory(&#39;Shirts&#39;,this)">Shirts</button><button class="sub-btn" onclick="filterBySubcategory(&#39;Pants&#39;,this)">Pants</button><button class="sub-btn" onclick="filterBySubcategory(&#39;Kurta&#39;,this)">Kurta</button><button class="sub-btn" onclick="filterBySubcategory(&#39;Waistcoat&#39;,this)">Waistcoat</button><button class="sub-btn" onclick="filterBySubcategory(&#39;Shalwar Kameez&#39;,this)">Shalwar Kameez</button></div>
+<div class="subcategory-filter" id="subcategoryFilter" style="display:none;flex-wrap:wrap;gap:8px;justify-content:center;padding:0 64px 20px;"></div>
 
 <div class="section" style="background:var(--grey-ultra);">
   <h2 class="section-title">Featured <em>Products</em></h2>
   <div id="productsContainer" class="product-grid">
+    <div class="product-card">
+      <div class="product-img">
+        <div class="product-label hot">Hot</div>
+        <img src="./Libas &amp; Co. — Premium Clothing_files/z981c134ydr24mt3ag7o.jpg" alt="Holly Green" style="cursor:pointer;" onclick="openProductPanel(&#39;6a1565ba51556a85e438b6ba&#39;)">
+      </div>
+      <div class="product-info">
+        <div class="product-cat">kids</div>
+        <div class="product-name">Holly Green</div>
+        <div class="product-price">
+          PKR 1,200
+          <del>PKR 2,000</del>
+        </div>
+        <div class="product-sizes"><span class="size-tag">S</span><span class="size-tag">M</span><span class="size-tag">L</span></div>
+        <div class="product-line"></div>
+        <button class="quick-view-btn" onclick="openProductPanel(&#39;6a1565ba51556a85e438b6ba&#39;)">Quick View</button>
+      </div>
+    </div>
+  
+    <div class="product-card">
+      <div class="product-img">
+        <div class="product-label sale">Sale</div>
+        <img src="./Libas &amp; Co. — Premium Clothing_files/caxssuwt5gzwujzxirzb.webp" alt="Blue Ocean" style="cursor:pointer;" onclick="openProductPanel(&#39;6a1565e451556a85e438b6bb&#39;)">
+      </div>
+      <div class="product-info">
+        <div class="product-cat">kids</div>
+        <div class="product-name">Blue Ocean</div>
+        <div class="product-price">
+          PKR 1,400
+          
+        </div>
+        <div class="product-sizes"><span class="size-tag">XL</span></div>
+        <div class="product-line"></div>
+        <button class="quick-view-btn" onclick="openProductPanel(&#39;6a1565e451556a85e438b6bb&#39;)">Quick View</button>
+      </div>
+    </div>
+  
+    <div class="product-card">
+      <div class="product-img">
+        <div class="product-label sale">Sale</div>
+        <img src="./Libas &amp; Co. — Premium Clothing_files/ja635fb0owxamovolijz.jpg" alt="White eagle" style="cursor:pointer;" onclick="openProductPanel(&#39;6a15661251556a85e438b6bc&#39;)">
+      </div>
+      <div class="product-info">
+        <div class="product-cat">kids</div>
+        <div class="product-name">White eagle</div>
+        <div class="product-price">
+          PKR 900
+          
+        </div>
+        <div class="product-sizes"><span class="size-tag">S</span><span class="size-tag">L</span><span class="size-tag">XL</span></div>
+        <div class="product-line"></div>
+        <button class="quick-view-btn" onclick="openProductPanel(&#39;6a15661251556a85e438b6bc&#39;)">Quick View</button>
+      </div>
+    </div>
+  
+    <div class="product-card">
+      <div class="product-img">
+        <div class="product-label new">New</div>
+        <img src="./Libas &amp; Co. — Premium Clothing_files/ute6luabs67xfajnoxfr.jpg" alt="Casual Fit" style="cursor:pointer;" onclick="openProductPanel(&#39;6a15667051556a85e438b6bd&#39;)">
+      </div>
+      <div class="product-info">
+        <div class="product-cat">kids</div>
+        <div class="product-name">Casual Fit</div>
+        <div class="product-price">
+          PKR 5,000
+          
+        </div>
+        <div class="product-sizes"><span class="size-tag">S</span><span class="size-tag">M</span><span class="size-tag">L</span></div>
+        <div class="product-line"></div>
+        <button class="quick-view-btn" onclick="openProductPanel(&#39;6a15667051556a85e438b6bd&#39;)">Quick View</button>
+      </div>
+    </div>
+  
+    <div class="product-card">
+      <div class="product-img">
+        <div class="product-label new">New</div>
+        <img src="./Libas &amp; Co. — Premium Clothing_files/llwz3aniq7ppozx846yj.jpg" alt="Girls" style="cursor:pointer;" onclick="openProductPanel(&#39;6a1567f751556a85e438b6be&#39;)">
+      </div>
+      <div class="product-info">
+        <div class="product-cat">festive</div>
+        <div class="product-name">Girls</div>
+        <div class="product-price">
+          PKR 14,000
+          
+        </div>
+        <div class="product-sizes"><span class="size-tag">S</span></div>
+        <div class="product-line"></div>
+        <button class="quick-view-btn" onclick="openProductPanel(&#39;6a1567f751556a85e438b6be&#39;)">Quick View</button>
+      </div>
+    </div>
+  
     <div class="product-card">
       <div class="product-img">
         <div class="product-label sale">Sale</div>
@@ -272,6 +364,7 @@ footer{background:var(--black);color:var(--white);padding:80px 64px 40px;}
           PKR 3,000
           <del>PKR 2,500</del>
         </div>
+        <div class="product-sizes"><span class="size-tag">L</span></div>
         <div class="product-line"></div>
         <button class="quick-view-btn" onclick="openProductPanel(&#39;6a19055987f5900236535e5b&#39;)">Quick View</button>
       </div>
@@ -335,15 +428,15 @@ footer{background:var(--black);color:var(--white);padding:80px 64px 40px;}
       <h3>Contact</h3>
       <p>📍 Lahore, Pakistan</p>
       <p>📱 <a href="https://wa.me/923104508143">WhatsApp: +92 310 4508143</a></p>
-      <p>🌐 <a href="file:///C:/Users/ammar/Downloads/index-with-footer_2.html#">www.libasandco.com</a></p>
+      <p>🌐 <a href="file:///C:/Users/ammar/Downloads/index-with-footer_4.html#">www.libasandco.com</a></p>
     </div>
     
     <div class="footer-col">
       <h3>Collections</h3>
-      <a href="file:///C:/Users/ammar/Downloads/index-with-footer_2.html#">Men's Wear</a><br>
-      <a href="file:///C:/Users/ammar/Downloads/index-with-footer_2.html#">Kids' Wear</a><br>
-      <a href="file:///C:/Users/ammar/Downloads/index-with-footer_2.html#">Festive Wear</a><br>
-      <a href="file:///C:/Users/ammar/Downloads/index-with-footer_2.html#">Premium Fabrics</a>
+      <a href="file:///C:/Users/ammar/Downloads/index-with-footer_4.html#">Men's Wear</a><br>
+      <a href="file:///C:/Users/ammar/Downloads/index-with-footer_4.html#">Kids' Wear</a><br>
+      <a href="file:///C:/Users/ammar/Downloads/index-with-footer_4.html#">Festive Wear</a><br>
+      <a href="file:///C:/Users/ammar/Downloads/index-with-footer_4.html#">Premium Fabrics</a>
     </div>
     
     <div class="footer-col">
@@ -451,6 +544,7 @@ function renderProducts(products) {
           PKR ${p.price.toLocaleString()}
           ${p.originalPrice ? `<del>PKR ${p.originalPrice.toLocaleString()}</del>` : ''}
         </div>
+        ${p.sizes && p.sizes.length ? `<div class="product-sizes">${p.sizes.map(s => `<span class="size-tag">${s}</span>`).join('')}</div>` : ''}
         <div class="product-line"></div>
         <button class="quick-view-btn" onclick="openProductPanel('${p._id}')">Quick View</button>
       </div>
