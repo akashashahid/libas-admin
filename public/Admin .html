@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0045)file:///C:/Users/ammar/Downloads/admin_4.html -->
+<!-- saved from url=(0045)file:///C:/Users/ammar/Downloads/admin_6.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -94,7 +94,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
 </head>
 <body>
 
-<div class="login-wrap" id="loginWrap" style="display: none;">
+<div class="login-wrap" id="loginWrap">
   <div class="login-box">
     <div class="login-logo">Libas <span>&amp; Co.</span></div>
     <div class="login-sub">Admin Panel</div>
@@ -104,7 +104,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
   </div>
 </div>
 
-<div class="dashboard" id="dashboard" style="display: block;">
+<div class="dashboard" id="dashboard">
   <div class="topbar">
     <div class="topbar-brand">Libas <span>&amp; Co.</span></div>
     <div class="topbar-right">
@@ -134,7 +134,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
         </div>
         <div class="form-group">
           <label class="form-label">Sub-Category</label>
-          <select class="form-select" id="pSubcategory"><option value="Shirts">Shirts</option><option value="Pants">Pants</option><option value="Kurta">Kurta</option><option value="Waistcoat">Waistcoat</option><option value="Shalwar Kameez">Shalwar Kameez</option></select>
+          <select class="form-select" id="pSubcategory"></select>
         </div>
       </div>
 
@@ -200,7 +200,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
       <div class="products-header">
         <div class="card-title" style="margin:0;border:none;padding:0">All <span style="color:#b8860b;font-style:italic">Products</span></div>
         <div style="display:flex;align-items:center;gap:16px;">
-          <span class="products-count" id="productsCount">6 products</span>
+          <span class="products-count" id="productsCount">0 products</span>
           <div class="filter-tabs">
             <button class="filter-tab active" onclick="filterProducts(&#39;all&#39;,this)">All</button>
             <button class="filter-tab" onclick="filterProducts(&#39;mens&#39;,this)">Men's</button>
@@ -209,103 +209,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
           </div>
         </div>
       </div>
-      <div class="products-grid" id="productsGrid">
-    <div class="product-item">
-      <div class="product-img">
-        <div class="product-label-tag">Hot</div>
-        <img src="./Admin_files/z981c134ydr24mt3ag7o.jpg" alt="Holly Green">
-      </div>
-      <div class="product-info-mini">
-        <div class="product-cat-mini">kids</div>
-        <div class="product-name-mini">Holly Green</div>
-        <div class="product-price-mini">PKR 1,200</div>
-        <div class="product-actions">
-          <button class="action-btn" onclick="openEditModal(&#39;6a1565ba51556a85e438b6ba&#39;)">✎ Edit</button>
-          <button class="action-btn delete" onclick="deleteProduct(&#39;6a1565ba51556a85e438b6ba&#39;)">✕ Delete</button>
-        </div>
-      </div>
-    </div>
-  
-    <div class="product-item">
-      <div class="product-img">
-        <div class="product-label-tag">Sale</div>
-        <img src="./Admin_files/caxssuwt5gzwujzxirzb.webp" alt="Blue Ocean">
-      </div>
-      <div class="product-info-mini">
-        <div class="product-cat-mini">kids</div>
-        <div class="product-name-mini">Blue Ocean</div>
-        <div class="product-price-mini">PKR 1,400</div>
-        <div class="product-actions">
-          <button class="action-btn" onclick="openEditModal(&#39;6a1565e451556a85e438b6bb&#39;)">✎ Edit</button>
-          <button class="action-btn delete" onclick="deleteProduct(&#39;6a1565e451556a85e438b6bb&#39;)">✕ Delete</button>
-        </div>
-      </div>
-    </div>
-  
-    <div class="product-item">
-      <div class="product-img">
-        <div class="product-label-tag">Sale</div>
-        <img src="./Admin_files/ja635fb0owxamovolijz.jpg" alt="White eagle">
-      </div>
-      <div class="product-info-mini">
-        <div class="product-cat-mini">kids</div>
-        <div class="product-name-mini">White eagle</div>
-        <div class="product-price-mini">PKR 900</div>
-        <div class="product-actions">
-          <button class="action-btn" onclick="openEditModal(&#39;6a15661251556a85e438b6bc&#39;)">✎ Edit</button>
-          <button class="action-btn delete" onclick="deleteProduct(&#39;6a15661251556a85e438b6bc&#39;)">✕ Delete</button>
-        </div>
-      </div>
-    </div>
-  
-    <div class="product-item">
-      <div class="product-img">
-        <div class="product-label-tag">New</div>
-        <img src="./Admin_files/ute6luabs67xfajnoxfr.jpg" alt="Casual Fit">
-      </div>
-      <div class="product-info-mini">
-        <div class="product-cat-mini">kids</div>
-        <div class="product-name-mini">Casual Fit</div>
-        <div class="product-price-mini">PKR 5,000</div>
-        <div class="product-actions">
-          <button class="action-btn" onclick="openEditModal(&#39;6a15667051556a85e438b6bd&#39;)">✎ Edit</button>
-          <button class="action-btn delete" onclick="deleteProduct(&#39;6a15667051556a85e438b6bd&#39;)">✕ Delete</button>
-        </div>
-      </div>
-    </div>
-  
-    <div class="product-item">
-      <div class="product-img">
-        <div class="product-label-tag">New</div>
-        <img src="./Admin_files/llwz3aniq7ppozx846yj.jpg" alt="Girls">
-      </div>
-      <div class="product-info-mini">
-        <div class="product-cat-mini">festive</div>
-        <div class="product-name-mini">Girls</div>
-        <div class="product-price-mini">PKR 14,000</div>
-        <div class="product-actions">
-          <button class="action-btn" onclick="openEditModal(&#39;6a1567f751556a85e438b6be&#39;)">✎ Edit</button>
-          <button class="action-btn delete" onclick="deleteProduct(&#39;6a1567f751556a85e438b6be&#39;)">✕ Delete</button>
-        </div>
-      </div>
-    </div>
-  
-    <div class="product-item">
-      <div class="product-img">
-        <div class="product-label-tag">Sale</div>
-        <img src="./Admin_files/hkexrewgkytptwuiihdg.jpg" alt="Shalwar Qameez">
-      </div>
-      <div class="product-info-mini">
-        <div class="product-cat-mini">mens</div>
-        <div class="product-name-mini">Shalwar Qameez</div>
-        <div class="product-price-mini">PKR 3,000</div>
-        <div class="product-actions">
-          <button class="action-btn" onclick="openEditModal(&#39;6a19055987f5900236535e5b&#39;)">✎ Edit</button>
-          <button class="action-btn delete" onclick="deleteProduct(&#39;6a19055987f5900236535e5b&#39;)">✕ Delete</button>
-        </div>
-      </div>
-    </div>
-  </div>
+      <div class="products-grid" id="productsGrid"></div>
     </div>
   </div>
 </div>
@@ -623,7 +527,7 @@ async function deleteProduct(id) {
 
 
 
-<script src="./Admin_files/xlsx.full.min.js.download"></script>
+<script src="./Co. — Admin_files/xlsx.full.min.js.download"></script>
 <script>
 let excelData = [];
 
@@ -633,15 +537,18 @@ function toggleImport() {
 }
 
 function downloadTemplate() {
-  const wb = XLSX.utils.book_new();
-  const ws = XLSX.utils.aoa_to_sheet([
-    ['Name', 'Category', 'Subcategory', 'Price', 'Original Price', 'Sizes', 'Label', 'Image URL'],
-    ['Linen Kurta', 'mens', 'Kurta', 1400, 2000, 'S,M,L,XL', 'Sale', 'https://example.com/image.jpg'],
-    ['Kids Frock', 'kids', 'Frocks', 800, '', 'S,M,L', 'New', 'https://example.com/image2.jpg'],
-  ]);
-  ws['!cols'] = [{wch:20},{wch:12},{wch:15},{wch:10},{wch:15},{wch:15},{wch:10},{wch:40}];
-  XLSX.utils.book_append_sheet(wb, ws, 'Products');
-  XLSX.writeFile(wb, 'libas_products_template.xlsx');
+  const csv = [
+    'Name,Category,Subcategory,Price,Original Price,Sizes,Label,Image URL',
+    'Linen Kurta,mens,Kurta,1400,2000,"S,M,L,XL",Sale,https://example.com/image.jpg',
+    'Kids Frock,kids,Frocks,800,,"S,M,L",New,https://example.com/image2.jpg'
+  ].join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'libas_products_template.csv';
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 function handleExcelUpload(input) {
