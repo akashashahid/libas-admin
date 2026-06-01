@@ -1,30 +1,14 @@
 <!DOCTYPE html>
-<!-- saved from url=(0048)file:///C:/Users/ammar/Downloads/index-v2_2.html -->
+<!-- saved from url=(0048)file:///C:/Users/ammar/Downloads/index-v2_3.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Libas &amp; Co. — Premium Clothing</title>
 <title>Libas &amp; Co. — Premium Pakistani Clothing | Lahore</title>
 <meta name="description" content="Libas &amp; Co. offers premium handcrafted Pakistani clothing — Men&#39;s, Kids&#39; and Festive wear made with quality fabrics. Based in Lahore, Pakistan. Order via WhatsApp.">
-<meta name="keywords" content="Pakistani clothing, premium kurta, shalwar kameez, festive wear, kids clothing, Lahore fashion, libas and co">
-<meta property="og:title" content="Libas &amp; Co. — Premium Pakistani Clothing">
-<meta property="og:description" content="Handcrafted Pakistani clothing made with premium fabrics. Shop Men&#39;s, Kids&#39; and Festive collections.">
+<meta name="keywords" content="Pakistani clothing, premium kurta, shalwar kameez, festive wear, kids clothing, Lahore fashion">
 <link href="./index_files/css2" rel="stylesheet">
 <style>
-:root {
-  --gold: #b8860b;
-  --gold-light: #d4a030;
-  --gold-pale: #f5e8c0;
-  --gold-ultra: #fdf8ee;
-  --black: #0a0a0a;
-  --charcoal: #1a1a1a;
-  --grey: #6b6b6b;
-  --grey-light: #d4d4d4;
-  --grey-ultra: #f8f8f8;
-  --white: #ffffff;
-  --cream: #fdfcf9;
-}
-
+:root{--gold:#b8860b;--gold-light:#d4a030;--gold-pale:#f5e8c0;--gold-ultra:#fdf8ee;--black:#0a0a0a;--charcoal:#1a1a1a;--grey:#6b6b6b;--grey-light:#d4d4d4;--grey-ultra:#f8f8f8;--white:#ffffff;--cream:#fdfcf9;}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--black);overflow-x:hidden;}
@@ -33,194 +17,209 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--black);ov
 @keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
 @keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
 
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:24px 64px;display:flex;align-items:center;justify-content:space-between;background:rgba(253,252,249,0.95);backdrop-filter:blur(12px);}
-nav::after{content:'';position:absolute;bottom:0;left:64px;right:64px;height:1px;background:linear-gradient(90deg,transparent,var(--gold-light),transparent);opacity:0.4;}
-.nav-brand{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--black);text-decoration:none;letter-spacing:2px;}
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 40px;display:flex;align-items:center;justify-content:space-between;background:rgba(253,252,249,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(184,134,11,0.15);}
+.nav-brand{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--black);text-decoration:none;letter-spacing:2px;}
 .nav-brand em{font-style:italic;color:var(--gold);}
-.nav-links{display:flex;gap:40px;list-style:none;align-items:center;}
-.nav-links a{font-size:11px;font-weight:300;letter-spacing:3px;text-transform:uppercase;color:var(--grey);text-decoration:none;transition:color 0.2s;}
-.nav-links a:hover{color:var(--gold);}
-.nav-cta{border:1px solid var(--gold)!important;color:var(--gold)!important;padding:10px 24px;letter-spacing:3px;background:transparent;cursor:pointer;}
-.nav-cta:hover{background:var(--gold)!important;color:var(--white)!important;}
-#cartCount{position:absolute;top:-8px;right:-8px;background:var(--gold);color:var(--white);border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;}
+.cart-btn{position:relative;cursor:pointer;font-size:20px;background:none;border:none;padding:4px;}
+#cartCount{position:absolute;top:-6px;right:-6px;background:var(--gold);color:var(--white);border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;}
 
-.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:120px 64px 80px;text-align:center;position:relative;overflow:hidden;}
-.hero::before{content:'LIBAS';position:absolute;font-family:'Cormorant Garamond',serif;font-size:380px;font-weight:700;color:rgba(184,134,11,0.04);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap;letter-spacing:-10px;}
-
-.hero-line{width:1px;height:60px;background:linear-gradient(to bottom,transparent,var(--gold));margin:0 auto 32px;opacity:0;animation:fadeIn 1s ease 0.2s forwards;}
-.hero-eyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:6px;color:var(--gold);text-transform:uppercase;margin-bottom:28px;opacity:0;animation:fadeUp 0.8s ease 0.3s forwards;}
-.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(52px,8vw,110px);font-weight:300;line-height:0.95;color:var(--black);margin-bottom:8px;opacity:0;animation:fadeUp 1s ease 0.4s forwards;letter-spacing:-2px;}
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 20px 60px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'LIBAS';position:absolute;font-family:'Cormorant Garamond',serif;font-size:clamp(100px,30vw,380px);font-weight:700;color:rgba(184,134,11,0.04);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap;letter-spacing:-10px;}
+.hero-line{width:1px;height:50px;background:linear-gradient(to bottom,transparent,var(--gold));margin:0 auto 24px;opacity:0;animation:fadeIn 1s ease 0.2s forwards;}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;margin-bottom:20px;opacity:0;animation:fadeUp 0.8s ease 0.3s forwards;}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,8vw,100px);font-weight:300;line-height:1;color:var(--black);margin-bottom:8px;opacity:0;animation:fadeUp 1s ease 0.4s forwards;letter-spacing:-1px;}
 .hero-title em{font-style:italic;color:var(--gold);}
-.hero-title-sub{font-family:'Cormorant Garamond',serif;font-size:clamp(18px,3vw,32px);font-weight:300;font-style:italic;color:var(--grey);margin-bottom:40px;opacity:0;animation:fadeUp 0.8s ease 0.5s forwards;}
-.hero-divider{display:flex;align-items:center;gap:20px;justify-content:center;margin-bottom:36px;opacity:0;animation:fadeUp 0.8s ease 0.6s forwards;}
-.hero-divider-line{width:80px;height:1px;background:var(--gold-light);opacity:0.5;}
+.hero-subtitle{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,3vw,28px);font-weight:300;font-style:italic;color:var(--grey);margin-bottom:32px;opacity:0;animation:fadeUp 0.8s ease 0.5s forwards;}
+.hero-divider{display:flex;align-items:center;gap:16px;justify-content:center;margin-bottom:28px;opacity:0;animation:fadeUp 0.8s ease 0.6s forwards;}
+.hero-divider-line{width:60px;height:1px;background:var(--gold-light);opacity:0.5;}
 .hero-divider-diamond{width:6px;height:6px;background:var(--gold);transform:rotate(45deg);}
-.hero-desc{font-size:14px;font-weight:300;line-height:1.9;color:var(--grey);max-width:480px;margin:0 auto 48px;opacity:0;animation:fadeUp 0.8s ease 0.7s forwards;}
-.hero-btns{display:flex;gap:16px;justify-content:center;opacity:0;animation:fadeUp 0.8s ease 0.8s forwards;flex-wrap:wrap;}
-.btn-gold{background:var(--gold);color:var(--white);padding:16px 40px;font-family:'Jost',sans-serif;font-size:10px;font-weight:400;letter-spacing:4px;text-transform:uppercase;text-decoration:none;border:1px solid var(--gold);cursor:pointer;transition:all 0.3s;}
+.hero-desc{font-size:13px;font-weight:300;line-height:1.9;color:var(--grey);max-width:440px;margin:0 auto 40px;opacity:0;animation:fadeUp 0.8s ease 0.7s forwards;}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;opacity:0;animation:fadeUp 0.8s ease 0.8s forwards;}
+.btn-gold{background:var(--gold);color:var(--white);padding:14px 32px;font-family:'Jost',sans-serif;font-size:10px;font-weight:400;letter-spacing:3px;text-transform:uppercase;border:1px solid var(--gold);cursor:pointer;transition:all 0.3s;white-space:nowrap;}
 .btn-gold:hover{background:transparent;color:var(--gold);}
-.btn-outline{background:transparent;color:var(--black);padding:16px 40px;font-family:'Jost',sans-serif;font-size:10px;font-weight:400;letter-spacing:4px;text-transform:uppercase;text-decoration:none;border:1px solid var(--grey-light);cursor:pointer;transition:all 0.3s;}
+.btn-outline{background:transparent;color:var(--black);padding:14px 32px;font-family:'Jost',sans-serif;font-size:10px;font-weight:400;letter-spacing:3px;text-transform:uppercase;border:1px solid var(--grey-light);cursor:pointer;transition:all 0.3s;white-space:nowrap;}
 .btn-outline:hover{border-color:var(--gold);color:var(--gold);}
 
-.stats-bar{display:flex;gap:0;justify-content:center;margin-top:72px;border-top:1px solid var(--grey-light);border-bottom:1px solid var(--grey-light);opacity:0;animation:fadeUp 0.8s ease 1s forwards;}
-.stat-item{padding:28px 48px;text-align:center;border-right:1px solid var(--grey-light);}
+/* STATS */
+.stats-bar{display:flex;flex-wrap:wrap;justify-content:center;margin-top:60px;border-top:1px solid var(--grey-light);border-bottom:1px solid var(--grey-light);opacity:0;animation:fadeUp 0.8s ease 1s forwards;width:100%;}
+.stat-item{padding:24px 32px;text-align:center;border-right:1px solid var(--grey-light);}
 .stat-item:last-child{border-right:none;}
-.stat-num{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:300;color:var(--black);line-height:1;}
-.stat-num span{font-size:20px;color:var(--gold);}
-.stat-label{font-size:9px;letter-spacing:3px;color:var(--grey);text-transform:uppercase;margin-top:6px;}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--black);line-height:1;}
+.stat-num span{font-size:18px;color:var(--gold);}
+.stat-label{font-size:9px;letter-spacing:2px;color:var(--grey);text-transform:uppercase;margin-top:4px;}
 
-.marquee-wrap{padding:20px 0;background:var(--gold);overflow:hidden;white-space:nowrap;}
+/* MARQUEE */
+.marquee-wrap{padding:18px 0;background:var(--gold);overflow:hidden;white-space:nowrap;}
 .marquee-track{display:inline-flex;animation:marquee 20s linear infinite;}
-.marquee-item{font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:var(--white);letter-spacing:3px;padding:0 32px;}
+.marquee-item{font-family:'Cormorant Garamond',serif;font-size:12px;font-style:italic;color:var(--white);letter-spacing:3px;padding:0 28px;}
 
-.section{padding:100px clamp(16px,5vw,64px);}
-.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,4vw,60px);font-weight:300;text-align:center;color:var(--black);margin-bottom:14px;line-height:1.1;}
+/* TRUST SIGNALS */
+.trust-section{background:var(--black);padding:48px 20px;}
+.trust-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;max-width:700px;margin:0 auto;text-align:center;}
+.trust-item-icon{font-size:28px;margin-bottom:10px;}
+.trust-item-title{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--white);font-weight:600;margin-bottom:4px;}
+.trust-item-sub{font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:1px;}
+
+/* SECTION */
+.section{padding:72px 20px;}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,5vw,52px);font-weight:300;text-align:center;color:var(--black);margin-bottom:12px;line-height:1.1;}
 .section-title em{font-style:italic;color:var(--gold);}
-.section-sub{text-align:center;font-size:13px;font-weight:300;color:var(--grey);max-width:440px;margin:0 auto 64px;line-height:1.8;}
+.section-sub{text-align:center;font-size:13px;font-weight:300;color:var(--grey);max-width:400px;margin:0 auto 48px;line-height:1.8;}
 
-.product-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--grey-light);margin-bottom:40px;}
-.product-card{background:var(--white);overflow:hidden;transition:all 0.3s;position:relative;}
-.product-card:hover{z-index:2;box-shadow:0 20px 60px rgba(0,0,0,0.1);}
-.product-img{height:240px;background:var(--grey-ultra);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;}
-.product-img img{width:100%;height:100%;object-fit:cover;}
-.product-label{position:absolute;top:16px;left:16px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;padding:5px 12px;text-transform:uppercase;}
-.product-label.new{background:var(--black);color:var(--white);}
-.product-label.sale{background:var(--gold);color:var(--white);}
-.product-info{padding:24px 20px;}
-.product-cat{font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;font-family:'DM Mono',monospace;}
-.product-name{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--black);margin-bottom:10px;}
-.product-price{font-size:13px;font-weight:400;color:var(--black);}
-.product-price del{color:var(--grey-light);margin-left:8px;font-size:11px;text-decoration:line-through;}
-.product-sizes{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px;}
-.size-tag{padding:3px 8px;border:1px solid var(--grey-light);font-size:9px;letter-spacing:1px;color:var(--grey);text-transform:uppercase;}
-.product-line{width:0;height:1px;background:var(--gold);transition:width 0.4s;margin-top:16px;}
-.product-card:hover .product-line{width:100%;}
-.quick-view-btn{width:100%;padding:10px;background:var(--gold);color:var(--white);border:none;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;margin-top:12px;transition:background 0.3s;}
-.quick-view-btn:hover{background:var(--gold-light);}
-
-.panel-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;}
-.panel-overlay.open{display:block;}
-.side-panel{position:fixed;right:0;top:0;width:400px;height:100vh;background:var(--white);z-index:201;transform:translateX(400px);transition:transform 0.3s;overflow-y:auto;}
-.side-panel.open{transform:translateX(0);}
-.panel-header{padding:24px;border-bottom:1px solid var(--grey-light);display:flex;justify-content:space-between;align-items:center;}
-.panel-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--black);}
-.panel-close{background:none;border:none;font-size:24px;cursor:pointer;color:var(--grey);}
-.panel-body{padding:24px;}
-.product-detail-img{width:100%;height:240px;background:var(--grey-ultra);margin-bottom:24px;border-radius:4px;overflow:hidden;}
-.product-detail-img img{width:100%;height:100%;object-fit:cover;}
-.detail-price{font-size:24px;font-weight:600;color:var(--black);margin-bottom:8px;}
-.detail-price del{color:var(--grey-light);font-size:16px;margin-left:12px;}
-.detail-cat{font-size:11px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:16px;}
-.size-selector{margin:24px 0;}
-.size-label{font-size:12px;font-weight:600;color:var(--black);margin-bottom:12px;display:block;letter-spacing:1px;text-transform:uppercase;}
-.size-buttons{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:20px;}
-.size-btn{padding:10px;border:1px solid var(--grey-light);background:var(--white);color:var(--black);cursor:pointer;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:1px;transition:all 0.3s;}
-.size-btn:hover{border-color:var(--gold);color:var(--gold);}
-.size-btn.active{background:var(--gold);color:var(--white);border-color:var(--gold);}
-.qty-control{display:flex;align-items:center;gap:12px;margin:24px 0;}
-.qty-btn{width:40px;height:40px;border:1px solid var(--grey-light);background:var(--white);cursor:pointer;font-size:14px;font-weight:600;transition:all 0.3s;}
-.qty-btn:hover{border-color:var(--gold);color:var(--gold);}
-#qtyNum{font-size:14px;font-weight:600;min-width:30px;text-align:center;}
-.action-buttons{display:flex;flex-direction:column;gap:12px;margin-top:24px;}
-.btn-full{width:100%;padding:14px;background:var(--gold);color:var(--white);border:none;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:background 0.3s;font-weight:600;}
-.btn-full:hover{background:var(--gold-light);}
-.btn-full.secondary{background:transparent;color:var(--gold);border:1px solid var(--gold);}
-.btn-full.secondary:hover{background:var(--gold-ultra);}
-
-.cart-drawer{position:fixed;right:0;bottom:0;width:400px;max-height:600px;background:var(--white);z-index:210;transform:translateX(400px);transition:transform 0.3s;overflow-y:auto;border-top:1px solid var(--grey-light);border-left:1px solid var(--grey-light);}
-.cart-drawer.open{transform:translateX(0);}
-.cart-header{padding:20px 24px;border-bottom:1px solid var(--grey-light);display:flex;justify-content:space-between;align-items:center;}
-.cart-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;}
-.cart-items{padding:20px 24px;}
-.cart-empty{text-align:center;padding:40px 24px;color:var(--grey);}
-.cart-empty-icon{font-size:48px;margin-bottom:16px;}
-.cart-item{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 0;border-bottom:0.5px solid var(--grey-light);}
-.cart-item-info{flex:1;}
-.cart-item-name{font-weight:600;color:var(--black);font-size:13px;}
-.cart-item-meta{font-size:11px;color:var(--grey);margin:4px 0;}
-.cart-item-price{font-weight:600;color:var(--gold);font-size:12px;}
-.cart-item-remove{background:none;border:none;color:var(--grey);cursor:pointer;font-size:18px;transition:color 0.3s;}
-.cart-item-remove:hover{color:var(--black);}
-#cartFooter{padding:20px 24px;border-top:1px solid var(--grey-light);}
-.cart-total{font-size:16px;font-weight:600;margin-bottom:16px;display:flex;justify-content:space-between;}
-.checkout-btn{width:100%;padding:14px;background:var(--gold);color:var(--white);border:none;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-weight:600;}
-.checkout-btn:hover{background:var(--gold-light);}
-
-.category-filter{display:flex;gap:12px;justify-content:center;margin:40px 0 16px;flex-wrap:wrap;}
-.filter-btn{padding:10px 24px;border:1px solid var(--grey-light);background:var(--white);color:var(--black);cursor:pointer;font-size:11px;letter-spacing:2px;text-transform:uppercase;transition:all 0.3s;}
+/* CATEGORY FILTER */
+.category-filter{display:flex;gap:10px;justify-content:center;margin:32px 20px 16px;flex-wrap:wrap;}
+.filter-btn{padding:9px 20px;border:1px solid var(--grey-light);background:var(--white);color:var(--black);cursor:pointer;font-size:10px;letter-spacing:2px;text-transform:uppercase;transition:all 0.3s;}
 .filter-btn.active{background:var(--gold);color:var(--white);border-color:var(--gold);}
 .filter-btn:hover{border-color:var(--gold);color:var(--gold);}
-.sub-btn{padding:7px 16px;border:1px solid var(--grey-light);background:var(--white);color:var(--grey);cursor:pointer;font-size:10px;letter-spacing:1px;text-transform:uppercase;transition:all 0.3s;border-radius:20px;}
+.sub-btn{padding:6px 14px;border:1px solid var(--grey-light);background:var(--white);color:var(--grey);cursor:pointer;font-size:10px;letter-spacing:1px;text-transform:uppercase;transition:all 0.3s;border-radius:20px;}
 .sub-btn.active{background:var(--gold-pale);color:var(--gold);border-color:var(--gold);}
 .sub-btn:hover{border-color:var(--gold);color:var(--gold);}
 
-.loading{text-align:center;padding:60px 24px;color:var(--grey);}
+/* PRODUCT GRID */
+.product-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--grey-light);}
+.product-card{background:var(--white);overflow:hidden;transition:all 0.3s;}
+.product-img{height:200px;background:var(--grey-ultra);position:relative;overflow:hidden;}
+.product-img img{width:100%;height:100%;object-fit:cover;}
+.product-label{position:absolute;top:12px;left:12px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;padding:4px 10px;text-transform:uppercase;}
+.product-label.new{background:var(--black);color:var(--white);}
+.product-label.sale{background:var(--gold);color:var(--white);}
+.product-info{padding:16px;}
+.product-cat{font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:6px;}
+.product-name{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--black);margin-bottom:8px;}
+.product-price{font-size:12px;color:var(--black);}
+.product-price del{color:var(--grey-light);margin-left:6px;font-size:10px;}
+.product-sizes{display:flex;flex-wrap:wrap;gap:3px;margin-top:8px;}
+.size-tag{padding:2px 7px;border:1px solid var(--grey-light);font-size:8px;letter-spacing:1px;color:var(--grey);text-transform:uppercase;}
+.product-line{width:0;height:1px;background:var(--gold);transition:width 0.4s;margin-top:12px;}
+.product-card:hover .product-line{width:100%;}
+.quick-view-btn{width:100%;padding:9px;background:var(--gold);color:var(--white);border:none;font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;margin-top:10px;transition:background 0.3s;}
+.quick-view-btn:hover{background:var(--gold-light);}
 
-footer{background:var(--black);color:var(--white);padding:80px 64px 40px;}
-.footer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:60px;margin-bottom:60px;}
-.footer-col h3{font-family:'Cormorant Garamond',serif;font-size:14px;letter-spacing:2px;text-transform:uppercase;margin-bottom:20px;color:var(--gold);}
-.footer-col p,.footer-col a{font-size:13px;line-height:1.8;color:rgba(255,255,255,0.7);text-decoration:none;transition:color 0.3s;}
-.footer-col a:hover{color:var(--gold);}
-.footer-divider{border-top:1px solid rgba(255,255,255,0.1);padding-top:40px;text-align:center;font-size:12px;color:rgba(255,255,255,0.5);}
-.footer-brand{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;margin-bottom:30px;letter-spacing:2px;}
+/* SIDE PANEL */
+.panel-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;}
+.panel-overlay.open{display:block;}
+.side-panel{position:fixed;right:0;top:0;width:min(400px,100vw);height:100vh;background:var(--white);z-index:201;transform:translateX(100%);transition:transform 0.3s;overflow-y:auto;}
+.side-panel.open{transform:translateX(0);}
+.panel-header{padding:20px;border-bottom:1px solid var(--grey-light);display:flex;justify-content:space-between;align-items:center;}
+.panel-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--black);}
+.panel-close{background:none;border:none;font-size:22px;cursor:pointer;color:var(--grey);}
+.panel-body{padding:20px;}
+.product-detail-img{width:100%;height:220px;background:var(--grey-ultra);margin-bottom:16px;border-radius:4px;overflow:hidden;}
+.product-detail-img img{width:100%;height:100%;object-fit:cover;}
+.detail-price{font-size:22px;font-weight:600;color:var(--black);margin-bottom:6px;}
+.detail-price del{color:var(--grey-light);font-size:15px;margin-left:10px;}
+.detail-cat{font-size:10px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:14px;}
+.size-label{font-size:11px;font-weight:600;color:var(--black);margin-bottom:10px;display:block;letter-spacing:1px;text-transform:uppercase;}
+.size-buttons{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:16px;}
+.size-btn{padding:9px;border:1px solid var(--grey-light);background:var(--white);color:var(--black);cursor:pointer;font-size:10px;transition:all 0.3s;}
+.size-btn:hover,.size-btn.active{background:var(--gold);color:var(--white);border-color:var(--gold);}
+.qty-control{display:flex;align-items:center;gap:12px;margin:16px 0;}
+.qty-btn{width:38px;height:38px;border:1px solid var(--grey-light);background:var(--white);cursor:pointer;font-size:14px;font-weight:600;}
+.qty-btn:hover{border-color:var(--gold);color:var(--gold);}
+#qtyNum{font-size:14px;font-weight:600;min-width:28px;text-align:center;}
+.action-buttons{display:flex;flex-direction:column;gap:10px;margin-top:20px;}
+.btn-full{width:100%;padding:13px;background:var(--gold);color:var(--white);border:none;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-weight:600;}
+.btn-full:hover{background:var(--gold-light);}
+.btn-full.secondary{background:transparent;color:var(--gold);border:1px solid var(--gold);}
+
+/* CART */
+.cart-drawer{position:fixed;right:0;bottom:0;width:min(400px,100vw);max-height:90vh;background:var(--white);z-index:210;transform:translateX(100%);transition:transform 0.3s;overflow-y:auto;border-top:1px solid var(--grey-light);border-left:1px solid var(--grey-light);}
+.cart-drawer.open{transform:translateX(0);}
+.cart-header{padding:18px 20px;border-bottom:1px solid var(--grey-light);display:flex;justify-content:space-between;align-items:center;}
+.cart-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;}
+.cart-items{padding:16px 20px;}
+.cart-empty{text-align:center;padding:40px 20px;color:var(--grey);}
+.cart-item{display:flex;justify-content:space-between;align-items:flex-start;padding:10px 0;border-bottom:0.5px solid var(--grey-light);}
+.cart-item-info{flex:1;}
+.cart-item-name{font-weight:600;color:var(--black);font-size:12px;}
+.cart-item-meta{font-size:10px;color:var(--grey);margin:3px 0;}
+.cart-item-price{font-weight:600;color:var(--gold);font-size:11px;}
+.cart-item-remove{background:none;border:none;color:var(--grey);cursor:pointer;font-size:16px;}
+#cartFooter{padding:16px 20px;border-top:1px solid var(--grey-light);}
+.cart-total{font-size:15px;font-weight:600;margin-bottom:14px;display:flex;justify-content:space-between;}
+.checkout-btn{width:100%;padding:13px;background:var(--gold);color:var(--white);border:none;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-weight:600;}
+
+/* SIZE GUIDE */
+.size-table{width:100%;border-collapse:collapse;font-size:13px;max-width:680px;margin:0 auto;}
+.size-table th{background:var(--gold);color:var(--white);padding:12px 16px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;}
+.size-table td{padding:12px 16px;border-bottom:1px solid var(--grey-light);color:var(--grey);}
+.size-table td:first-child{font-weight:600;color:var(--black);}
+.size-table tr:nth-child(even){background:var(--grey-ultra);}
+
+/* REVIEWS */
+.reviews-grid{display:grid;grid-template-columns:1fr;gap:20px;max-width:900px;margin:0 auto;}
+.review-card{background:var(--white);padding:28px;border:1px solid var(--grey-light);}
+.review-stars{color:var(--gold);font-size:16px;margin-bottom:14px;}
+.review-text{font-size:13px;line-height:1.8;color:var(--grey);font-style:italic;margin-bottom:16px;}
+.review-author{font-size:10px;font-weight:600;letter-spacing:2px;color:var(--black);text-transform:uppercase;}
+
+/* BRAND STORY */
+.brand-story{background:var(--cream);padding:72px 20px;text-align:center;}
+.brand-story-inner{max-width:720px;margin:0 auto;}
+.brand-stats{display:flex;gap:32px;justify-content:center;flex-wrap:wrap;margin-top:40px;}
+.brand-stat{text-align:center;}
+.brand-stat-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--black);}
+.brand-stat-num span{font-size:18px;color:var(--gold);}
+.brand-stat-label{font-size:9px;letter-spacing:2px;color:var(--grey);text-transform:uppercase;margin-top:4px;}
+
+/* DELIVERY */
+.delivery-section{background:var(--black);padding:72px 20px;}
+.delivery-grid{display:grid;grid-template-columns:1fr;gap:20px;max-width:800px;margin:32px auto 0;}
+.delivery-card{border:1px solid rgba(255,255,255,0.1);padding:28px;}
+.delivery-icon{font-size:24px;margin-bottom:10px;}
+.delivery-title{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--white);margin-bottom:10px;}
+.delivery-text{font-size:12px;color:rgba(255,255,255,0.6);line-height:1.8;}
+
+/* INSTAGRAM */
+.insta-section{background:var(--cream);padding:72px 20px;text-align:center;}
+
+/* FOOTER */
+footer{background:var(--black);color:var(--white);padding:60px 20px 30px;}
+.footer-brand{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;margin-bottom:28px;letter-spacing:2px;}
 .footer-brand em{color:var(--gold);font-style:italic;}
+.footer-grid{display:grid;grid-template-columns:1fr;gap:28px;margin-bottom:40px;}
+.footer-col h3{font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;color:var(--gold);}
+.footer-col p,.footer-col a{font-size:12px;line-height:1.8;color:rgba(255,255,255,0.7);text-decoration:none;}
+.footer-col a:hover{color:var(--gold);}
+.footer-divider{border-top:1px solid rgba(255,255,255,0.1);padding-top:24px;text-align:center;font-size:11px;color:rgba(255,255,255,0.4);}
 
-@media (max-width: 1024px) {
+/* WHATSAPP */
+.wa-float{position:fixed;bottom:24px;right:24px;z-index:999;background:#25D366;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,0.4);text-decoration:none;transition:transform 0.3s;}
+.wa-float:hover{transform:scale(1.1);}
+.wa-float svg{width:30px;height:30px;}
+
+/* LOADING */
+.loading{text-align:center;padding:60px 20px;color:var(--grey);grid-column:1/-1;}
+
+/* DESKTOP */
+@media(min-width:768px){
+  nav{padding:24px 64px;}
+  .trust-grid{grid-template-columns:repeat(4,1fr);}
   .product-grid{grid-template-columns:repeat(3,1fr);}
-  nav{padding:16px 32px;}
-  .section{padding:80px 32px;}
-  footer{padding:60px 32px 30px;}
-  .footer-grid{gap:40px;}
+  .reviews-grid{grid-template-columns:repeat(3,1fr);}
+  .delivery-grid{grid-template-columns:repeat(3,1fr);}
+  .footer-grid{grid-template-columns:repeat(3,1fr);}
+  .product-img{height:240px;}
 }
-
-.trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;text-align:center;}
-
-@media (max-width: 768px) {
-  .trust-grid{grid-template-columns:repeat(2,1fr);gap:20px;}
-  .product-grid{grid-template-columns:repeat(2,1fr);}
-  nav{padding:12px 20px;}
-  .nav-brand{font-size:18px;}
-  .nav-links{gap:20px;}
-  .side-panel, .cart-drawer{width:100%;right:0;transform:translateX(100%);}
-  .side-panel.open, .cart-drawer.open{transform:translateX(0);}
-  .section{padding:60px 20px;}
-  .hero{padding:100px 20px 60px;}
-  .stats-bar{flex-direction:column;gap:0;}
-  .stat-item{border-right:none;border-bottom:1px solid var(--grey-light);padding:20px 24px;}
-  footer{padding:40px 20px 25px;}
-  .footer-grid{grid-template-columns:1fr;gap:30px;}
-  #waFloat{bottom:20px;right:20px;width:50px;height:50px;font-size:22px;}
-}
-
-@media (max-width: 480px) {
-  .product-grid{grid-template-columns:1fr;}
-  nav{padding:10px 16px;}
-  .nav-links{display:none;}
-  .nav-brand{font-size:16px;}
-  .section{padding:40px 16px;}
-  .hero-btns{flex-direction:column;}
-  .btn-gold, .btn-outline{width:100%;}
-  footer{padding:30px 16px 20px;}
-  .footer-col h3{font-size:12px;}
-  .footer-col p{font-size:11px;}
-  .trust-grid{grid-template-columns:repeat(2,1fr);gap:16px;}
+@media(min-width:1024px){
+  .product-grid{grid-template-columns:repeat(4,1fr);}
 }
 </style>
 </head>
 <body>
 
 <nav>
-  <a href="file:///C:/Users/ammar/Downloads/index-v2_2.html#" class="nav-brand">Libas <em>&amp; Co.</em></a>
-  <div style="position:relative;cursor:pointer;font-size:16px;" onclick="openCart()">
-    🛒 <span id="cartCount">0</span>
-  </div>
+  <a href="file:///C:/Users/ammar/Downloads/index-v2_3.html#" class="nav-brand">Libas <em>&amp; Co.</em></a>
+  <button class="cart-btn" onclick="openCart()">🛒 <span id="cartCount">0</span></button>
 </nav>
 
 <div class="hero">
   <div class="hero-line"></div>
   <div class="hero-eyebrow">Lahore · Pakistan</div>
   <h1 class="hero-title">Crafted for <em>Modern Pakistan</em></h1>
-  <div class="hero-title-sub">Premium Eastern Wear for Every Occasion</div>
+  <div class="hero-subtitle">Premium Eastern Wear for Every Occasion</div>
   <div class="hero-divider">
     <div class="hero-divider-line"></div>
     <div class="hero-divider-diamond"></div>
@@ -232,18 +231,9 @@ footer{background:var(--black);color:var(--white);padding:80px 64px 40px;}
     <button class="btn-outline" onclick="window.open(&#39;https://wa.me/923104508143&#39;,&#39;_blank&#39;)">WhatsApp Us</button>
   </div>
   <div class="stats-bar">
-    <div class="stat-item">
-      <div class="stat-num">3<span>+</span></div>
-      <div class="stat-label">Collections</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num" id="productCount">7</div>
-      <div class="stat-label">Products</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">100<span>%</span></div>
-      <div class="stat-label">Premium Quality</div>
-    </div>
+    <div class="stat-item"><div class="stat-num">3<span>+</span></div><div class="stat-label">Collections</div></div>
+    <div class="stat-item"><div class="stat-num" id="productCount">0<span>+</span></div><div class="stat-label">Products</div></div>
+    <div class="stat-item"><div class="stat-num">100<span>%</span></div><div class="stat-label">Premium Quality</div></div>
   </div>
 </div>
 
@@ -258,148 +248,110 @@ footer{background:var(--black);color:var(--white);padding:80px 64px 40px;}
   </div>
 </div>
 
-<div class="category-filter" id="categoryFilter"><button class="filter-btn active" onclick="filterByCategory(&#39;all&#39;, this)">
-      All Products
-    </button><button class="filter-btn " onclick="filterByCategory(&#39;mens&#39;, this)">
-      Mens
-    </button><button class="filter-btn " onclick="filterByCategory(&#39;kids&#39;, this)">
-      Kids
-    </button><button class="filter-btn " onclick="filterByCategory(&#39;festive&#39;, this)">
-      Festive
-    </button></div>
-<div class="subcategory-filter" id="subcategoryFilter" style="display:none;flex-wrap:wrap;gap:8px;justify-content:center;padding:0 64px 20px;"></div>
+<div class="trust-section">
+  <div class="trust-grid">
+    <div class="trust-item"><div class="trust-item-icon">🚚</div><div class="trust-item-title">Fast Delivery</div><div class="trust-item-sub">Lahore &amp; across Pakistan</div></div>
+    <div class="trust-item"><div class="trust-item-icon">🔄</div><div class="trust-item-title">Easy Exchange</div><div class="trust-item-sub">7-day exchange policy</div></div>
+    <div class="trust-item"><div class="trust-item-icon">💎</div><div class="trust-item-title">Premium Fabrics</div><div class="trust-item-sub">Carefully sourced materials</div></div>
+    <div class="trust-item"><div class="trust-item-icon">✅</div><div class="trust-item-title">Verified Quality</div><div class="trust-item-sub">100% quality checked</div></div>
+  </div>
+</div>
+
+<div class="category-filter" id="categoryFilter"></div>
+<div style="display:none;flex-wrap:wrap;gap:8px;justify-content:center;padding:0 20px 16px;" id="subcategoryFilter"></div>
 
 <div class="section" style="background:var(--grey-ultra);">
   <h2 class="section-title">Featured <em>Products</em></h2>
-  <div id="productsContainer" class="product-grid">
-    <div class="product-card">
-      <div class="product-img">
-        <div class="product-label hot">Hot</div>
-        <img src="./index_files/z981c134ydr24mt3ag7o.jpg" alt="Holly Green" style="cursor:pointer;" onclick="openProductPanel(&#39;6a1565ba51556a85e438b6ba&#39;)">
-      </div>
-      <div class="product-info">
-        <div class="product-cat">kids</div>
-        <div class="product-name">Holly Green</div>
-        <div class="product-price">
-          PKR 1,200
-          <del>PKR 2,000</del>
-        </div>
-        <div class="product-sizes"><span class="size-tag">S</span><span class="size-tag">M</span><span class="size-tag">L</span></div>
-        <div class="product-line"></div>
-        <button class="quick-view-btn" onclick="openProductPanel(&#39;6a1565ba51556a85e438b6ba&#39;)">Quick View</button>
-      </div>
-    </div>
-  
-    <div class="product-card">
-      <div class="product-img">
-        <div class="product-label sale">Sale</div>
-        <img src="./index_files/caxssuwt5gzwujzxirzb.webp" alt="Blue Ocean" style="cursor:pointer;" onclick="openProductPanel(&#39;6a1565e451556a85e438b6bb&#39;)">
-      </div>
-      <div class="product-info">
-        <div class="product-cat">kids</div>
-        <div class="product-name">Blue Ocean</div>
-        <div class="product-price">
-          PKR 1,400
-          
-        </div>
-        <div class="product-sizes"><span class="size-tag">XL</span></div>
-        <div class="product-line"></div>
-        <button class="quick-view-btn" onclick="openProductPanel(&#39;6a1565e451556a85e438b6bb&#39;)">Quick View</button>
-      </div>
-    </div>
-  
-    <div class="product-card">
-      <div class="product-img">
-        <div class="product-label sale">Sale</div>
-        <img src="./index_files/ja635fb0owxamovolijz.jpg" alt="White eagle" style="cursor:pointer;" onclick="openProductPanel(&#39;6a15661251556a85e438b6bc&#39;)">
-      </div>
-      <div class="product-info">
-        <div class="product-cat">kids</div>
-        <div class="product-name">White eagle</div>
-        <div class="product-price">
-          PKR 900
-          
-        </div>
-        <div class="product-sizes"><span class="size-tag">S</span><span class="size-tag">L</span><span class="size-tag">XL</span></div>
-        <div class="product-line"></div>
-        <button class="quick-view-btn" onclick="openProductPanel(&#39;6a15661251556a85e438b6bc&#39;)">Quick View</button>
-      </div>
-    </div>
-  
-    <div class="product-card">
-      <div class="product-img">
-        <div class="product-label new">New</div>
-        <img src="./index_files/ute6luabs67xfajnoxfr.jpg" alt="Casual Fit" style="cursor:pointer;" onclick="openProductPanel(&#39;6a15667051556a85e438b6bd&#39;)">
-      </div>
-      <div class="product-info">
-        <div class="product-cat">kids</div>
-        <div class="product-name">Casual Fit</div>
-        <div class="product-price">
-          PKR 5,000
-          
-        </div>
-        <div class="product-sizes"><span class="size-tag">S</span><span class="size-tag">M</span><span class="size-tag">L</span></div>
-        <div class="product-line"></div>
-        <button class="quick-view-btn" onclick="openProductPanel(&#39;6a15667051556a85e438b6bd&#39;)">Quick View</button>
-      </div>
-    </div>
-  
-    <div class="product-card">
-      <div class="product-img">
-        <div class="product-label new">New</div>
-        <img src="./index_files/llwz3aniq7ppozx846yj.jpg" alt="Girls" style="cursor:pointer;" onclick="openProductPanel(&#39;6a1567f751556a85e438b6be&#39;)">
-      </div>
-      <div class="product-info">
-        <div class="product-cat">festive</div>
-        <div class="product-name">Girls</div>
-        <div class="product-price">
-          PKR 14,000
-          
-        </div>
-        <div class="product-sizes"><span class="size-tag">S</span></div>
-        <div class="product-line"></div>
-        <button class="quick-view-btn" onclick="openProductPanel(&#39;6a1567f751556a85e438b6be&#39;)">Quick View</button>
-      </div>
-    </div>
-  
-    <div class="product-card">
-      <div class="product-img">
-        <div class="product-label sale">Sale</div>
-        <img src="./index_files/hkexrewgkytptwuiihdg.jpg" alt="Shalwar Qameez" style="cursor:pointer;" onclick="openProductPanel(&#39;6a19055987f5900236535e5b&#39;)">
-      </div>
-      <div class="product-info">
-        <div class="product-cat">mens</div>
-        <div class="product-name">Shalwar Qameez</div>
-        <div class="product-price">
-          PKR 3,000
-          <del>PKR 2,500</del>
-        </div>
-        <div class="product-sizes"><span class="size-tag">L</span></div>
-        <div class="product-line"></div>
-        <button class="quick-view-btn" onclick="openProductPanel(&#39;6a19055987f5900236535e5b&#39;)">Quick View</button>
-      </div>
-    </div>
-  
-    <div class="product-card">
-      <div class="product-img">
-        <div class="product-label sale">Sale</div>
-        <img src="./index_files/ogqxzqerv5kxkqvqhng2.png" alt="Kurta" style="cursor:pointer;" onclick="openProductPanel(&#39;6a1ac2405c894835524ad79c&#39;)">
-      </div>
-      <div class="product-info">
-        <div class="product-cat">kids</div>
-        <div class="product-name">Kurta</div>
-        <div class="product-price">
-          PKR 3
-          <del>PKR 3</del>
-        </div>
-        
-        <div class="product-line"></div>
-        <button class="quick-view-btn" onclick="openProductPanel(&#39;6a1ac2405c894835524ad79c&#39;)">Quick View</button>
-      </div>
+  <div id="productsContainer" class="product-grid"><div class="loading">Failed to load products</div></div>
+</div>
+
+<!-- SIZE GUIDE -->
+<div class="section" style="background:var(--cream);">
+  <h2 class="section-title">Size <em>Guide</em></h2>
+  <p class="section-sub">Find your perfect fit</p>
+  <div style="overflow-x:auto;">
+    <table class="size-table">
+      <thead><tr><th>Size</th><th>Chest (in)</th><th>Length (in)</th><th>Waist (in)</th></tr></thead>
+      <tbody>
+        <tr><td>S</td><td>36–38</td><td>28–29</td><td>30–32</td></tr>
+        <tr><td>M</td><td>38–40</td><td>29–30</td><td>32–34</td></tr>
+        <tr><td>L</td><td>40–42</td><td>30–31</td><td>34–36</td></tr>
+        <tr><td>XL</td><td>42–44</td><td>31–32</td><td>36–38</td></tr>
+        <tr><td>XXL</td><td>44–46</td><td>32–33</td><td>38–40</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:11px;color:var(--grey);margin-top:14px;text-align:center;">Not sure? <a href="https://wa.me/923104508143" style="color:var(--gold);">WhatsApp us</a> for guidance.</p>
+</div>
+
+<!-- REVIEWS -->
+<div class="section" style="background:var(--grey-ultra);">
+  <h2 class="section-title">What Our <em>Customers Say</em></h2>
+  <p class="section-sub">Real reviews from real customers</p>
+  <div class="reviews-grid">
+    <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-text">"Best fitting kurta I have ever worn. The fabric quality is exceptional and the stitching is perfect."</p><div class="review-author">— Ahmed K., Lahore</div></div>
+    <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-text">"Ordered festive wear for Eid. The quality exceeded my expectations. Will definitely order again!"</p><div class="review-author">— Sara M., Karachi</div></div>
+    <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-text">"Kids' collection is amazing. My son loved his new outfit. Fast delivery and beautiful packaging!"</p><div class="review-author">— Fatima R., Islamabad</div></div>
+  </div>
+</div>
+
+<!-- BRAND STORY -->
+<div class="brand-story">
+  <div class="brand-story-inner">
+    <div style="font-family:&#39;DM Mono&#39;,monospace;font-size:9px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;margin-bottom:20px;">Our Story</div>
+    <h2 class="section-title" style="margin-bottom:20px;">Born from a <em>Love of Craft</em></h2>
+    <div style="width:36px;height:1px;background:var(--gold);margin:0 auto 28px;"></div>
+    <p style="font-size:14px;line-height:2;color:var(--grey);margin-bottom:20px;">Libas &amp; Co. was founded with a simple yet powerful belief — that every Pakistani deserves to wear clothing that reflects their heritage, elegance, and identity. We are a Lahore-based brand that blends traditional craftsmanship with modern design sensibilities.</p>
+    <p style="font-size:14px;line-height:2;color:var(--grey);margin-bottom:32px;">Each piece in our collection is carefully crafted using premium fabrics, ensuring that what you wear is not just clothing — it is an experience.</p>
+    <div class="brand-stats">
+      <div class="brand-stat"><div class="brand-stat-num">100<span>%</span></div><div class="brand-stat-label">Premium Fabrics</div></div>
+      <div class="brand-stat"><div class="brand-stat-num">3<span>+</span></div><div class="brand-stat-label">Collections</div></div>
+      <div class="brand-stat"><div class="brand-stat-num">❤️</div><div class="brand-stat-label">Made with Love</div></div>
     </div>
   </div>
 </div>
 
+<!-- DELIVERY & RETURNS -->
+<div class="delivery-section">
+  <h2 class="section-title" style="color:var(--white);">Delivery &amp; <em>Returns</em></h2>
+  <div class="delivery-grid">
+    <div class="delivery-card"><div class="delivery-icon">🚚</div><h3 class="delivery-title">Delivery Policy</h3><p class="delivery-text">Lahore: 1–2 business days<br>Other cities: 3–5 business days<br>Delivery charges may apply</p></div>
+    <div class="delivery-card"><div class="delivery-icon">🔄</div><h3 class="delivery-title">Exchange Policy</h3><p class="delivery-text">Exchange within 7 days<br>Item must be unworn &amp; unused<br>Original tags must be attached</p></div>
+    <div class="delivery-card"><div class="delivery-icon">💬</div><h3 class="delivery-title">Contact Us</h3><p class="delivery-text">WhatsApp for all queries<br>Order tracking &amp; support<br>Available 9am – 9pm daily</p></div>
+  </div>
+</div>
+
+<!-- INSTAGRAM -->
+<div class="insta-section">
+  <div style="font-family:&#39;DM Mono&#39;,monospace;font-size:9px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;margin-bottom:14px;">Follow Us</div>
+  <h2 class="section-title" style="margin-bottom:14px;">Find Us on <em>Instagram</em></h2>
+  <p style="font-size:13px;color:var(--grey);margin-bottom:28px;">Stay updated with our latest collections and exclusive offers.</p>
+  <a href="https://instagram.com/" target="_blank" style="display:inline-flex;align-items:center;gap:10px;background:var(--black);color:var(--white);padding:14px 32px;font-size:10px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;">📸 Follow @libasandco</a>
+</div>
+
+<footer>
+  <div class="footer-brand">Libas <em>&amp; Co.</em></div>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h3>Contact</h3>
+      <p>📍 Lahore, Pakistan</p>
+      <p>📱 <a href="https://wa.me/923104508143">WhatsApp: +92 310 4508143</a></p>
+    </div>
+    <div class="footer-col">
+      <h3>Collections</h3>
+      <a href="file:///C:/Users/ammar/Downloads/index-v2_3.html#">Men's Wear</a><br>
+      <a href="file:///C:/Users/ammar/Downloads/index-v2_3.html#">Kids' Wear</a><br>
+      <a href="file:///C:/Users/ammar/Downloads/index-v2_3.html#">Festive Wear</a>
+    </div>
+    <div class="footer-col">
+      <h3>About Us</h3>
+      <p>Premium handcrafted Pakistani clothing. Quality fabrics, elegant designs, exceptional service.</p>
+    </div>
+  </div>
+  <div class="footer-divider">© 2026 Libas &amp; Co. — Premium Clothing — All rights reserved</div>
+</footer>
+
+<!-- SIDE PANEL -->
 <div id="panelOverlay" class="panel-overlay" onclick="closePanel()"></div>
 <div id="sidePanel" class="side-panel">
   <div class="panel-header">
@@ -408,24 +360,21 @@ footer{background:var(--black);color:var(--white);padding:80px 64px 40px;}
   </div>
   <div class="panel-body">
     <div class="product-detail-img" id="panelProductImg"></div>
-    <div id="imageGallery" style="display:flex;gap:8px;overflow-x:auto;padding:8px 0;margin-bottom:16px;scrollbar-width:thin;"></div>
+    <div id="imageGallery" style="display:flex;gap:8px;overflow-x:auto;padding:8px 0;margin-bottom:14px;scrollbar-width:thin;"></div>
     <div class="detail-cat" id="panelProductCat"></div>
     <div class="detail-price" id="panelProductPrice"></div>
-    
-    <div class="size-selector">
+    <div style="margin:18px 0;">
       <label class="size-label">Select Size</label>
       <div class="size-buttons" id="sizeWrap"></div>
     </div>
-
-    <div style="border-top:1px solid var(--grey-light);padding-top:20px;margin-top:20px;">
-      <label style="display:block;font-size:12px;font-weight:600;color:var(--black);margin-bottom:12px;letter-spacing:1px;text-transform:uppercase;">Quantity</label>
+    <div style="border-top:1px solid var(--grey-light);padding-top:16px;">
+      <label style="display:block;font-size:11px;font-weight:600;color:var(--black);margin-bottom:10px;letter-spacing:1px;text-transform:uppercase;">Quantity</label>
       <div class="qty-control">
         <button class="qty-btn" onclick="changeQty(-1)">−</button>
         <span id="qtyNum">1</span>
         <button class="qty-btn" onclick="changeQty(1)">+</button>
       </div>
     </div>
-
     <div class="action-buttons">
       <button class="btn-full" onclick="addToCart()">Add to Cart</button>
       <button class="btn-full secondary" onclick="orderNowWhatsApp()">Order via WhatsApp</button>
@@ -433,6 +382,7 @@ footer{background:var(--black);color:var(--white);padding:80px 64px 40px;}
   </div>
 </div>
 
+<!-- CART -->
 <div id="cartOverlay" class="panel-overlay" onclick="closeCart()" style="z-index:209;"></div>
 <div id="cartDrawer" class="cart-drawer">
   <div class="cart-header">
@@ -441,296 +391,81 @@ footer{background:var(--black);color:var(--white);padding:80px 64px 40px;}
   </div>
   <div class="cart-items" id="cartItems"></div>
   <div id="cartFooter" style="display:none;">
-    <div class="cart-total">
-      <span>Total:</span>
-      <span id="cartTotal">PKR 0</span>
-    </div>
+    <div class="cart-total"><span>Total:</span><span id="cartTotal">PKR 0</span></div>
     <button class="checkout-btn" onclick="checkoutWhatsApp()">Checkout via WhatsApp</button>
   </div>
 </div>
 
-<!-- TRUST SIGNALS -->
-<div style="background:var(--black);padding:40px clamp(16px,5vw,64px);">
-  <div class="trust-grid">
-    <div>
-      <div style="font-size:28px;margin-bottom:8px;">🚚</div>
-      <div style="font-family:&#39;Cormorant Garamond&#39;,serif;font-size:16px;color:var(--white);font-weight:600;margin-bottom:4px;">Fast Delivery</div>
-      <div style="font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:1px;">Lahore &amp; across Pakistan</div>
-    </div>
-    <div>
-      <div style="font-size:28px;margin-bottom:8px;">🔄</div>
-      <div style="font-family:&#39;Cormorant Garamond&#39;,serif;font-size:16px;color:var(--white);font-weight:600;margin-bottom:4px;">Easy Exchange</div>
-      <div style="font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:1px;">7-day exchange policy</div>
-    </div>
-    <div>
-      <div style="font-size:28px;margin-bottom:8px;">💎</div>
-      <div style="font-family:&#39;Cormorant Garamond&#39;,serif;font-size:16px;color:var(--white);font-weight:600;margin-bottom:4px;">Premium Fabrics</div>
-      <div style="font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:1px;">Carefully sourced materials</div>
-    </div>
-    <div>
-      <div style="font-size:28px;margin-bottom:8px;">✅</div>
-      <div style="font-family:&#39;Cormorant Garamond&#39;,serif;font-size:16px;color:var(--white);font-weight:600;margin-bottom:4px;">Verified Quality</div>
-      <div style="font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:1px;">100% quality checked</div>
-    </div>
-  </div>
-</div>
-
-<!-- SIZE GUIDE -->
-<div style="background:var(--cream);padding:80px clamp(16px,5vw,64px);">
-  <h2 class="section-title">Size <em>Guide</em></h2>
-  <p class="section-sub" style="margin-bottom:40px;">Find your perfect fit with our size chart</p>
-  <div style="max-width:700px;margin:0 auto;overflow-x:auto;">
-    <table style="width:100%;border-collapse:collapse;font-size:13px;">
-      <thead>
-        <tr style="background:var(--gold);color:var(--white);">
-          <th style="padding:14px 20px;text-align:left;letter-spacing:2px;font-size:10px;text-transform:uppercase;">Size</th>
-          <th style="padding:14px 20px;text-align:center;letter-spacing:2px;font-size:10px;text-transform:uppercase;">Chest (inches)</th>
-          <th style="padding:14px 20px;text-align:center;letter-spacing:2px;font-size:10px;text-transform:uppercase;">Length (inches)</th>
-          <th style="padding:14px 20px;text-align:center;letter-spacing:2px;font-size:10px;text-transform:uppercase;">Waist (inches)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr style="border-bottom:1px solid var(--grey-light);">
-          <td style="padding:14px 20px;font-weight:600;">S</td>
-          <td style="padding:14px 20px;text-align:center;color:var(--grey);">36–38</td>
-          <td style="padding:14px 20px;text-align:center;color:var(--grey);">28–29</td>
-          <td style="padding:14px 20px;text-align:center;color:var(--grey);">30–32</td>
-        </tr>
-        <tr style="border-bottom:1px solid var(--grey-light);background:var(--grey-ultra);">
-          <td style="padding:14px 20px;font-weight:600;">M</td>
-          <td style="padding:14px 20px;text-align:center;color:var(--grey);">38–40</td>
-          <td style="padding:14px 20px;text-align:center;color:var(--grey);">29–30</td>
-          <td style="padding:14px 20px;text-align:center;color:var(--grey);">32–34</td>
-        </tr>
-        <tr style="border-bottom:1px solid var(--grey-light);">
-          <td style="padding:14px 20px;font-weight:600;">L</td>
-          <td style="padding:14px 20px;text-align:center;color:var(--grey);">40–42</td>
-          <td style="padding:14px 20px;text-align:center;color:var(--grey);">30–31</td>
-          <td style="padding:14px 20px;text-align:center;color:var(--grey);">34–36</td>
-        </tr>
-        <tr style="border-bottom:1px solid var(--grey-light);background:var(--grey-ultra);">
-          <td style="padding:14px 20px;font-weight:600;">XL</td>
-          <td style="padding:14px 20px;text-align:center;color:var(--grey);">42–44</td>
-          <td style="padding:14px 20px;text-align:center;color:var(--grey);">31–32</td>
-          <td style="padding:14px 20px;text-align:center;color:var(--grey);">36–38</td>
-        </tr>
-        <tr>
-          <td style="padding:14px 20px;font-weight:600;">XXL</td>
-          <td style="padding:14px 20px;text-align:center;color:var(--grey);">44–46</td>
-          <td style="padding:14px 20px;text-align:center;color:var(--grey);">32–33</td>
-          <td style="padding:14px 20px;text-align:center;color:var(--grey);">38–40</td>
-        </tr>
-      </tbody>
-    </table>
-    <p style="font-size:11px;color:var(--grey);margin-top:16px;text-align:center;letter-spacing:1px;">Not sure about your size? <a href="https://wa.me/923104508143" style="color:var(--gold);text-decoration:none;">WhatsApp us</a> for guidance.</p>
-  </div>
-</div>
-
-<!-- REVIEWS -->
-<div style="background:var(--grey-ultra);padding:80px clamp(16px,5vw,64px);">
-  <h2 class="section-title">What Our <em>Customers Say</em></h2>
-  <p class="section-sub">Real reviews from real customers</p>
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px;max-width:1000px;margin:0 auto;">
-    <div style="background:var(--white);padding:32px;border:1px solid var(--grey-light);position:relative;">
-      <div style="color:var(--gold);font-size:18px;margin-bottom:16px;">★★★★★</div>
-      <p style="font-size:13px;line-height:1.8;color:var(--grey);font-style:italic;margin-bottom:20px;">"Best fitting kurta I have ever worn. The fabric quality is exceptional and the stitching is perfect."</p>
-      <div style="font-size:11px;font-weight:600;letter-spacing:2px;color:var(--black);text-transform:uppercase;">— Ahmed K., Lahore</div>
-    </div>
-    <div style="background:var(--white);padding:32px;border:1px solid var(--grey-light);">
-      <div style="color:var(--gold);font-size:18px;margin-bottom:16px;">★★★★★</div>
-      <p style="font-size:13px;line-height:1.8;color:var(--grey);font-style:italic;margin-bottom:20px;">"Ordered festive wear for Eid. The quality exceeded my expectations. Will definitely order again!"</p>
-      <div style="font-size:11px;font-weight:600;letter-spacing:2px;color:var(--black);text-transform:uppercase;">— Sara M., Karachi</div>
-    </div>
-    <div style="background:var(--white);padding:32px;border:1px solid var(--grey-light);">
-      <div style="color:var(--gold);font-size:18px;margin-bottom:16px;">★★★★★</div>
-      <p style="font-size:13px;line-height:1.8;color:var(--grey);font-style:italic;margin-bottom:20px;">"Kids' collection is amazing. My son loved his new outfit. Fast delivery and beautiful packaging!"</p>
-      <div style="font-size:11px;font-weight:600;letter-spacing:2px;color:var(--black);text-transform:uppercase;">— Fatima R., Islamabad</div>
-    </div>
-  </div>
-</div>
-
-<!-- BRAND STORY -->
-<div style="background:var(--cream);padding:100px clamp(16px,5vw,64px);">
-  <div style="max-width:800px;margin:0 auto;text-align:center;">
-    <div style="font-family:&#39;DM Mono&#39;,monospace;font-size:9px;letter-spacing:6px;color:var(--gold);text-transform:uppercase;margin-bottom:24px;">Our Story</div>
-    <h2 class="section-title" style="margin-bottom:24px;">Born from a <em>Love of Craft</em></h2>
-    <div style="width:40px;height:1px;background:var(--gold);margin:0 auto 32px;"></div>
-    <p style="font-size:15px;line-height:2;color:var(--grey);margin-bottom:24px;">Libas &amp; Co. was founded with a simple yet powerful belief — that every Pakistani deserves to wear clothing that reflects their heritage, elegance, and identity. We are a Lahore-based brand that blends traditional craftsmanship with modern design sensibilities.</p>
-    <p style="font-size:15px;line-height:2;color:var(--grey);margin-bottom:40px;">Each piece in our collection is carefully crafted using premium fabrics, ensuring that what you wear is not just clothing — it is an experience. From everyday wear to festive occasions, Libas &amp; Co. is your trusted companion for all of life's moments.</p>
-    <div style="display:flex;gap:48px;justify-content:center;flex-wrap:wrap;">
-      <div style="text-align:center;">
-        <div style="font-family:&#39;Cormorant Garamond&#39;,serif;font-size:42px;font-weight:300;color:var(--black);">100<span style="color:var(--gold);font-size:22px;">%</span></div>
-        <div style="font-size:9px;letter-spacing:3px;color:var(--grey);text-transform:uppercase;">Premium Fabrics</div>
-      </div>
-      <div style="text-align:center;">
-        <div style="font-family:&#39;Cormorant Garamond&#39;,serif;font-size:42px;font-weight:300;color:var(--black);">3<span style="color:var(--gold);font-size:22px;">+</span></div>
-        <div style="font-size:9px;letter-spacing:3px;color:var(--grey);text-transform:uppercase;">Collections</div>
-      </div>
-      <div style="text-align:center;">
-        <div style="font-family:&#39;Cormorant Garamond&#39;,serif;font-size:42px;font-weight:300;color:var(--black);">❤️</div>
-        <div style="font-size:9px;letter-spacing:3px;color:var(--grey);text-transform:uppercase;">Made with Love</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- DELIVERY & RETURNS -->
-<div style="background:var(--black);padding:80px clamp(16px,5vw,64px);">
-  <h2 class="section-title" style="color:var(--white);">Delivery &amp; <em>Returns</em></h2>
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:40px;max-width:900px;margin:40px auto 0;">
-    <div style="border:1px solid rgba(255,255,255,0.1);padding:32px;">
-      <div style="font-size:24px;margin-bottom:12px;">🚚</div>
-      <h3 style="font-family:&#39;Cormorant Garamond&#39;,serif;font-size:18px;color:var(--white);margin-bottom:12px;">Delivery Policy</h3>
-      <p style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.8;">Lahore: 1–2 business days<br>Other cities: 3–5 business days<br>Delivery charges may apply</p>
-    </div>
-    <div style="border:1px solid rgba(255,255,255,0.1);padding:32px;">
-      <div style="font-size:24px;margin-bottom:12px;">🔄</div>
-      <h3 style="font-family:&#39;Cormorant Garamond&#39;,serif;font-size:18px;color:var(--white);margin-bottom:12px;">Exchange Policy</h3>
-      <p style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.8;">Exchange within 7 days<br>Item must be unworn &amp; unused<br>Original tags must be attached</p>
-    </div>
-    <div style="border:1px solid rgba(255,255,255,0.1);padding:32px;">
-      <div style="font-size:24px;margin-bottom:12px;">💬</div>
-      <h3 style="font-family:&#39;Cormorant Garamond&#39;,serif;font-size:18px;color:var(--white);margin-bottom:12px;">Contact Us</h3>
-      <p style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.8;">WhatsApp for all queries<br>Order tracking &amp; support<br>Available 9am – 9pm daily</p>
-    </div>
-  </div>
-</div>
-
-<!-- INSTAGRAM CTA -->
-<div style="background:var(--cream);padding:80px clamp(16px,5vw,64px);text-align:center;">
-  <div style="font-family:&#39;DM Mono&#39;,monospace;font-size:9px;letter-spacing:6px;color:var(--gold);text-transform:uppercase;margin-bottom:16px;">Follow Us</div>
-  <h2 class="section-title" style="margin-bottom:16px;">Find Us on <em>Instagram</em></h2>
-  <p style="font-size:13px;color:var(--grey);margin-bottom:32px;">Stay updated with our latest collections, style inspiration, and exclusive offers.</p>
-  <a href="https://instagram.com/" target="_blank" style="display:inline-flex;align-items:center;gap:12px;background:var(--black);color:var(--white);padding:16px 40px;font-size:11px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;transition:background 0.3s;">
-    📸 Follow @libasandco
-  </a>
-</div>
-
-<footer>
-  <div class="footer-brand">Libas <em>&amp; Co.</em></div>
-  
-  <div class="footer-grid">
-    <div class="footer-col">
-      <h3>Contact</h3>
-      <p>📍 Lahore, Pakistan</p>
-      <p>📱 <a href="https://wa.me/923104508143">WhatsApp: +92 310 4508143</a></p>
-      <p>🌐 <a href="file:///C:/Users/ammar/Downloads/index-v2_2.html#">www.libasandco.com</a></p>
-    </div>
-    
-    <div class="footer-col">
-      <h3>Collections</h3>
-      <a href="file:///C:/Users/ammar/Downloads/index-v2_2.html#">Men's Wear</a><br>
-      <a href="file:///C:/Users/ammar/Downloads/index-v2_2.html#">Kids' Wear</a><br>
-      <a href="file:///C:/Users/ammar/Downloads/index-v2_2.html#">Festive Wear</a><br>
-      <a href="file:///C:/Users/ammar/Downloads/index-v2_2.html#">Premium Fabrics</a>
-    </div>
-    
-    <div class="footer-col">
-      <h3>About Us</h3>
-      <p>Curated premium clothing for the discerning customer. Quality fabrics, elegant designs, and exceptional service.</p>
-      <p style="margin-top:12px;font-size:11px;color:rgba(255,255,255,0.5);">Fast Delivery • Easy Returns • Premium Quality</p>
-    </div>
-  </div>
-  
-  <div class="footer-divider">
-    © 2026 Libas &amp; Co. — Premium Clothing — All rights reserved
-  </div>
-</footer>
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/923104508143" target="_blank" class="wa-float">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="white"><path d="M16 0C7.164 0 0 7.163 0 16c0 2.822.736 5.477 2.027 7.789L0 32l8.418-2.004A15.954 15.954 0 0 0 16 32c8.836 0 16-7.163 16-16S24.836 0 16 0zm0 29.333a13.267 13.267 0 0 1-6.747-1.833l-.484-.287-5.004 1.191 1.215-4.873-.316-.501A13.234 13.234 0 0 1 2.667 16C2.667 8.637 8.637 2.667 16 2.667S29.333 8.637 29.333 16 23.363 29.333 16 29.333zm7.27-9.878c-.398-.199-2.352-1.161-2.717-1.293-.364-.133-.629-.199-.894.199-.265.398-1.027 1.293-1.259 1.558-.232.265-.464.298-.862.1-.398-.199-1.681-.619-3.202-1.977-1.183-1.056-1.982-2.36-2.214-2.758-.232-.398-.025-.613.174-.811.179-.178.398-.464.597-.696.199-.232.265-.398.398-.663.133-.265.066-.497-.033-.696-.1-.199-.894-2.154-1.225-2.949-.322-.773-.649-.668-.894-.68l-.762-.013c-.265 0-.696.1-1.061.497-.364.398-1.392 1.359-1.392 3.314 0 1.955 1.425 3.843 1.624 4.108.199.265 2.803 4.279 6.791 5.998.949.41 1.69.654 2.268.838.953.303 1.82.26 2.505.158.764-.114 2.352-.962 2.684-1.89.332-.928.332-1.724.232-1.89-.099-.166-.364-.265-.762-.464z"></path></svg>
+</a>
 
 <script>
-const API_URL = 'https://libas-admin.onrender.com/api/products';
-let allProducts = [];
-let cart = [];
-let currentProduct = null;
-let selectedSize = null;
-let currentQty = 1;
-let activeCategory = 'all';
-let activeSubcategory = '';
+const API_URL='https://libas-admin.onrender.com/api/products';
+let allProducts=[],cart=[],currentProduct=null,selectedSize=null,currentQty=1,activeCategory='all',activeSubcategory='';
+const SUBCATEGORIES={mens:['Shirts','Pants','Kurta','Waistcoat','Shalwar Kameez'],kids:['Shirts','Pants','Frocks','Suits','Shalwar Kameez'],festive:['Sherwani','Kurta','Lehenga','Saree','Gharara']};
 
-const SUBCATEGORIES = {
-  mens: ['Shirts', 'Pants', 'Kurta', 'Waistcoat', 'Shalwar Kameez'],
-  kids: ['Shirts', 'Pants', 'Frocks', 'Suits', 'Shalwar Kameez'],
-  festive: ['Sherwani', 'Kurta', 'Lehenga', 'Saree', 'Gharara']
-};
-
-async function loadProducts() {
-  try {
-    const res = await fetch(API_URL);
-    allProducts = await res.json();
-    document.getElementById('productCount').textContent = allProducts.length;
+async function loadProducts(){
+  try{
+    const res=await fetch(API_URL);
+    allProducts=await res.json();
+    document.getElementById('productCount').textContent=allProducts.length;
     renderProducts(allProducts);
     renderCategoryFilter();
-  } catch (err) {
-    document.getElementById('productsContainer').innerHTML = '<div class="loading">Failed to load products</div>';
+  }catch(err){
+    document.getElementById('productsContainer').innerHTML='<div class="loading">Failed to load products</div>';
   }
 }
 
-function renderCategoryFilter() {
-  const categories = ['all', 'mens', 'kids', 'festive'];
-  const filterHtml = categories.map(cat => 
-    `<button class="filter-btn ${cat === 'all' ? 'active' : ''}" onclick="filterByCategory('${cat}', this)">
-      ${cat === 'all' ? 'All Products' : cat.charAt(0).toUpperCase() + cat.slice(1)}
-    </button>`
+function renderCategoryFilter(){
+  const cats=['all','mens','kids','festive'];
+  document.getElementById('categoryFilter').innerHTML=cats.map(c=>
+    `<button class="filter-btn ${c==='all'?'active':''}" onclick="filterByCategory('${c}',this)">${c==='all'?'All Products':c.charAt(0).toUpperCase()+c.slice(1)}</button>`
   ).join('');
-  document.getElementById('categoryFilter').innerHTML = filterHtml;
 }
 
-function filterByCategory(cat, btn) {
-  activeCategory = cat;
-  activeSubcategory = '';
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+function filterByCategory(cat,btn){
+  activeCategory=cat;activeSubcategory='';
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-
-  const subWrap = document.getElementById('subcategoryFilter');
-  if (cat !== 'all' && SUBCATEGORIES[cat]) {
-    subWrap.style.display = 'flex';
-    subWrap.innerHTML = `<button class="sub-btn active" onclick="filterBySubcategory('',this)">All ${cat.charAt(0).toUpperCase()+cat.slice(1)}</button>` +
-      SUBCATEGORIES[cat].map(s =>
-        `<button class="sub-btn" onclick="filterBySubcategory('${s}',this)">${s}</button>`
-      ).join('');
-  } else {
-    subWrap.style.display = 'none';
-    subWrap.innerHTML = '';
-  }
-
+  const sub=document.getElementById('subcategoryFilter');
+  if(cat!=='all'&&SUBCATEGORIES[cat]){
+    sub.style.display='flex';
+    sub.innerHTML=`<button class="sub-btn active" onclick="filterBySubcategory('',this)">All ${cat.charAt(0).toUpperCase()+cat.slice(1)}</button>`+
+      SUBCATEGORIES[cat].map(s=>`<button class="sub-btn" onclick="filterBySubcategory('${s}',this)">${s}</button>`).join('');
+  }else{sub.style.display='none';sub.innerHTML='';}
   applyFilter();
 }
 
-function filterBySubcategory(sub, btn) {
-  activeSubcategory = sub;
-  document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
+function filterBySubcategory(sub,btn){
+  activeSubcategory=sub;
+  document.querySelectorAll('.sub-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   applyFilter();
 }
 
-function applyFilter() {
-  let filtered = allProducts;
-  if (activeCategory !== 'all') filtered = filtered.filter(p => p.category === activeCategory);
-  if (activeSubcategory) filtered = filtered.filter(p => p.subcategory === activeSubcategory);
-  renderProducts(filtered);
+function applyFilter(){
+  let f=allProducts;
+  if(activeCategory!=='all')f=f.filter(p=>p.category===activeCategory);
+  if(activeSubcategory)f=f.filter(p=>p.subcategory===activeSubcategory);
+  renderProducts(f);
 }
 
-function renderProducts(products) {
-  const container = document.getElementById('productsContainer');
-  if (products.length === 0) {
-    container.innerHTML = '<div class="loading">No products found</div>';
-    return;
-  }
-
-  container.innerHTML = products.map(p => `
+function renderProducts(products){
+  const c=document.getElementById('productsContainer');
+  if(!products.length){c.innerHTML='<div class="loading">No products found</div>';return;}
+  c.innerHTML=products.map(p=>`
     <div class="product-card">
       <div class="product-img">
-        ${p.label ? `<div class="product-label ${p.label.toLowerCase()}">${p.label}</div>` : ''}
+        ${p.label?`<div class="product-label ${p.label.toLowerCase()}">${p.label}</div>`:''}
         <img src="${p.image}" alt="${p.name}" style="cursor:pointer;" onclick="openProductPanel('${p._id}')">
       </div>
       <div class="product-info">
         <div class="product-cat">${p.category}</div>
         <div class="product-name">${p.name}</div>
-        <div class="product-price">
-          PKR ${p.price.toLocaleString()}
-          ${p.originalPrice ? `<del>PKR ${p.originalPrice.toLocaleString()}</del>` : ''}
-        </div>
-        ${p.sizes && p.sizes.length ? `<div class="product-sizes">${p.sizes.map(s => `<span class="size-tag">${s}</span>`).join('')}</div>` : ''}
+        <div class="product-price">PKR ${p.price.toLocaleString()}${p.originalPrice?`<del>PKR ${p.originalPrice.toLocaleString()}</del>`:''}</div>
+        ${p.sizes&&p.sizes.length?`<div class="product-sizes">${p.sizes.map(s=>`<span class="size-tag">${s}</span>`).join('')}</div>`:''}
         <div class="product-line"></div>
         <button class="quick-view-btn" onclick="openProductPanel('${p._id}')">Quick View</button>
       </div>
@@ -738,181 +473,76 @@ function renderProducts(products) {
   `).join('');
 }
 
-function openProductPanel(productId) {
-  currentProduct = allProducts.find(p => p._id === productId);
-  if (!currentProduct) return;
-
-  selectedSize = null;
-  currentQty = 1;
-
-  document.getElementById('panelProductName').textContent = currentProduct.name;
-  document.getElementById('panelProductCat').textContent = currentProduct.category.toUpperCase();
-  document.getElementById('panelProductPrice').innerHTML = 
-    `PKR ${currentProduct.price.toLocaleString()}
-    ${currentProduct.originalPrice ? `<del>PKR ${currentProduct.originalPrice.toLocaleString()}</del>` : ''}`;
-  
-  const imgDiv = document.getElementById('panelProductImg');
-  const allImages = currentProduct.images && currentProduct.images.length ? currentProduct.images : (currentProduct.image ? [currentProduct.image] : []);
-  imgDiv.innerHTML = `<img src="${allImages[0] || ''}" alt="${currentProduct.name}" id="mainImage">`;
-
-  const gallery = document.getElementById('imageGallery');
-  if (allImages.length > 1) {
-    gallery.style.display = 'flex';
-    gallery.innerHTML = allImages.map((url, i) => `
-      <img src="${url}" 
-        onclick="document.getElementById('mainImage').src='${url}';document.querySelectorAll('.thumb-img').forEach(t=>t.style.border='1px solid #ddd');this.style.border='2px solid #b8860b';"
-        class="thumb-img"
-        style="width:60px;height:60px;object-fit:cover;border:${i===0?'2px solid #b8860b':'1px solid #ddd'};border-radius:4px;cursor:pointer;flex-shrink:0;">
-    `).join('');
-  } else {
-    gallery.style.display = 'none';
-    gallery.innerHTML = '';
-  }
-
-  document.getElementById('qtyNum').textContent = '1';
-
-  const sizeWrap = document.getElementById('sizeWrap');
-  sizeWrap.innerHTML = '';
-  currentProduct.sizes.forEach(size => {
-    const btn = document.createElement('button');
-    btn.className = 'size-btn';
-    btn.textContent = size;
-    btn.onclick = function() {
-      document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      selectedSize = size;
-    };
-    sizeWrap.appendChild(btn);
+function openProductPanel(id){
+  currentProduct=allProducts.find(p=>p._id===id);
+  if(!currentProduct)return;
+  selectedSize=null;currentQty=1;
+  document.getElementById('panelProductName').textContent=currentProduct.name;
+  document.getElementById('panelProductCat').textContent=currentProduct.category.toUpperCase();
+  document.getElementById('panelProductPrice').innerHTML=`PKR ${currentProduct.price.toLocaleString()}${currentProduct.originalPrice?`<del>PKR ${currentProduct.originalPrice.toLocaleString()}</del>`:''}`;
+  const imgs=currentProduct.images&&currentProduct.images.length?currentProduct.images:(currentProduct.image?[currentProduct.image]:[]);
+  document.getElementById('panelProductImg').innerHTML=`<img src="${imgs[0]||''}" alt="${currentProduct.name}" id="mainImage">`;
+  const gallery=document.getElementById('imageGallery');
+  if(imgs.length>1){
+    gallery.style.display='flex';
+    gallery.innerHTML=imgs.map((url,i)=>`<img src="${url}" onclick="document.getElementById('mainImage').src='${url}';document.querySelectorAll('.thumb-img').forEach(t=>t.style.border='1px solid #ddd');this.style.border='2px solid #b8860b';" class="thumb-img" style="width:56px;height:56px;object-fit:cover;border:${i===0?'2px solid #b8860b':'1px solid #ddd'};border-radius:4px;cursor:pointer;flex-shrink:0;">`).join('');
+  }else{gallery.style.display='none';}
+  document.getElementById('qtyNum').textContent='1';
+  const sw=document.getElementById('sizeWrap');sw.innerHTML='';
+  currentProduct.sizes.forEach(size=>{
+    const btn=document.createElement('button');btn.className='size-btn';btn.textContent=size;
+    btn.onclick=function(){document.querySelectorAll('.size-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');selectedSize=size;};
+    sw.appendChild(btn);
   });
-
   document.getElementById('panelOverlay').classList.add('open');
   document.getElementById('sidePanel').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow='hidden';
 }
 
-function closePanel() {
-  document.getElementById('panelOverlay').classList.remove('open');
-  document.getElementById('sidePanel').classList.remove('open');
-  document.body.style.overflow = '';
+function closePanel(){document.getElementById('panelOverlay').classList.remove('open');document.getElementById('sidePanel').classList.remove('open');document.body.style.overflow='';}
+function changeQty(d){currentQty=Math.max(1,currentQty+d);document.getElementById('qtyNum').textContent=currentQty;}
+
+function addToCart(){
+  if(!selectedSize){alert('Please select a size!');return;}
+  const ex=cart.find(i=>i.name===currentProduct.name&&i.size===selectedSize);
+  if(ex)ex.qty+=currentQty;
+  else cart.push({_id:currentProduct._id,name:currentProduct.name,cat:currentProduct.category,priceNum:currentProduct.price,size:selectedSize,qty:currentQty});
+  updateCartCount();closePanel();openCart();
 }
 
-function changeQty(dir) {
-  currentQty = Math.max(1, currentQty + dir);
-  document.getElementById('qtyNum').textContent = currentQty;
+function orderNowWhatsApp(){
+  if(!selectedSize){alert('Please select a size!');return;}
+  const msg=`🛍️ *Libas & Co. — Quick Order*\n\n👗 *Product:* ${currentProduct.name}\n📦 *Category:* ${currentProduct.category}\n💰 *Price:* PKR ${currentProduct.price.toLocaleString()}\n📏 *Size:* ${selectedSize}\n🔢 *Quantity:* ${currentQty}\n\n_Sent via Libas & Co. Website_`;
+  closePanel();window.open(`https://wa.me/923104508143?text=${encodeURIComponent(msg)}`,'_blank');
 }
 
-function addToCart() {
-  if (!selectedSize) {
-    alert('Please select a size!');
-    return;
-  }
-  const existing = cart.find(i => i.name === currentProduct.name && i.size === selectedSize);
-  if (existing) {
-    existing.qty += currentQty;
-  } else {
-    cart.push({
-      _id: currentProduct._id,
-      name: currentProduct.name,
-      cat: currentProduct.category,
-      price: `PKR ${currentProduct.price.toLocaleString()}`,
-      priceNum: currentProduct.price,
-      size: selectedSize,
-      qty: currentQty
-    });
-  }
-  updateCartCount();
-  closePanel();
-  openCart();
+function updateCartCount(){document.getElementById('cartCount').textContent=cart.reduce((s,i)=>s+i.qty,0);}
+
+function openCart(){renderCart();document.getElementById('cartOverlay').classList.add('open');document.getElementById('cartDrawer').classList.add('open');document.body.style.overflow='hidden';}
+function closeCart(){document.getElementById('cartOverlay').classList.remove('open');document.getElementById('cartDrawer').classList.remove('open');document.body.style.overflow='';}
+
+function renderCart(){
+  const c=document.getElementById('cartItems'),f=document.getElementById('cartFooter');
+  if(!cart.length){c.innerHTML='<div class="cart-empty">🛒<br><br>Your cart is empty</div>';f.style.display='none';return;}
+  f.style.display='block';
+  let total=0;
+  c.innerHTML=cart.map((item,i)=>{total+=item.priceNum*item.qty;return`<div class="cart-item"><div class="cart-item-info"><div class="cart-item-name">${item.name}</div><div class="cart-item-meta">${item.cat} · Size: ${item.size} · Qty: ${item.qty}</div><div class="cart-item-price">PKR ${(item.priceNum*item.qty).toLocaleString()}</div></div><button class="cart-item-remove" onclick="removeItem(${i})">✕</button></div>`;}).join('');
+  document.getElementById('cartTotal').textContent=`PKR ${total.toLocaleString()}`;
 }
 
-function orderNowWhatsApp() {
-  if (!selectedSize) { 
-    alert('Please select a size!'); 
-    return; 
-  }
-  const msg = `🛍️ *Libas & Co. — Quick Order*\n\n👗 *Product:* ${currentProduct.name}\n📦 *Category:* ${currentProduct.category}\n💰 *Price:* PKR ${currentProduct.price.toLocaleString()}\n📏 *Size:* ${selectedSize}\n🔢 *Quantity:* ${currentQty}\n\n_Sent via Libas & Co. Website_`;
-  closePanel();
-  window.open(`https://wa.me/923104508143?text=${encodeURIComponent(msg)}`,'_blank');
+function removeItem(i){cart.splice(i,1);updateCartCount();renderCart();}
+
+function checkoutWhatsApp(){
+  if(!cart.length)return;
+  let msg=`🛍️ *Libas & Co. — Cart Order*\n\n`,total=0;
+  cart.forEach((item,i)=>{msg+=`*${i+1}. ${item.name}*\n   Size: ${item.size} · Qty: ${item.qty}\n   Price: PKR ${(item.priceNum*item.qty).toLocaleString()}\n\n`;total+=item.priceNum*item.qty;});
+  msg+=`*Total: PKR ${total.toLocaleString()}*\n\n_Sent via Libas & Co. Website_`;
+  closeCart();window.open(`https://wa.me/923104508143?text=${encodeURIComponent(msg)}`,'_blank');
 }
 
-function updateCartCount() {
-  const total = cart.reduce((sum, i) => sum + i.qty, 0);
-  document.getElementById('cartCount').textContent = total;
-}
-
-function openCart() {
-  renderCart();
-  document.getElementById('cartOverlay').classList.add('open');
-  document.getElementById('cartDrawer').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeCart() {
-  document.getElementById('cartOverlay').classList.remove('open');
-  document.getElementById('cartDrawer').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-function renderCart() {
-  const container = document.getElementById('cartItems');
-  const footer = document.getElementById('cartFooter');
-  if (cart.length === 0) {
-    container.innerHTML = '<div class="cart-empty"><div class="cart-empty-icon">🛒</div><div class="cart-empty-text">Your cart is empty</div></div>';
-    footer.style.display = 'none';
-    return;
-  }
-  footer.style.display = 'block';
-  let total = 0;
-  container.innerHTML = cart.map((item, idx) => {
-    total += item.priceNum * item.qty;
-    return `
-      <div class="cart-item">
-        <div class="cart-item-info">
-          <div class="cart-item-name">${item.name}</div>
-          <div class="cart-item-meta">${item.cat} · Size: ${item.size} · Qty: ${item.qty}</div>
-          <div class="cart-item-price">PKR ${(item.priceNum * item.qty).toLocaleString()}</div>
-        </div>
-        <button class="cart-item-remove" onclick="removeItem(${idx})">✕</button>
-      </div>`;
-  }).join('');
-  document.getElementById('cartTotal').textContent = `PKR ${total.toLocaleString()}`;
-}
-
-function removeItem(idx) {
-  cart.splice(idx, 1);
-  updateCartCount();
-  renderCart();
-}
-
-function checkoutWhatsApp() {
-  if (cart.length === 0) return;
-  let msg = `🛍️ *Libas & Co. — Cart Order*\n\n`;
-  let total = 0;
-  cart.forEach((item, i) => {
-    msg += `*${i+1}. ${item.name}*\n`;
-    msg += `   Category: ${item.cat}\n`;
-    msg += `   Size: ${item.size} · Qty: ${item.qty}\n`;
-    msg += `   Price: PKR ${(item.priceNum * item.qty).toLocaleString()}\n\n`;
-    total += item.priceNum * item.qty;
-  });
-  msg += `*Total: PKR ${total.toLocaleString()}*\n\n_Sent via Libas & Co. Website_`;
-  closeCart();
-  window.open(`https://wa.me/923104508143?text=${encodeURIComponent(msg)}`,'_blank');
-}
-
-function scrollToProducts() {
-  document.querySelector('.category-filter').scrollIntoView({ behavior: 'smooth' });
-}
-
+function scrollToProducts(){document.querySelector('.category-filter').scrollIntoView({behavior:'smooth'});}
 loadProducts();
 </script>
-<!-- WHATSAPP FLOATING BUTTON -->
-<a href="https://wa.me/923104508143" target="_blank" id="waFloat" style="position:fixed;bottom:32px;right:32px;z-index:999;background:#25D366;color:#fff;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,0.4);text-decoration:none;transition:transform 0.3s;" onmouseover="this.style.transform=&#39;scale(1.1)&#39;" onmouseout="this.style.transform=&#39;scale(1)&#39;">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="white">
-    <path d="M16 0C7.164 0 0 7.163 0 16c0 2.822.736 5.477 2.027 7.789L0 32l8.418-2.004A15.954 15.954 0 0 0 16 32c8.836 0 16-7.163 16-16S24.836 0 16 0zm0 29.333a13.267 13.267 0 0 1-6.747-1.833l-.484-.287-5.004 1.191 1.215-4.873-.316-.501A13.234 13.234 0 0 1 2.667 16C2.667 8.637 8.637 2.667 16 2.667S29.333 8.637 29.333 16 23.363 29.333 16 29.333zm7.27-9.878c-.398-.199-2.352-1.161-2.717-1.293-.364-.133-.629-.199-.894.199-.265.398-1.027 1.293-1.259 1.558-.232.265-.464.298-.862.1-.398-.199-1.681-.619-3.202-1.977-1.183-1.056-1.982-2.36-2.214-2.758-.232-.398-.025-.613.174-.811.179-.178.398-.464.597-.696.199-.232.265-.398.398-.663.133-.265.066-.497-.033-.696-.1-.199-.894-2.154-1.225-2.949-.322-.773-.649-.668-.894-.68l-.762-.013c-.265 0-.696.1-1.061.497-.364.398-1.392 1.359-1.392 3.314 0 1.955 1.425 3.843 1.624 4.108.199.265 2.803 4.279 6.791 5.998.949.41 1.69.654 2.268.838.953.303 1.82.26 2.505.158.764-.114 2.352-.962 2.684-1.89.332-.928.332-1.724.232-1.89-.099-.166-.364-.265-.762-.464z"></path>
-  </svg>
-</a>
-
 
 
 </body></html>
