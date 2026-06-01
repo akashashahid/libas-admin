@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0046)file:///C:/Users/ammar/Downloads/admin_10.html -->
+<!-- saved from url=(0046)file:///C:/Users/ammar/Downloads/admin_13.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -54,7 +54,11 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
 .filter-tab:last-child { border-right:none; }
 .filter-tab.active { background:#0a0a0a; color:#fff; }
 .products-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); gap:16px; }
-.product-item { border:1px solid #e5e5e5; border-radius:2px; overflow:hidden; }
+.product-item { border:1px solid #e5e5e5; border-radius:2px; overflow:hidden; cursor:grab; transition:all 0.2s; position:relative; }
+.product-item:active { cursor:grabbing; }
+.product-item.dragging { opacity:0.4; border:2px dashed #b8860b; }
+.product-item.drag-over { border:2px solid #b8860b; transform:scale(1.02); }
+.drag-handle { position:absolute; top:8px; right:8px; color:#ccc; font-size:16px; z-index:2; cursor:grab; }
 .product-img { height:140px; overflow:hidden; position:relative; }
 .product-img img { width:100%; height:100%; object-fit:cover; }
 .product-label-tag { position:absolute; top:8px; left:8px; background:#0a0a0a; color:#fff; font-size:8px; letter-spacing:2px; padding:3px 8px; text-transform:uppercase; }
@@ -438,7 +442,8 @@ function renderProducts(products) {
   }
 
   grid.innerHTML = products.map(p => `
-    <div class="product-item">
+    <div class="product-item" draggable="true" data-id="${p._id}">
+      <div class="drag-handle">⠿</div>
       <div class="product-img">
         ${p.label ? `<div class="product-label-tag">${p.label}</div>` : ''}
         <img src="${p.image}" alt="${p.name}"/>
@@ -454,6 +459,66 @@ function renderProducts(products) {
       </div>
     </div>
   `).join('');
+
+  initDragDrop();
+}
+
+function initDragDrop() {
+  const grid = document.getElementById('productsGrid');
+  const items = grid.querySelectorAll('.product-item');
+  let draggedItem = null;
+
+  items.forEach(item => {
+    item.addEventListener('dragstart', () => {
+      draggedItem = item;
+      setTimeout(() => item.classList.add('dragging'), 0);
+    });
+
+    item.addEventListener('dragend', () => {
+      item.classList.remove('dragging');
+      grid.querySelectorAll('.product-item').forEach(i => i.classList.remove('drag-over'));
+      saveNewOrder();
+    });
+
+    item.addEventListener('dragover', e => {
+      e.preventDefault();
+      grid.querySelectorAll('.product-item').forEach(i => i.classList.remove('drag-over'));
+      if (item !== draggedItem) item.classList.add('drag-over');
+    });
+
+    item.addEventListener('drop', e => {
+      e.preventDefault();
+      if (item !== draggedItem) {
+        const allItems = [...grid.querySelectorAll('.product-item')];
+        const dragIdx = allItems.indexOf(draggedItem);
+        const dropIdx = allItems.indexOf(item);
+        if (dragIdx < dropIdx) {
+          grid.insertBefore(draggedItem, item.nextSibling);
+        } else {
+          grid.insertBefore(draggedItem, item);
+        }
+      }
+    });
+  });
+}
+
+async function saveNewOrder() {
+  const grid = document.getElementById('productsGrid');
+  const items = [...grid.querySelectorAll('.product-item')];
+  const newOrder = items.map((item, idx) => ({
+    id: item.dataset.id,
+    position: idx
+  }));
+
+  try {
+    await fetch('https://libas-admin.onrender.com/api/products/reorder', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ order: newOrder })
+    });
+  } catch(err) {
+    console.log('Order save error:', err);
+  }
 }
 
 function openEditModal(productId) {

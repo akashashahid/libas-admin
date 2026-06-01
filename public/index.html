@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<!-- saved from url=(0057)file:///C:/Users/ammar/Downloads/index-with-footer_9.html -->
+<!-- saved from url=(0048)file:///C:/Users/ammar/Downloads/index-v2_1.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Libas &amp; Co. — Premium Clothing</title>
-<link href="./Libas &amp; Co. — Premium Clothing_files/css2" rel="stylesheet">
+<title>Libas &amp; Co. — Premium Pakistani Clothing | Lahore</title>
+<meta name="description" content="Libas &amp; Co. offers premium handcrafted Pakistani clothing — Men&#39;s, Kids&#39; and Festive wear made with quality fabrics. Based in Lahore, Pakistan. Order via WhatsApp.">
+<meta name="keywords" content="Pakistani clothing, premium kurta, shalwar kameez, festive wear, kids clothing, Lahore fashion, libas and co">
+<meta property="og:title" content="Libas &amp; Co. — Premium Pakistani Clothing">
+<meta property="og:description" content="Handcrafted Pakistani clothing made with premium fabrics. Shop Men&#39;s, Kids&#39; and Festive collections.">
+<link href="./index_files/css2" rel="stylesheet">
 <style>
 :root {
   --gold: #b8860b;
@@ -181,6 +186,7 @@ footer{background:var(--black);color:var(--white);padding:80px 64px 40px;}
   .stat-item{border-right:none;border-bottom:1px solid var(--grey-light);padding:20px 24px;}
   footer{padding:40px 20px 25px;}
   .footer-grid{grid-template-columns:1fr;gap:30px;}
+  #waFloat{bottom:20px;right:20px;width:50px;height:50px;font-size:22px;}
 }
 
 @media (max-width: 480px) {
@@ -200,7 +206,7 @@ footer{background:var(--black);color:var(--white);padding:80px 64px 40px;}
 <body>
 
 <nav>
-  <a href="file:///C:/Users/ammar/Downloads/index-with-footer_9.html#" class="nav-brand">Libas <em>&amp; Co.</em></a>
+  <a href="file:///C:/Users/ammar/Downloads/index-v2_1.html#" class="nav-brand">Libas <em>&amp; Co.</em></a>
   <div style="position:relative;cursor:pointer;font-size:16px;" onclick="openCart()">
     🛒 <span id="cartCount">0</span>
   </div>
@@ -208,18 +214,18 @@ footer{background:var(--black);color:var(--white);padding:80px 64px 40px;}
 
 <div class="hero">
   <div class="hero-line"></div>
-  <div class="hero-eyebrow">Timeless Elegance</div>
-  <h1 class="hero-title">Premium <em>Clothing</em></h1>
-  <div class="hero-title-sub">Curated for the Discerning</div>
+  <div class="hero-eyebrow">Lahore · Pakistan</div>
+  <h1 class="hero-title">Crafted for <em>Modern Pakistan</em></h1>
+  <div class="hero-title-sub">Premium Eastern Wear for Every Occasion</div>
   <div class="hero-divider">
     <div class="hero-divider-line"></div>
     <div class="hero-divider-diamond"></div>
     <div class="hero-divider-line"></div>
   </div>
-  <p class="hero-desc">Handpicked pieces loved by our customers — quality you can see, comfort you can feel.</p>
+  <p class="hero-desc">From everyday elegance to festive grandeur — Libas &amp; Co. brings you handcrafted Pakistani clothing made with premium fabrics and timeless designs.</p>
   <div class="hero-btns">
-    <button class="btn-gold" onclick="scrollToProducts()">Explore Collection</button>
-    <button class="btn-outline" onclick="scrollToProducts()">Learn More</button>
+    <button class="btn-gold" onclick="scrollToProducts()">Shop Collection</button>
+    <button class="btn-outline" onclick="window.open(&#39;https://wa.me/923104508143&#39;,&#39;_blank&#39;)">WhatsApp Us</button>
   </div>
   <div class="stats-bar">
     <div class="stat-item">
@@ -227,7 +233,7 @@ footer{background:var(--black);color:var(--white);padding:80px 64px 40px;}
       <div class="stat-label">Collections</div>
     </div>
     <div class="stat-item">
-      <div class="stat-num" id="productCount">0<span>+</span></div>
+      <div class="stat-num" id="productCount">7</div>
       <div class="stat-label">Products</div>
     </div>
     <div class="stat-item">
@@ -248,12 +254,146 @@ footer{background:var(--black);color:var(--white);padding:80px 64px 40px;}
   </div>
 </div>
 
-<div class="category-filter" id="categoryFilter"></div>
+<div class="category-filter" id="categoryFilter"><button class="filter-btn active" onclick="filterByCategory(&#39;all&#39;, this)">
+      All Products
+    </button><button class="filter-btn " onclick="filterByCategory(&#39;mens&#39;, this)">
+      Mens
+    </button><button class="filter-btn " onclick="filterByCategory(&#39;kids&#39;, this)">
+      Kids
+    </button><button class="filter-btn " onclick="filterByCategory(&#39;festive&#39;, this)">
+      Festive
+    </button></div>
 <div class="subcategory-filter" id="subcategoryFilter" style="display:none;flex-wrap:wrap;gap:8px;justify-content:center;padding:0 64px 20px;"></div>
 
 <div class="section" style="background:var(--grey-ultra);">
   <h2 class="section-title">Featured <em>Products</em></h2>
-  <div id="productsContainer" class="product-grid"><div class="loading">Failed to load products</div></div>
+  <div id="productsContainer" class="product-grid">
+    <div class="product-card">
+      <div class="product-img">
+        <div class="product-label hot">Hot</div>
+        <img src="./index_files/z981c134ydr24mt3ag7o.jpg" alt="Holly Green" style="cursor:pointer;" onclick="openProductPanel(&#39;6a1565ba51556a85e438b6ba&#39;)">
+      </div>
+      <div class="product-info">
+        <div class="product-cat">kids</div>
+        <div class="product-name">Holly Green</div>
+        <div class="product-price">
+          PKR 1,200
+          <del>PKR 2,000</del>
+        </div>
+        <div class="product-sizes"><span class="size-tag">S</span><span class="size-tag">M</span><span class="size-tag">L</span></div>
+        <div class="product-line"></div>
+        <button class="quick-view-btn" onclick="openProductPanel(&#39;6a1565ba51556a85e438b6ba&#39;)">Quick View</button>
+      </div>
+    </div>
+  
+    <div class="product-card">
+      <div class="product-img">
+        <div class="product-label sale">Sale</div>
+        <img src="./index_files/caxssuwt5gzwujzxirzb.webp" alt="Blue Ocean" style="cursor:pointer;" onclick="openProductPanel(&#39;6a1565e451556a85e438b6bb&#39;)">
+      </div>
+      <div class="product-info">
+        <div class="product-cat">kids</div>
+        <div class="product-name">Blue Ocean</div>
+        <div class="product-price">
+          PKR 1,400
+          
+        </div>
+        <div class="product-sizes"><span class="size-tag">XL</span></div>
+        <div class="product-line"></div>
+        <button class="quick-view-btn" onclick="openProductPanel(&#39;6a1565e451556a85e438b6bb&#39;)">Quick View</button>
+      </div>
+    </div>
+  
+    <div class="product-card">
+      <div class="product-img">
+        <div class="product-label sale">Sale</div>
+        <img src="./index_files/ja635fb0owxamovolijz.jpg" alt="White eagle" style="cursor:pointer;" onclick="openProductPanel(&#39;6a15661251556a85e438b6bc&#39;)">
+      </div>
+      <div class="product-info">
+        <div class="product-cat">kids</div>
+        <div class="product-name">White eagle</div>
+        <div class="product-price">
+          PKR 900
+          
+        </div>
+        <div class="product-sizes"><span class="size-tag">S</span><span class="size-tag">L</span><span class="size-tag">XL</span></div>
+        <div class="product-line"></div>
+        <button class="quick-view-btn" onclick="openProductPanel(&#39;6a15661251556a85e438b6bc&#39;)">Quick View</button>
+      </div>
+    </div>
+  
+    <div class="product-card">
+      <div class="product-img">
+        <div class="product-label new">New</div>
+        <img src="./index_files/ute6luabs67xfajnoxfr.jpg" alt="Casual Fit" style="cursor:pointer;" onclick="openProductPanel(&#39;6a15667051556a85e438b6bd&#39;)">
+      </div>
+      <div class="product-info">
+        <div class="product-cat">kids</div>
+        <div class="product-name">Casual Fit</div>
+        <div class="product-price">
+          PKR 5,000
+          
+        </div>
+        <div class="product-sizes"><span class="size-tag">S</span><span class="size-tag">M</span><span class="size-tag">L</span></div>
+        <div class="product-line"></div>
+        <button class="quick-view-btn" onclick="openProductPanel(&#39;6a15667051556a85e438b6bd&#39;)">Quick View</button>
+      </div>
+    </div>
+  
+    <div class="product-card">
+      <div class="product-img">
+        <div class="product-label new">New</div>
+        <img src="./index_files/llwz3aniq7ppozx846yj.jpg" alt="Girls" style="cursor:pointer;" onclick="openProductPanel(&#39;6a1567f751556a85e438b6be&#39;)">
+      </div>
+      <div class="product-info">
+        <div class="product-cat">festive</div>
+        <div class="product-name">Girls</div>
+        <div class="product-price">
+          PKR 14,000
+          
+        </div>
+        <div class="product-sizes"><span class="size-tag">S</span></div>
+        <div class="product-line"></div>
+        <button class="quick-view-btn" onclick="openProductPanel(&#39;6a1567f751556a85e438b6be&#39;)">Quick View</button>
+      </div>
+    </div>
+  
+    <div class="product-card">
+      <div class="product-img">
+        <div class="product-label sale">Sale</div>
+        <img src="./index_files/hkexrewgkytptwuiihdg.jpg" alt="Shalwar Qameez" style="cursor:pointer;" onclick="openProductPanel(&#39;6a19055987f5900236535e5b&#39;)">
+      </div>
+      <div class="product-info">
+        <div class="product-cat">mens</div>
+        <div class="product-name">Shalwar Qameez</div>
+        <div class="product-price">
+          PKR 3,000
+          <del>PKR 2,500</del>
+        </div>
+        <div class="product-sizes"><span class="size-tag">L</span></div>
+        <div class="product-line"></div>
+        <button class="quick-view-btn" onclick="openProductPanel(&#39;6a19055987f5900236535e5b&#39;)">Quick View</button>
+      </div>
+    </div>
+  
+    <div class="product-card">
+      <div class="product-img">
+        <div class="product-label sale">Sale</div>
+        <img src="./index_files/ogqxzqerv5kxkqvqhng2.png" alt="Kurta" style="cursor:pointer;" onclick="openProductPanel(&#39;6a1ac2405c894835524ad79c&#39;)">
+      </div>
+      <div class="product-info">
+        <div class="product-cat">kids</div>
+        <div class="product-name">Kurta</div>
+        <div class="product-price">
+          PKR 3
+          <del>PKR 3</del>
+        </div>
+        
+        <div class="product-line"></div>
+        <button class="quick-view-btn" onclick="openProductPanel(&#39;6a1ac2405c894835524ad79c&#39;)">Quick View</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div id="panelOverlay" class="panel-overlay" onclick="closePanel()"></div>
@@ -305,6 +445,163 @@ footer{background:var(--black);color:var(--white);padding:80px 64px 40px;}
   </div>
 </div>
 
+<!-- TRUST SIGNALS -->
+<div style="background:var(--black);padding:40px 64px;">
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:32px;text-align:center;">
+    <div>
+      <div style="font-size:28px;margin-bottom:8px;">🚚</div>
+      <div style="font-family:&#39;Cormorant Garamond&#39;,serif;font-size:16px;color:var(--white);font-weight:600;margin-bottom:4px;">Fast Delivery</div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:1px;">Lahore &amp; across Pakistan</div>
+    </div>
+    <div>
+      <div style="font-size:28px;margin-bottom:8px;">🔄</div>
+      <div style="font-family:&#39;Cormorant Garamond&#39;,serif;font-size:16px;color:var(--white);font-weight:600;margin-bottom:4px;">Easy Exchange</div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:1px;">7-day exchange policy</div>
+    </div>
+    <div>
+      <div style="font-size:28px;margin-bottom:8px;">💎</div>
+      <div style="font-family:&#39;Cormorant Garamond&#39;,serif;font-size:16px;color:var(--white);font-weight:600;margin-bottom:4px;">Premium Fabrics</div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:1px;">Carefully sourced materials</div>
+    </div>
+    <div>
+      <div style="font-size:28px;margin-bottom:8px;">✅</div>
+      <div style="font-family:&#39;Cormorant Garamond&#39;,serif;font-size:16px;color:var(--white);font-weight:600;margin-bottom:4px;">Verified Quality</div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:1px;">100% quality checked</div>
+    </div>
+  </div>
+</div>
+
+<!-- SIZE GUIDE -->
+<div style="background:var(--cream);padding:80px 64px;">
+  <h2 class="section-title">Size <em>Guide</em></h2>
+  <p class="section-sub" style="margin-bottom:40px;">Find your perfect fit with our size chart</p>
+  <div style="max-width:700px;margin:0 auto;overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;font-size:13px;">
+      <thead>
+        <tr style="background:var(--gold);color:var(--white);">
+          <th style="padding:14px 20px;text-align:left;letter-spacing:2px;font-size:10px;text-transform:uppercase;">Size</th>
+          <th style="padding:14px 20px;text-align:center;letter-spacing:2px;font-size:10px;text-transform:uppercase;">Chest (inches)</th>
+          <th style="padding:14px 20px;text-align:center;letter-spacing:2px;font-size:10px;text-transform:uppercase;">Length (inches)</th>
+          <th style="padding:14px 20px;text-align:center;letter-spacing:2px;font-size:10px;text-transform:uppercase;">Waist (inches)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--grey-light);">
+          <td style="padding:14px 20px;font-weight:600;">S</td>
+          <td style="padding:14px 20px;text-align:center;color:var(--grey);">36–38</td>
+          <td style="padding:14px 20px;text-align:center;color:var(--grey);">28–29</td>
+          <td style="padding:14px 20px;text-align:center;color:var(--grey);">30–32</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--grey-light);background:var(--grey-ultra);">
+          <td style="padding:14px 20px;font-weight:600;">M</td>
+          <td style="padding:14px 20px;text-align:center;color:var(--grey);">38–40</td>
+          <td style="padding:14px 20px;text-align:center;color:var(--grey);">29–30</td>
+          <td style="padding:14px 20px;text-align:center;color:var(--grey);">32–34</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--grey-light);">
+          <td style="padding:14px 20px;font-weight:600;">L</td>
+          <td style="padding:14px 20px;text-align:center;color:var(--grey);">40–42</td>
+          <td style="padding:14px 20px;text-align:center;color:var(--grey);">30–31</td>
+          <td style="padding:14px 20px;text-align:center;color:var(--grey);">34–36</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--grey-light);background:var(--grey-ultra);">
+          <td style="padding:14px 20px;font-weight:600;">XL</td>
+          <td style="padding:14px 20px;text-align:center;color:var(--grey);">42–44</td>
+          <td style="padding:14px 20px;text-align:center;color:var(--grey);">31–32</td>
+          <td style="padding:14px 20px;text-align:center;color:var(--grey);">36–38</td>
+        </tr>
+        <tr>
+          <td style="padding:14px 20px;font-weight:600;">XXL</td>
+          <td style="padding:14px 20px;text-align:center;color:var(--grey);">44–46</td>
+          <td style="padding:14px 20px;text-align:center;color:var(--grey);">32–33</td>
+          <td style="padding:14px 20px;text-align:center;color:var(--grey);">38–40</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:11px;color:var(--grey);margin-top:16px;text-align:center;letter-spacing:1px;">Not sure about your size? <a href="https://wa.me/923104508143" style="color:var(--gold);text-decoration:none;">WhatsApp us</a> for guidance.</p>
+  </div>
+</div>
+
+<!-- REVIEWS -->
+<div style="background:var(--grey-ultra);padding:80px 64px;">
+  <h2 class="section-title">What Our <em>Customers Say</em></h2>
+  <p class="section-sub">Real reviews from real customers</p>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px;max-width:1000px;margin:0 auto;">
+    <div style="background:var(--white);padding:32px;border:1px solid var(--grey-light);position:relative;">
+      <div style="color:var(--gold);font-size:18px;margin-bottom:16px;">★★★★★</div>
+      <p style="font-size:13px;line-height:1.8;color:var(--grey);font-style:italic;margin-bottom:20px;">"Best fitting kurta I have ever worn. The fabric quality is exceptional and the stitching is perfect."</p>
+      <div style="font-size:11px;font-weight:600;letter-spacing:2px;color:var(--black);text-transform:uppercase;">— Ahmed K., Lahore</div>
+    </div>
+    <div style="background:var(--white);padding:32px;border:1px solid var(--grey-light);">
+      <div style="color:var(--gold);font-size:18px;margin-bottom:16px;">★★★★★</div>
+      <p style="font-size:13px;line-height:1.8;color:var(--grey);font-style:italic;margin-bottom:20px;">"Ordered festive wear for Eid. The quality exceeded my expectations. Will definitely order again!"</p>
+      <div style="font-size:11px;font-weight:600;letter-spacing:2px;color:var(--black);text-transform:uppercase;">— Sara M., Karachi</div>
+    </div>
+    <div style="background:var(--white);padding:32px;border:1px solid var(--grey-light);">
+      <div style="color:var(--gold);font-size:18px;margin-bottom:16px;">★★★★★</div>
+      <p style="font-size:13px;line-height:1.8;color:var(--grey);font-style:italic;margin-bottom:20px;">"Kids' collection is amazing. My son loved his new outfit. Fast delivery and beautiful packaging!"</p>
+      <div style="font-size:11px;font-weight:600;letter-spacing:2px;color:var(--black);text-transform:uppercase;">— Fatima R., Islamabad</div>
+    </div>
+  </div>
+</div>
+
+<!-- BRAND STORY -->
+<div style="background:var(--cream);padding:100px 64px;">
+  <div style="max-width:800px;margin:0 auto;text-align:center;">
+    <div style="font-family:&#39;DM Mono&#39;,monospace;font-size:9px;letter-spacing:6px;color:var(--gold);text-transform:uppercase;margin-bottom:24px;">Our Story</div>
+    <h2 class="section-title" style="margin-bottom:24px;">Born from a <em>Love of Craft</em></h2>
+    <div style="width:40px;height:1px;background:var(--gold);margin:0 auto 32px;"></div>
+    <p style="font-size:15px;line-height:2;color:var(--grey);margin-bottom:24px;">Libas &amp; Co. was founded with a simple yet powerful belief — that every Pakistani deserves to wear clothing that reflects their heritage, elegance, and identity. We are a Lahore-based brand that blends traditional craftsmanship with modern design sensibilities.</p>
+    <p style="font-size:15px;line-height:2;color:var(--grey);margin-bottom:40px;">Each piece in our collection is carefully crafted using premium fabrics, ensuring that what you wear is not just clothing — it is an experience. From everyday wear to festive occasions, Libas &amp; Co. is your trusted companion for all of life's moments.</p>
+    <div style="display:flex;gap:48px;justify-content:center;flex-wrap:wrap;">
+      <div style="text-align:center;">
+        <div style="font-family:&#39;Cormorant Garamond&#39;,serif;font-size:42px;font-weight:300;color:var(--black);">100<span style="color:var(--gold);font-size:22px;">%</span></div>
+        <div style="font-size:9px;letter-spacing:3px;color:var(--grey);text-transform:uppercase;">Premium Fabrics</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-family:&#39;Cormorant Garamond&#39;,serif;font-size:42px;font-weight:300;color:var(--black);">3<span style="color:var(--gold);font-size:22px;">+</span></div>
+        <div style="font-size:9px;letter-spacing:3px;color:var(--grey);text-transform:uppercase;">Collections</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-family:&#39;Cormorant Garamond&#39;,serif;font-size:42px;font-weight:300;color:var(--black);">❤️</div>
+        <div style="font-size:9px;letter-spacing:3px;color:var(--grey);text-transform:uppercase;">Made with Love</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DELIVERY & RETURNS -->
+<div style="background:var(--black);padding:80px 64px;">
+  <h2 class="section-title" style="color:var(--white);">Delivery &amp; <em>Returns</em></h2>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:40px;max-width:900px;margin:40px auto 0;">
+    <div style="border:1px solid rgba(255,255,255,0.1);padding:32px;">
+      <div style="font-size:24px;margin-bottom:12px;">🚚</div>
+      <h3 style="font-family:&#39;Cormorant Garamond&#39;,serif;font-size:18px;color:var(--white);margin-bottom:12px;">Delivery Policy</h3>
+      <p style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.8;">Lahore: 1–2 business days<br>Other cities: 3–5 business days<br>Delivery charges may apply</p>
+    </div>
+    <div style="border:1px solid rgba(255,255,255,0.1);padding:32px;">
+      <div style="font-size:24px;margin-bottom:12px;">🔄</div>
+      <h3 style="font-family:&#39;Cormorant Garamond&#39;,serif;font-size:18px;color:var(--white);margin-bottom:12px;">Exchange Policy</h3>
+      <p style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.8;">Exchange within 7 days<br>Item must be unworn &amp; unused<br>Original tags must be attached</p>
+    </div>
+    <div style="border:1px solid rgba(255,255,255,0.1);padding:32px;">
+      <div style="font-size:24px;margin-bottom:12px;">💬</div>
+      <h3 style="font-family:&#39;Cormorant Garamond&#39;,serif;font-size:18px;color:var(--white);margin-bottom:12px;">Contact Us</h3>
+      <p style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.8;">WhatsApp for all queries<br>Order tracking &amp; support<br>Available 9am – 9pm daily</p>
+    </div>
+  </div>
+</div>
+
+<!-- INSTAGRAM CTA -->
+<div style="background:var(--cream);padding:80px 64px;text-align:center;">
+  <div style="font-family:&#39;DM Mono&#39;,monospace;font-size:9px;letter-spacing:6px;color:var(--gold);text-transform:uppercase;margin-bottom:16px;">Follow Us</div>
+  <h2 class="section-title" style="margin-bottom:16px;">Find Us on <em>Instagram</em></h2>
+  <p style="font-size:13px;color:var(--grey);margin-bottom:32px;">Stay updated with our latest collections, style inspiration, and exclusive offers.</p>
+  <a href="https://instagram.com/" target="_blank" style="display:inline-flex;align-items:center;gap:12px;background:var(--black);color:var(--white);padding:16px 40px;font-size:11px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;transition:background 0.3s;">
+    📸 Follow @libasandco
+  </a>
+</div>
+
 <footer>
   <div class="footer-brand">Libas <em>&amp; Co.</em></div>
   
@@ -313,15 +610,15 @@ footer{background:var(--black);color:var(--white);padding:80px 64px 40px;}
       <h3>Contact</h3>
       <p>📍 Lahore, Pakistan</p>
       <p>📱 <a href="https://wa.me/923104508143">WhatsApp: +92 310 4508143</a></p>
-      <p>🌐 <a href="file:///C:/Users/ammar/Downloads/index-with-footer_9.html#">www.libasandco.com</a></p>
+      <p>🌐 <a href="file:///C:/Users/ammar/Downloads/index-v2_1.html#">www.libasandco.com</a></p>
     </div>
     
     <div class="footer-col">
       <h3>Collections</h3>
-      <a href="file:///C:/Users/ammar/Downloads/index-with-footer_9.html#">Men's Wear</a><br>
-      <a href="file:///C:/Users/ammar/Downloads/index-with-footer_9.html#">Kids' Wear</a><br>
-      <a href="file:///C:/Users/ammar/Downloads/index-with-footer_9.html#">Festive Wear</a><br>
-      <a href="file:///C:/Users/ammar/Downloads/index-with-footer_9.html#">Premium Fabrics</a>
+      <a href="file:///C:/Users/ammar/Downloads/index-v2_1.html#">Men's Wear</a><br>
+      <a href="file:///C:/Users/ammar/Downloads/index-v2_1.html#">Kids' Wear</a><br>
+      <a href="file:///C:/Users/ammar/Downloads/index-v2_1.html#">Festive Wear</a><br>
+      <a href="file:///C:/Users/ammar/Downloads/index-v2_1.html#">Premium Fabrics</a>
     </div>
     
     <div class="footer-col">
@@ -605,6 +902,12 @@ function scrollToProducts() {
 
 loadProducts();
 </script>
+<!-- WHATSAPP FLOATING BUTTON -->
+<a href="https://wa.me/923104508143" target="_blank" id="waFloat" style="position:fixed;bottom:32px;right:32px;z-index:999;background:#25D366;color:#fff;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,0.4);text-decoration:none;transition:transform 0.3s;" onmouseover="this.style.transform=&#39;scale(1.1)&#39;" onmouseout="this.style.transform=&#39;scale(1)&#39;">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="white">
+    <path d="M16 0C7.164 0 0 7.163 0 16c0 2.822.736 5.477 2.027 7.789L0 32l8.418-2.004A15.954 15.954 0 0 0 16 32c8.836 0 16-7.163 16-16S24.836 0 16 0zm0 29.333a13.267 13.267 0 0 1-6.747-1.833l-.484-.287-5.004 1.191 1.215-4.873-.316-.501A13.234 13.234 0 0 1 2.667 16C2.667 8.637 8.637 2.667 16 2.667S29.333 8.637 29.333 16 23.363 29.333 16 29.333zm7.27-9.878c-.398-.199-2.352-1.161-2.717-1.293-.364-.133-.629-.199-.894.199-.265.398-1.027 1.293-1.259 1.558-.232.265-.464.298-.862.1-.398-.199-1.681-.619-3.202-1.977-1.183-1.056-1.982-2.36-2.214-2.758-.232-.398-.025-.613.174-.811.179-.178.398-.464.597-.696.199-.232.265-.398.398-.663.133-.265.066-.497-.033-.696-.1-.199-.894-2.154-1.225-2.949-.322-.773-.649-.668-.894-.68l-.762-.013c-.265 0-.696.1-1.061.497-.364.398-1.392 1.359-1.392 3.314 0 1.955 1.425 3.843 1.624 4.108.199.265 2.803 4.279 6.791 5.998.949.41 1.69.654 2.268.838.953.303 1.82.26 2.505.158.764-.114 2.352-.962 2.684-1.89.332-.928.332-1.724.232-1.89-.099-.166-.364-.265-.762-.464z"></path>
+  </svg>
+</a>
 
 
 
