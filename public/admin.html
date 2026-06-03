@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0052)file:///C:/Users/ammar/Downloads/admin-elbnam_4.html -->
+<!-- saved from url=(0052)file:///C:/Users/ammar/Downloads/admin-elbnam_5.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -246,24 +246,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
           <div class="card-title" style="margin:0;border:none;padding:0">Customer <span style="color:#b8860b;font-style:italic">Orders</span></div>
           <span class="products-count" id="ordersCount">0 orders</span>
         </div>
-        <div style="overflow-x:auto;">
-          <table style="width:100%;border-collapse:collapse;font-size:12px;" id="ordersTable">
-            <thead>
-              <tr style="background:#f8f8f8;border-bottom:1px solid #e5e5e5;">
-                <th style="padding:12px 16px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#999;">#</th>
-                <th style="padding:12px 16px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#999;">Customer</th>
-                <th style="padding:12px 16px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#999;">Phone</th>
-                <th style="padding:12px 16px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#999;">Items</th>
-                <th style="padding:12px 16px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#999;">Total</th>
-                <th style="padding:12px 16px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#999;">Payment</th>
-                <th style="padding:12px 16px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#999;">Status</th>
-                <th style="padding:12px 16px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#999;">Date</th>
-                <th style="padding:12px 16px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#999;">Action</th>
-              </tr>
-            </thead>
-            <tbody id="ordersBody"></tbody>
-          </table>
-        </div>
+        <div id="ordersBody"></div>
       </div>
     </div>
 
@@ -796,30 +779,41 @@ async function loadOrders() {
     document.getElementById('ordersCount').textContent = orders.length + ' orders';
     const body = document.getElementById('ordersBody');
     if(!orders.length) {
-      body.innerHTML = '<tr><td colspan="9" style="padding:40px;text-align:center;color:#ccc;">No orders yet</td></tr>';
+      body.innerHTML = '<div style="padding:40px;text-align:center;color:#ccc;">No orders yet</div>';
       return;
     }
     body.innerHTML = orders.map((o, i) => `
-      <tr style="border-bottom:1px solid #f0f0f0;">
-        <td style="padding:12px 16px;color:#999;">${i+1}</td>
-        <td style="padding:12px 16px;font-weight:600;">${o.customerName}</td>
-        <td style="padding:12px 16px;">${o.phone}</td>
-        <td style="padding:12px 16px;">${o.items.map(item=>`${item.name} (${item.size}) x${item.qty}`).join('<br>')}</td>
-        <td style="padding:12px 16px;font-weight:600;color:#b8860b;">PKR ${o.total.toLocaleString()}</td>
-        <td style="padding:12px 16px;">${o.payment}</td>
-        <td style="padding:12px 16px;">
-          <select onchange="updateOrderStatus('${o._id}',this.value)" style="padding:4px 8px;border:1px solid #ddd;font-size:11px;background:${o.status==='Delivered'?'#e6f4ea':o.status==='Cancelled'?'#fce8e6':'#fff'};">
-            <option ${o.status==='Pending'?'selected':''}>Pending</option>
-            <option ${o.status==='Confirmed'?'selected':''}>Confirmed</option>
-            <option ${o.status==='Delivered'?'selected':''}>Delivered</option>
-            <option ${o.status==='Cancelled'?'selected':''}>Cancelled</option>
-          </select>
-        </td>
-        <td style="padding:12px 16px;color:#999;font-size:11px;">${new Date(o.createdAt).toLocaleDateString('en-PK')}</td>
-        <td style="padding:12px 16px;">
-          <button onclick="deleteOrder('${o._id}')" style="background:none;border:none;color:#ccc;cursor:pointer;font-size:16px;">✕</button>
-        </td>
-      </tr>
+      <div style="border:1px solid #f0f0f0;border-radius:4px;padding:16px;margin-bottom:12px;background:#fff;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+          <div>
+            <div style="font-weight:600;font-size:14px;color:#0a0a0a;">${o.customerName}</div>
+            <div style="font-size:11px;color:#999;margin-top:2px;">${o.phone}</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-weight:600;color:#b8860b;font-size:14px;">PKR ${o.total.toLocaleString()}</div>
+            <div style="font-size:10px;color:#999;margin-top:2px;">${new Date(o.createdAt).toLocaleDateString('en-PK')}</div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:#666;margin-bottom:10px;padding:8px;background:#f8f8f8;border-radius:2px;">
+          ${o.items.map(item=>`<div>${item.name} (${item.size}) × ${item.qty}</div>`).join('')}
+        </div>
+        <div style="font-size:11px;color:#999;margin-bottom:10px;">📍 ${o.address}</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-size:10px;color:#999;letter-spacing:1px;text-transform:uppercase;">Status:</span>
+            <select onchange="updateOrderStatus('${o._id}',this.value)" style="padding:5px 8px;border:1px solid #ddd;font-size:11px;border-radius:2px;background:${o.status==='Delivered'?'#e6f4ea':o.status==='Cancelled'?'#fce8e6':o.status==='Confirmed'?'#fdf8ee':'#fff'};">
+              <option ${o.status==='Pending'?'selected':''}>Pending</option>
+              <option ${o.status==='Confirmed'?'selected':''}>Confirmed</option>
+              <option ${o.status==='Delivered'?'selected':''}>Delivered</option>
+              <option ${o.status==='Cancelled'?'selected':''}>Cancelled</option>
+            </select>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <span style="font-size:10px;background:#f0f0f0;padding:4px 8px;border-radius:2px;">💵 ${o.payment}</span>
+            <button onclick="deleteOrder('${o._id}')" style="background:none;border:1px solid #eee;color:#ccc;cursor:pointer;padding:4px 8px;font-size:12px;border-radius:2px;">✕</button>
+          </div>
+        </div>
+      </div>
     `).join('');
   } catch(err) {
     console.log('Orders error:', err);
