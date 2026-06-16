@@ -3,7 +3,6 @@ const router = express.Router();
 const Order = require('../models/Order');
 const Product = require('../models/Product');
 
-// GET all orders
 router.get('/', async (req, res) => {
   try {
     const orders = await Order.find().sort({ createdAt: -1 });
@@ -13,12 +12,11 @@ router.get('/', async (req, res) => {
   }
 });
 
-// POST new order — validates stock, saves order, then deducts stock
+// POST — validate stock for all items first, then save order and decrement
 router.post('/', async (req, res) => {
   try {
     const items = req.body.items || [];
-
-    // Validate stock for all items first
+    // Step 1: validate all stock before touching anything
     for (const item of items) {
       if (item.productId && item.size) {
         const product = await Product.findById(item.productId);
@@ -33,46 +31,58 @@ router.post('/', async (req, res) => {
         }
       }
     }
-
+    // Step 2: save order
     const order = new Order(req.body);
     await order.save();
-
-    // Deduct stock after successful order save
+    // Step 3: decrement stock
     for (const item of items) {
       if (item.productId && item.size && item.qty) {
         const product = await Product.findById(item.productId);
         if (product && product.sizeStock) {
           const current = product.sizeStock.get(item.size) ?? 0;
           product.sizeStock.set(item.size, Math.max(0, current - item.qty));
-          // Recompute inStock: true if any size still has stock
-          const anyInStock = product.sizes.some(s => (product.sizeStock.get(s) ?? 0) > 0);
-          product.inStock = anyInStock;
+          product.inStock = product.sizes.some(s => (product.sizeStock.get(s) ?? 0) > 0);
+          product.markModified('sizeStock');
           await product.save();
         }
       }
     }
-
     res.json({ success: true, order });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
 });
 
-// PUT update order status
+// PUT — restore stock when order is cancelled
 router.put('/:id', async (req, res) => {
   try {
-    const order = await Order.findByIdAndUpdate(
+    const order = await Order.findById(req.params.id);
+    if (!order) return res.status(404).json({ error: 'Order not found' });
+    if (req.body.status === 'Cancelled' && order.status !== 'Cancelled') {
+      for (const item of order.items) {
+        if (item.productId && item.size && item.qty) {
+          const product = await Product.findById(item.productId);
+          if (product && product.sizeStock) {
+            const current = product.sizeStock.get(item.size) ?? 0;
+            product.sizeStock.set(item.size, current + item.qty);
+            product.inStock = true;
+            product.markModified('sizeStock');
+            await product.save();
+          }
+        }
+      }
+    }
+    const updated = await Order.findByIdAndUpdate(
       req.params.id,
       { status: req.body.status },
       { new: true }
     );
-    res.json({ success: true, order });
+    res.json({ success: true, order: updated });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-// DELETE order
 router.delete('/:id', async (req, res) => {
   try {
     await Order.findByIdAndDelete(req.params.id);
