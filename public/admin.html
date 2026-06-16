@@ -4,6 +4,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Elbnam — Admin Panel</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='4' fill='%230a0a0a'/><text x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='Georgia,serif' font-style='italic' font-size='20' font-weight='700' fill='%23b8860b'>E</text></svg>">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
@@ -189,7 +190,12 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
 
       <div class="form-group">
         <label class="form-label">Sizes (comma separated)</label>
-        <input type="text" class="form-input" id="pSizes" placeholder="S, M, L, XL, XXL">
+        <input type="text" class="form-input" id="pSizes" placeholder="S, M, L, XL, XXL" oninput="updateStockInputs('stockInputs','pSizes','pStockGroup')">
+      </div>
+
+      <div class="form-group" id="pStockGroup" style="display:none;">
+        <label class="form-label">Stock Per Size</label>
+        <div id="stockInputs" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;margin-top:8px;"></div>
       </div>
 
       <div class="form-group">
@@ -303,7 +309,12 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
 
     <div class="form-group">
       <label class="form-label">Sizes (comma separated)</label>
-      <input type="text" class="form-input" id="eSizes" placeholder="S, M, L, XL, XXL">
+      <input type="text" class="form-input" id="eSizes" placeholder="S, M, L, XL, XXL" oninput="updateStockInputs('eStockInputs','eSizes','eStockGroup')">
+    </div>
+
+    <div class="form-group" id="eStockGroup" style="display:none;">
+      <label class="form-label">Stock Per Size</label>
+      <div id="eStockInputs" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;margin-top:8px;"></div>
     </div>
 
     <div class="form-group">
@@ -421,6 +432,7 @@ async function addProduct() {
   formData.append('originalPrice', origPrice);
   formData.append('label', label);
   formData.append('sizes', sizes);
+  formData.append('sizeStock', JSON.stringify(getStockData('stockInputs')));
   Array.from(image).forEach(file => formData.append('images', file));
 
   try {
@@ -434,6 +446,8 @@ async function addProduct() {
       document.getElementById('pPrice').value = '';
       document.getElementById('pOriginalPrice').value = '';
       document.getElementById('pSizes').value = '';
+      document.getElementById('stockInputs').innerHTML = '';
+      document.getElementById('pStockGroup').style.display = 'none';
       document.getElementById('pImage').value = '';
       document.getElementById('imgPreviewGrid').innerHTML = '';
       document.getElementById('imgPreview').style.display = 'none';
@@ -475,24 +489,32 @@ function renderProducts(products) {
     return;
   }
 
-  grid.innerHTML = products.map(p => `
-    <div class="product-item" draggable="true" data-id="${p._id}">
+  grid.innerHTML = products.map(p => {
+    const stockMap = p.sizeStock || {};
+    const stockSummary = p.sizes && p.sizes.length
+      ? p.sizes.map(s => `${s}:${stockMap[s] ?? '–'}`).join(' · ')
+      : '';
+    const oosStyle = !p.inStock ? 'border-color:#ffcdd2;' : '';
+    return `
+    <div class="product-item" draggable="true" data-id="${p._id}" style="${oosStyle}">
       <div class="drag-handle">⠿</div>
       <div class="product-img">
         ${p.label ? `<div class="product-label-tag">${p.label}</div>` : ''}
+        ${!p.inStock ? `<div style="position:absolute;bottom:0;left:0;right:0;background:rgba(229,57,53,0.85);color:#fff;font-size:9px;letter-spacing:2px;text-align:center;padding:4px;text-transform:uppercase;">Out of Stock</div>` : ''}
         <img src="${p.image}" alt="${p.name}"/>
       </div>
       <div class="product-info-mini">
         <div class="product-cat-mini">${p.category}${p.subcategory ? ' · ' + p.subcategory : ''}</div>
         <div class="product-name-mini">${p.name}</div>
         <div class="product-price-mini">PKR ${p.price.toLocaleString()}</div>
+        ${stockSummary ? `<div style="font-size:9px;color:#999;margin-bottom:8px;letter-spacing:0.5px;">${stockSummary}</div>` : ''}
         <div class="product-actions">
           <button class="action-btn" onclick="openEditModal('${p._id}')">✎ Edit</button>
           <button class="action-btn delete" onclick="deleteProduct('${p._id}')">✕ Delete</button>
         </div>
       </div>
     </div>
-  `).join('');
+  `}).join('');
 
   initDragDrop();
 }
@@ -567,6 +589,14 @@ function openEditModal(productId) {
   document.getElementById('ePrice').value = product.price;
   document.getElementById('eOriginalPrice').value = product.originalPrice || '';
   document.getElementById('eSizes').value = product.sizes.join(', ');
+  // Populate stock inputs with existing values
+  setTimeout(() => {
+    updateStockInputs('eStockInputs', 'eSizes', 'eStockGroup');
+    const stockMap = product.sizeStock || {};
+    document.querySelectorAll('#eStockInputs input').forEach(inp => {
+      inp.value = stockMap[inp.dataset.size] ?? 0;
+    });
+  }, 0);
   document.getElementById('eImage').value = '';
   document.getElementById('eImgPreviewGrid').innerHTML = '';
   const existingImages = product.images && product.images.length ? product.images : (product.image ? [product.image] : []);
@@ -619,6 +649,7 @@ async function updateProduct() {
   formData.append('originalPrice', origPrice);
   formData.append('label', label);
   formData.append('sizes', sizes);
+  formData.append('sizeStock', JSON.stringify(getStockData('eStockInputs')));
   if (images && images.length > 0) {
     Array.from(images).forEach(file => formData.append('images', file));
   }
@@ -646,6 +677,32 @@ async function deleteProduct(id) {
   } catch(err) {
     alert('Error deleting product');
   }
+}
+
+function updateStockInputs(containerId, sizesId, groupId) {
+  const sizesInput = document.getElementById(sizesId);
+  const container = document.getElementById(containerId);
+  const group = document.getElementById(groupId);
+  const sizes = sizesInput.value.split(',').map(s => s.trim()).filter(Boolean);
+  if (!sizes.length) { group.style.display = 'none'; return; }
+  group.style.display = 'block';
+  const existing = {};
+  container.querySelectorAll('input').forEach(inp => { existing[inp.dataset.size] = inp.value; });
+  container.innerHTML = sizes.map(s => `
+    <div style="text-align:center;">
+      <label style="font-size:9px;letter-spacing:1px;color:#999;text-transform:uppercase;display:block;margin-bottom:4px;">${s}</label>
+      <input type="number" min="0" value="${existing[s] !== undefined ? existing[s] : 0}" data-size="${s}" style="width:100%;padding:8px;border:1px solid #e5e5e5;border-radius:2px;text-align:center;font-size:13px;outline:none;" onfocus="this.style.borderColor='#b8860b'" onblur="this.style.borderColor='#e5e5e5'">
+    </div>
+  `).join('');
+}
+
+function getStockData(containerId) {
+  const container = document.getElementById(containerId);
+  const stock = {};
+  container.querySelectorAll('input').forEach(inp => {
+    stock[inp.dataset.size] = parseInt(inp.value) || 0;
+  });
+  return stock;
 }
 </script>
 
