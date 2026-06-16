@@ -368,7 +368,7 @@ footer{background:var(--black);color:var(--white);padding:60px 20px 30px;}
     </div>
   </div>
   <div class="footer-divider">
-    © 2026 Elbnam — Premium Clothing — All rights reserved<br>
+    &copy; 2026 Elbnam — Premium Clothing — All rights reserved<br>
     <span style="font-size:10px;opacity:0.4;margin-top:6px;display:inline-block;">Website developed by <a href="https://quantaip.org/" target="_blank" style="color:rgba(255,255,255,0.5);text-decoration:none;">QUANTAIP</a></span>
   </div>
 </footer>
@@ -545,7 +545,7 @@ function renderProducts(products){
     const sizeTags=p.sizes&&p.sizes.length?p.sizes.map(s=>{
       const qty=stockMap[s]!=null?stockMap[s]:null;
       const sOos=qty!==null&&qty===0;
-      return `<span class="size-tag" style="${sOos?'opacity:0.35;text-decoration:line-through;':''}">${s}</span>`;
+      return `<span class="size-tag" style="${sOos?'opacity:0.35;text-decoration:line-through;':'}">${s}</span>`;
     }).join(''):'';
     return `
     <div class="product-card" style="${oos?'opacity:0.85;':''}">
@@ -574,7 +574,7 @@ function openProductPanel(id){
   document.getElementById('panelProductCat').textContent=currentProduct.category.toUpperCase();
   document.getElementById('panelProductPrice').innerHTML=`PKR ${currentProduct.price.toLocaleString()}${currentProduct.originalPrice?`<del>PKR ${currentProduct.originalPrice.toLocaleString()}</del>`:''}`;
   const imgs=currentProduct.images&&currentProduct.images.length?currentProduct.images:(currentProduct.image?[currentProduct.image]:[]);
-  document.getElementById('panelProductImg').innerHTML=`<img src="${imgs[0]||''}" alt="${currentProduct.name}" id="mainImage">`;
+  document.getElementById('panelProductImg').innerHTML=`<img src="${imgs[0]||""}" alt="${currentProduct.name}" id="mainImage">`;
   const gallery=document.getElementById('imageGallery');
   if(imgs.length>1){
     gallery.style.display='flex';

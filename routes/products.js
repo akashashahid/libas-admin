@@ -15,7 +15,6 @@ cloudinary.config({
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-// Upload single file to Cloudinary
 async function uploadToCloudinary(buffer) {
   return new Promise((resolve, reject) => {
     cloudinary.uploader.upload_stream(
@@ -28,7 +27,6 @@ async function uploadToCloudinary(buffer) {
   });
 }
 
-// GET all products sorted by position
 router.get('/', async (req, res) => {
   try {
     const products = await Product.find().sort({ position: 1 });
@@ -38,7 +36,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// POST add product (multiple images)
 router.post('/', upload.array('images', 5), async (req, res) => {
   try {
     let imageUrls = [];
@@ -48,14 +45,13 @@ router.post('/', upload.array('images', 5), async (req, res) => {
         imageUrls.push(url);
       }
     }
-
     const sizes = req.body.sizes ? req.body.sizes.split(',').map(s => s.trim()).filter(Boolean) : [];
     let sizeStock = {};
     if (req.body.sizeStock) {
       try { sizeStock = JSON.parse(req.body.sizeStock); } catch(e) {}
     }
-    const inStock = sizes.length === 0 || Object.values(sizeStock).some(v => v > 0);
-
+    const stockValues = Object.values(sizeStock);
+    const inStock = stockValues.length === 0 || stockValues.some(v => v > 0);
     const product = new Product({
       name: req.body.name,
       category: req.body.category,
@@ -69,7 +65,6 @@ router.post('/', upload.array('images', 5), async (req, res) => {
       sizeStock,
       inStock
     });
-
     await product.save();
     res.json({ success: true, product });
   } catch (err) {
@@ -77,14 +72,11 @@ router.post('/', upload.array('images', 5), async (req, res) => {
   }
 });
 
-// PUT update product
 router.put('/:id', upload.array('images', 5), async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
     if (!product) return res.status(404).json({ error: 'Product not found' });
-
     let imageUrls = product.images && product.images.length ? product.images : (product.image ? [product.image] : []);
-
     if (req.files && req.files.length > 0) {
       imageUrls = [];
       for (const file of req.files) {
@@ -92,15 +84,13 @@ router.put('/:id', upload.array('images', 5), async (req, res) => {
         imageUrls.push(url);
       }
     }
-
     const sizes = req.body.sizes ? req.body.sizes.split(',').map(s => s.trim()).filter(Boolean) : product.sizes;
     let sizeStock = product.sizeStock ? Object.fromEntries(product.sizeStock) : {};
     if (req.body.sizeStock) {
       try { sizeStock = JSON.parse(req.body.sizeStock); } catch(e) {}
     }
     const stockValues = Object.values(sizeStock);
-    const inStock = stockValues.length === 0 ? (req.body.inStock !== undefined ? req.body.inStock === 'true' || req.body.inStock === true : product.inStock) : stockValues.some(v => v > 0);
-
+    const inStock = stockValues.length === 0 ? product.inStock : stockValues.some(v => v > 0);
     const updatedProduct = await Product.findByIdAndUpdate(
       req.params.id,
       {
@@ -118,14 +108,12 @@ router.put('/:id', upload.array('images', 5), async (req, res) => {
       },
       { new: true }
     );
-
     res.json({ success: true, product: updatedProduct });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-// DELETE product
 router.delete('/:id', async (req, res) => {
   try {
     await Product.findByIdAndDelete(req.params.id);
@@ -135,33 +123,19 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-// Bulk import via Excel
 router.post('/import', async (req, res) => {
   try {
     const { name, category, subcategory, price, originalPrice, sizes, label, image } = req.body;
-
-    if (!name || !price) {
-      return res.json({ success: false, message: 'Name and price required' });
-    }
-
+    if (!name || !price) return res.json({ success: false, message: 'Name and price required' });
     const sizeList = sizes || [];
     const sizeStock = {};
     sizeList.forEach(s => { sizeStock[s] = 0; });
-
     const product = new Product({
-      name,
-      category: category || 'mens',
-      subcategory: subcategory || '',
-      price: Number(price),
-      originalPrice: originalPrice ? Number(originalPrice) : undefined,
-      image: image || '',
-      images: image ? [image] : [],
-      label: label || '',
-      sizes: sizeList,
-      sizeStock,
-      inStock: true
+      name, category: category || 'mens', subcategory: subcategory || '',
+      price: Number(price), originalPrice: originalPrice ? Number(originalPrice) : undefined,
+      image: image || '', images: image ? [image] : [],
+      label: label || '', sizes: sizeList, sizeStock, inStock: true
     });
-
     await product.save();
     res.json({ success: true, product });
   } catch (err) {
@@ -169,7 +143,6 @@ router.post('/import', async (req, res) => {
   }
 });
 
-// Reorder products
 router.post('/reorder', async (req, res) => {
   try {
     const { order } = req.body;
