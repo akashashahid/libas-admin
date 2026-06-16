@@ -49,6 +49,13 @@ router.post('/', upload.array('images', 5), async (req, res) => {
       }
     }
 
+    const sizes = req.body.sizes ? req.body.sizes.split(',').map(s => s.trim()).filter(Boolean) : [];
+    let sizeStock = {};
+    if (req.body.sizeStock) {
+      try { sizeStock = JSON.parse(req.body.sizeStock); } catch(e) {}
+    }
+    const inStock = sizes.length === 0 || Object.values(sizeStock).some(v => v > 0);
+
     const product = new Product({
       name: req.body.name,
       category: req.body.category,
@@ -58,8 +65,9 @@ router.post('/', upload.array('images', 5), async (req, res) => {
       image: imageUrls[0] || '',
       images: imageUrls,
       label: req.body.label || '',
-      sizes: req.body.sizes ? req.body.sizes.split(',').map(s => s.trim()) : [],
-      inStock: true
+      sizes,
+      sizeStock,
+      inStock
     });
 
     await product.save();
@@ -85,6 +93,14 @@ router.put('/:id', upload.array('images', 5), async (req, res) => {
       }
     }
 
+    const sizes = req.body.sizes ? req.body.sizes.split(',').map(s => s.trim()).filter(Boolean) : product.sizes;
+    let sizeStock = product.sizeStock ? Object.fromEntries(product.sizeStock) : {};
+    if (req.body.sizeStock) {
+      try { sizeStock = JSON.parse(req.body.sizeStock); } catch(e) {}
+    }
+    const stockValues = Object.values(sizeStock);
+    const inStock = stockValues.length === 0 ? (req.body.inStock !== undefined ? req.body.inStock === 'true' || req.body.inStock === true : product.inStock) : stockValues.some(v => v > 0);
+
     const updatedProduct = await Product.findByIdAndUpdate(
       req.params.id,
       {
@@ -96,8 +112,9 @@ router.put('/:id', upload.array('images', 5), async (req, res) => {
         image: imageUrls[0] || product.image,
         images: imageUrls,
         label: req.body.label !== undefined ? req.body.label : product.label,
-        sizes: req.body.sizes ? req.body.sizes.split(',').map(s => s.trim()) : product.sizes,
-        inStock: req.body.inStock !== undefined ? req.body.inStock : product.inStock
+        sizes,
+        sizeStock,
+        inStock
       },
       { new: true }
     );
@@ -127,6 +144,10 @@ router.post('/import', async (req, res) => {
       return res.json({ success: false, message: 'Name and price required' });
     }
 
+    const sizeList = sizes || [];
+    const sizeStock = {};
+    sizeList.forEach(s => { sizeStock[s] = 0; });
+
     const product = new Product({
       name,
       category: category || 'mens',
@@ -136,7 +157,8 @@ router.post('/import', async (req, res) => {
       image: image || '',
       images: image ? [image] : [],
       label: label || '',
-      sizes: sizes || [],
+      sizes: sizeList,
+      sizeStock,
       inStock: true
     });
 
