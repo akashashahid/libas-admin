@@ -356,19 +356,30 @@ function updateSubcategory(catId, subId, selectedValue = '') {
 function login() {
   const pwd = document.getElementById('passwordInput').value;
   if (pwd === ADMIN_PASSWORD) {
-    document.getElementById('loginWrap').style.display = 'none';
-    document.getElementById('dashboard').style.display = 'block';
-    updateSubcategory('pCategory', 'pSubcategory');
-    loadProducts();
+    localStorage.setItem('adminLoggedIn', '1');
+    showDashboard();
   } else {
     document.getElementById('loginError').style.display = 'block';
   }
 }
 
+function showDashboard() {
+  document.getElementById('loginWrap').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  updateSubcategory('pCategory', 'pSubcategory');
+  loadProducts();
+}
+
 function logout() {
+  localStorage.removeItem('adminLoggedIn');
   document.getElementById('loginWrap').style.display = 'flex';
   document.getElementById('dashboard').style.display = 'none';
   document.getElementById('passwordInput').value = '';
+}
+
+// Auto-login if session was saved
+if (localStorage.getItem('adminLoggedIn') === '1') {
+  showDashboard();
 }
 
 function previewImgs(input) {
