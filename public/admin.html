@@ -123,7 +123,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
   <div class="login-box">
     <div class="login-logo"><span style="font-family:Georgia,serif;font-style:italic;color:#b8860b;">El</span><span style="font-family:Georgia,serif;">bnam</span></div>
     <div class="login-sub">Admin Panel</div>
-    <input type="password" class="login-input" id="passwordInput" placeholder="Enter admin password" onkeypress="if(event.key===&#39;Enter&#39;)login()">
+    <input type="password" class="login-input" id="passwordInput" placeholder="Enter admin password" onkeypress="if(event.key==='Enter')login()">
     <button class="login-btn" onclick="login()">Access Dashboard</button>
     <div class="login-error" id="loginError">Incorrect password!</div>
   </div>
@@ -134,8 +134,8 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
     <div class="topbar-brand"><span style="font-family:Georgia,serif;font-style:italic;color:#b8860b;">El</span><span style="font-family:Georgia,serif;">bnam</span></div>
     <div class="topbar-right">
       <span class="topbar-tag">Admin Panel</span>
-      <button class="logout-btn" onclick="showSection(&#39;products&#39;)" id="tabProducts" style="background:#b8860b;color:#fff;border-color:#b8860b;">Products</button>
-      <button class="logout-btn" onclick="showSection(&#39;orders&#39;)" id="tabOrders">Orders</button>
+      <button class="logout-btn" onclick="showSection('products')" id="tabProducts" style="background:#b8860b;color:#fff;border-color:#b8860b;">Products</button>
+      <button class="logout-btn" onclick="showSection('orders')" id="tabOrders">Orders</button>
       <button class="logout-btn" onclick="toggleImport()">📊 Excel Import</button>
       <button class="logout-btn" onclick="logout()">Logout</button>
     </div>
@@ -153,7 +153,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Category</label>
-          <select class="form-select" id="pCategory" onchange="updateSubcategory(&#39;pCategory&#39;,&#39;pSubcategory&#39;)">
+          <select class="form-select" id="pCategory" onchange="updateSubcategory('pCategory','pSubcategory')">
             <option value="mens">Men's</option>
             <option value="kids">Kids'</option>
             <option value="festive">Festive</option>
@@ -201,7 +201,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
       <div class="form-group">
         <label class="form-label">Product Images (Max 5)</label>
         <input type="file" id="pImage" accept="image/*" multiple="" style="display:none" onchange="previewImgs(this)">
-        <div class="img-preview" onclick="document.getElementById(&#39;pImage&#39;).click()">
+        <div class="img-preview" onclick="document.getElementById('pImage').click()">
           <img id="imgPreview">
           <div class="img-preview-text" id="imgPreviewText">📷 Click to upload images (select multiple)</div>
         </div>
@@ -218,7 +218,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
       <div class="import-row">
         <button class="import-btn outline" onclick="downloadTemplate()">⬇ Download Template</button>
         <input type="file" id="excelFile" accept=".xlsx,.xls" style="display:none" onchange="handleExcelUpload(this)">
-        <button class="import-btn" onclick="document.getElementById(&#39;excelFile&#39;).click()">📂 Select Excel File</button>
+        <button class="import-btn" onclick="document.getElementById('excelFile').click()">📂 Select Excel File</button>
         <span id="excelFileName" style="font-size:12px;color:#999;"></span>
         <button class="import-btn" id="startImportBtn" onclick="startImport()" style="display:none;background:#b8860b;">▶ Start Import</button>
       </div>
@@ -235,10 +235,10 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
         <div style="display:flex;align-items:center;gap:16px;">
           <span class="products-count" id="productsCount">0 products</span>
           <div class="filter-tabs">
-            <button class="filter-tab active" onclick="filterProducts(&#39;all&#39;,this)">All</button>
-            <button class="filter-tab" onclick="filterProducts(&#39;mens&#39;,this)">Men's</button>
-            <button class="filter-tab" onclick="filterProducts(&#39;kids&#39;,this)">Kids'</button>
-            <button class="filter-tab" onclick="filterProducts(&#39;festive&#39;,this)">Festive</button>
+            <button class="filter-tab active" onclick="filterProducts('all',this)">All</button>
+            <button class="filter-tab" onclick="filterProducts('mens',this)">Men's</button>
+            <button class="filter-tab" onclick="filterProducts('kids',this)">Kids'</button>
+            <button class="filter-tab" onclick="filterProducts('festive',this)">Festive</button>
           </div>
         </div>
       </div>
@@ -272,7 +272,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
     <div class="form-row">
       <div class="form-group">
         <label class="form-label">Category</label>
-        <select class="form-select" id="eCategory" onchange="updateSubcategory(&#39;eCategory&#39;,&#39;eSubcategory&#39;)">
+        <select class="form-select" id="eCategory" onchange="updateSubcategory('eCategory','eSubcategory')">
           <option value="mens">Men's</option>
           <option value="kids">Kids'</option>
           <option value="festive">Festive</option>
@@ -320,7 +320,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
     <div class="form-group">
       <label class="form-label">Product Images (Max 5)</label>
       <input type="file" id="eImage" accept="image/*" multiple="" style="display:none" onchange="previewEditImgs(this)">
-      <div class="img-preview" onclick="document.getElementById(&#39;eImage&#39;).click()">
+      <div class="img-preview" onclick="document.getElementById('eImage').click()">
         <img id="eImgPreview">
         <div class="img-preview-text" id="eImgPreviewText">📷 Click to change images</div>
       </div>
@@ -589,7 +589,6 @@ function openEditModal(productId) {
   document.getElementById('ePrice').value = product.price;
   document.getElementById('eOriginalPrice').value = product.originalPrice || '';
   document.getElementById('eSizes').value = product.sizes.join(', ');
-  // Populate stock inputs with existing values
   setTimeout(() => {
     updateStockInputs('eStockInputs', 'eSizes', 'eStockGroup');
     const stockMap = product.sizeStock || {};
