@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<!-- saved from url=(0052)file:///C:/Users/ammar/Downloads/index-elbnam_2.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="en">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Elbnam — Premium Pakistani Clothing | Lahore</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='4' fill='%230a0a0a'/><text x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='Georgia,serif' font-style='italic' font-size='20' font-weight='700' fill='%23b8860b'>E</text></svg>">
-<meta name="description" content="Elbnam offers premium handcrafted Pakistani clothing — Men&#39;s, Kids&#39; and Festive wear made with quality fabrics. Based in Lahore, Pakistan. Order via WhatsApp.">
+<meta name="description" content="Elbnam offers premium handcrafted Pakistani clothing — Men's, Kids' and Festive wear made with quality fabrics. Based in Lahore, Pakistan. Order via WhatsApp.">
 <meta name="keywords" content="Pakistani clothing, premium kurta, shalwar kameez, festive wear, kids clothing, Lahore fashion">
-<link href="./index_files/css2" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Jost:wght@300;400;500;600&family=DM+Mono:ital@0;1&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 :root{--gold:#b8860b;--gold-light:#d4a030;--gold-pale:#f5e8c0;--gold-ultra:#fdf8ee;--black:#0a0a0a;--charcoal:#1a1a1a;--grey:#6b6b6b;--grey-light:#d4d4d4;--grey-ultra:#f8f8f8;--white:#ffffff;--cream:#fdfcf9;}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -17,6 +17,7 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--black);ov
 @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
 @keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+@keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
 
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 40px;display:flex;align-items:center;justify-content:space-between;background:rgba(253,252,249,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(184,134,11,0.15);}
@@ -26,8 +27,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 40px;display:fl
 .cart-btn{position:relative;cursor:pointer;font-size:20px;background:none;border:none;padding:4px;}
 #cartCount{position:absolute;top:-6px;right:-6px;background:var(--gold);color:var(--white);border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;}
 
+/* MARQUEE */
+.marquee-wrap{padding:18px 0;background:var(--gold);overflow:hidden;white-space:nowrap;}
+.marquee-track{display:inline-flex;animation:marquee 20s linear infinite;}
+.marquee-item{font-family:'Cormorant Garamond',serif;font-size:12px;font-style:italic;color:var(--white);letter-spacing:3px;padding:0 28px;}
+
 /* HERO */
-.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 20px 60px;text-align:center;position:relative;overflow:hidden;}
+.hero{min-height:75vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px 60px;text-align:center;position:relative;overflow:hidden;background:linear-gradient(135deg,#fdfcf9 0%,#f5e8c0 55%,#fdf8ee 100%);}
 .hero::before{content:'ELBNAM';position:absolute;font-family:'Cormorant Garamond',serif;font-size:clamp(100px,30vw,380px);font-weight:700;color:rgba(184,134,11,0.04);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap;letter-spacing:-10px;}
 .hero-line{width:1px;height:50px;background:linear-gradient(to bottom,transparent,var(--gold));margin:0 auto 24px;opacity:0;animation:fadeIn 1s ease 0.2s forwards;}
 .hero-eyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;margin-bottom:20px;opacity:0;animation:fadeUp 0.8s ease 0.3s forwards;}
@@ -51,11 +57,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 40px;display:fl
 .stat-num{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--black);line-height:1;}
 .stat-num span{font-size:18px;color:var(--gold);}
 .stat-label{font-size:9px;letter-spacing:2px;color:var(--grey);text-transform:uppercase;margin-top:4px;}
-
-/* MARQUEE */
-.marquee-wrap{padding:18px 0;background:var(--gold);overflow:hidden;white-space:nowrap;}
-.marquee-track{display:inline-flex;animation:marquee 20s linear infinite;}
-.marquee-item{font-family:'Cormorant Garamond',serif;font-size:12px;font-style:italic;color:var(--white);letter-spacing:3px;padding:0 28px;}
 
 /* TRUST SIGNALS */
 .trust-section{background:var(--black);padding:48px 20px;}
@@ -87,6 +88,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 40px;display:fl
 .product-label{position:absolute;top:12px;left:12px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;padding:4px 10px;text-transform:uppercase;}
 .product-label.new{background:var(--black);color:var(--white);}
 .product-label.sale{background:var(--gold);color:var(--white);}
+.product-label.hot{background:#c62828;color:var(--white);}
 .product-info{padding:16px;}
 .product-cat{font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:6px;}
 .product-name{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--black);margin-bottom:8px;}
@@ -210,18 +212,32 @@ footer{background:var(--black);color:var(--white);padding:60px 20px 30px;}
 }
 </style>
 </head>
-<body style="">
+<body>
 
 <nav>
-  <a href="file:///C:/Users/ammar/Downloads/index-elbnam_2.html#" class="nav-brand"><span class="brand-el">El</span><span class="brand-bnam">bnam</span></a>
-  <button class="cart-btn" onclick="openCart()">🛒 <span id="cartCount">1</span></button>
+  <a href="#" class="nav-brand"><span class="brand-el">El</span><span class="brand-bnam">bnam</span></a>
+  <button class="cart-btn" onclick="openCart()">🛒 <span id="cartCount">0</span></button>
 </nav>
+
+<!-- Marquee above hero, margin-top clears fixed nav -->
+<div class="marquee-wrap" style="margin-top:78px;">
+  <div class="marquee-track">
+    <div class="marquee-item">✦ Premium Fabrics ✦</div>
+    <div class="marquee-item">✦ Elegant Designs ✦</div>
+    <div class="marquee-item">✦ Fast Delivery ✦</div>
+    <div class="marquee-item">✦ Easy Returns ✦</div>
+    <div class="marquee-item">✦ Premium Fabrics ✦</div>
+    <div class="marquee-item">✦ Elegant Designs ✦</div>
+    <div class="marquee-item">✦ Fast Delivery ✦</div>
+    <div class="marquee-item">✦ Easy Returns ✦</div>
+  </div>
+</div>
 
 <div class="hero">
   <div class="hero-line"></div>
   <div class="hero-eyebrow">Lahore · Pakistan</div>
   <div style="margin-bottom:16px;opacity:0;animation:fadeUp 1s ease 0.35s forwards;">
-    <span style="font-family:&#39;Playfair Display&#39;,serif;font-style:italic;font-weight:400;color:var(--gold);font-size:clamp(52px,10vw,110px);line-height:1;">El</span><span style="font-family:&#39;Playfair Display&#39;,serif;font-style:normal;font-weight:400;color:var(--black);font-size:clamp(52px,10vw,110px);letter-spacing:3px;line-height:1;">bnam</span>
+    <span style="font-family:'Playfair Display',serif;font-style:italic;font-weight:400;color:var(--gold);font-size:clamp(52px,10vw,110px);line-height:1;">El</span><span style="font-family:'Playfair Display',serif;font-style:normal;font-weight:400;color:var(--black);font-size:clamp(52px,10vw,110px);letter-spacing:3px;line-height:1;">bnam</span>
   </div>
   <div class="hero-subtitle">Curated for the Discerning</div>
   <div class="hero-divider">
@@ -232,23 +248,12 @@ footer{background:var(--black);color:var(--white);padding:60px 20px 30px;}
   <p class="hero-desc">From everyday elegance to festive grandeur — Elbnam brings you handcrafted Pakistani clothing made with premium fabrics and timeless designs.</p>
   <div class="hero-btns">
     <button class="btn-gold" onclick="scrollToProducts()">Shop Collection</button>
-    <button class="btn-outline" onclick="window.open(&#39;https://wa.me/923104508143&#39;,&#39;_blank&#39;)">WhatsApp Us</button>
+    <button class="btn-outline" onclick="window.open('https://wa.me/923104508143','_blank')">WhatsApp Us</button>
   </div>
   <div class="stats-bar">
     <div class="stat-item"><div class="stat-num">3<span>+</span></div><div class="stat-label">Collections</div></div>
-    <div class="stat-item"><div class="stat-num" id="productCount">7</div><div class="stat-label">Products</div></div>
+    <div class="stat-item"><div class="stat-num" id="productCount">—</div><div class="stat-label">Products</div></div>
     <div class="stat-item"><div class="stat-num">100<span>%</span></div><div class="stat-label">Premium Quality</div></div>
-  </div>
-</div>
-
-<div class="marquee-wrap">
-  <div class="marquee-track">
-    <div class="marquee-item">✦ Premium Fabrics ✦</div>
-    <div class="marquee-item">✦ Elegant Designs ✦</div>
-    <div class="marquee-item">✦ Fast Delivery ✦</div>
-    <div class="marquee-item">✦ Easy Returns ✦</div>
-    <div class="marquee-item">✦ Premium Fabrics ✦</div>
-    <div class="marquee-item">✦ Elegant Designs ✦</div>
   </div>
 </div>
 
@@ -261,115 +266,20 @@ footer{background:var(--black);color:var(--white);padding:60px 20px 30px;}
   </div>
 </div>
 
-<div class="category-filter" id="categoryFilter"><button class="filter-btn active" onclick="filterByCategory(&#39;all&#39;,this)">All Products</button><button class="filter-btn " onclick="filterByCategory(&#39;mens&#39;,this)">Mens</button><button class="filter-btn " onclick="filterByCategory(&#39;kids&#39;,this)">Kids</button><button class="filter-btn " onclick="filterByCategory(&#39;festive&#39;,this)">Festive</button></div>
+<div class="category-filter" id="categoryFilter">
+  <button class="filter-btn active" onclick="filterByCategory('all',this)">All Products</button>
+  <button class="filter-btn" onclick="filterByCategory('mens',this)">Mens</button>
+  <button class="filter-btn" onclick="filterByCategory('kids',this)">Kids</button>
+  <button class="filter-btn" onclick="filterByCategory('festive',this)">Festive</button>
+</div>
 <div style="display:none;flex-wrap:wrap;gap:8px;justify-content:center;padding:0 20px 16px;" id="subcategoryFilter"></div>
 
 <div class="section" style="background:var(--grey-ultra);">
   <h2 class="section-title">Featured <em>Products</em></h2>
   <div id="productsContainer" class="product-grid">
-    <div class="product-card">
-      <div class="product-img">
-        <div class="product-label hot">Hot</div>
-        <img src="./index_files/z981c134ydr24mt3ag7o.jpg" alt="Holly Green" style="cursor:pointer;" onclick="openProductPanel(&#39;6a1565ba51556a85e438b6ba&#39;)">
-      </div>
-      <div class="product-info">
-        <div class="product-cat">kids</div>
-        <div class="product-name">Holly Green</div>
-        <div class="product-price">PKR 1,200<del>PKR 2,000</del></div>
-        <div class="product-sizes"><span class="size-tag">S</span><span class="size-tag">M</span><span class="size-tag">L</span></div>
-        <div class="product-line"></div>
-        <button class="quick-view-btn" onclick="openProductPanel(&#39;6a1565ba51556a85e438b6ba&#39;)">Quick View</button>
-      </div>
-    </div>
-  
-    <div class="product-card">
-      <div class="product-img">
-        <div class="product-label sale">Sale</div>
-        <img src="./index_files/caxssuwt5gzwujzxirzb.webp" alt="Blue Ocean" style="cursor:pointer;" onclick="openProductPanel(&#39;6a1565e451556a85e438b6bb&#39;)">
-      </div>
-      <div class="product-info">
-        <div class="product-cat">kids</div>
-        <div class="product-name">Blue Ocean</div>
-        <div class="product-price">PKR 1,400</div>
-        <div class="product-sizes"><span class="size-tag">XL</span></div>
-        <div class="product-line"></div>
-        <button class="quick-view-btn" onclick="openProductPanel(&#39;6a1565e451556a85e438b6bb&#39;)">Quick View</button>
-      </div>
-    </div>
-  
-    <div class="product-card">
-      <div class="product-img">
-        <div class="product-label sale">Sale</div>
-        <img src="./index_files/ja635fb0owxamovolijz.jpg" alt="White eagle" style="cursor:pointer;" onclick="openProductPanel(&#39;6a15661251556a85e438b6bc&#39;)">
-      </div>
-      <div class="product-info">
-        <div class="product-cat">kids</div>
-        <div class="product-name">White eagle</div>
-        <div class="product-price">PKR 900</div>
-        <div class="product-sizes"><span class="size-tag">S</span><span class="size-tag">L</span><span class="size-tag">XL</span></div>
-        <div class="product-line"></div>
-        <button class="quick-view-btn" onclick="openProductPanel(&#39;6a15661251556a85e438b6bc&#39;)">Quick View</button>
-      </div>
-    </div>
-  
-    <div class="product-card">
-      <div class="product-img">
-        <div class="product-label new">New</div>
-        <img src="./index_files/ute6luabs67xfajnoxfr.jpg" alt="Casual Fit" style="cursor:pointer;" onclick="openProductPanel(&#39;6a15667051556a85e438b6bd&#39;)">
-      </div>
-      <div class="product-info">
-        <div class="product-cat">kids</div>
-        <div class="product-name">Casual Fit</div>
-        <div class="product-price">PKR 5,000</div>
-        <div class="product-sizes"><span class="size-tag">S</span><span class="size-tag">M</span><span class="size-tag">L</span></div>
-        <div class="product-line"></div>
-        <button class="quick-view-btn" onclick="openProductPanel(&#39;6a15667051556a85e438b6bd&#39;)">Quick View</button>
-      </div>
-    </div>
-  
-    <div class="product-card">
-      <div class="product-img">
-        <div class="product-label new">New</div>
-        <img src="./index_files/llwz3aniq7ppozx846yj.jpg" alt="Girls" style="cursor:pointer;" onclick="openProductPanel(&#39;6a1567f751556a85e438b6be&#39;)">
-      </div>
-      <div class="product-info">
-        <div class="product-cat">festive</div>
-        <div class="product-name">Girls</div>
-        <div class="product-price">PKR 14,000</div>
-        <div class="product-sizes"><span class="size-tag">S</span></div>
-        <div class="product-line"></div>
-        <button class="quick-view-btn" onclick="openProductPanel(&#39;6a1567f751556a85e438b6be&#39;)">Quick View</button>
-      </div>
-    </div>
-  
-    <div class="product-card">
-      <div class="product-img">
-        <div class="product-label sale">Sale</div>
-        <img src="./index_files/hkexrewgkytptwuiihdg.jpg" alt="Shalwar Qameez" style="cursor:pointer;" onclick="openProductPanel(&#39;6a19055987f5900236535e5b&#39;)">
-      </div>
-      <div class="product-info">
-        <div class="product-cat">mens</div>
-        <div class="product-name">Shalwar Qameez</div>
-        <div class="product-price">PKR 3,000<del>PKR 2,500</del></div>
-        <div class="product-sizes"><span class="size-tag">L</span></div>
-        <div class="product-line"></div>
-        <button class="quick-view-btn" onclick="openProductPanel(&#39;6a19055987f5900236535e5b&#39;)">Quick View</button>
-      </div>
-    </div>
-  
-    <div class="product-card">
-      <div class="product-img">
-        <div class="product-label sale">Sale</div>
-        <img src="./index_files/ogqxzqerv5kxkqvqhng2.png" alt="Kurta" style="cursor:pointer;" onclick="openProductPanel(&#39;6a1ac2405c894835524ad79c&#39;)">
-      </div>
-      <div class="product-info">
-        <div class="product-cat">kids</div>
-        <div class="product-name">Kurta</div>
-        <div class="product-price">PKR 3<del>PKR 3</del></div>
-        
-        <div class="product-line"></div>
-        <button class="quick-view-btn" onclick="openProductPanel(&#39;6a1ac2405c894835524ad79c&#39;)">Quick View</button>
-      </div>
+    <div class="loading" style="grid-column:1/-1;padding:60px 20px;text-align:center;">
+      <div style="width:36px;height:36px;border:3px solid #f0f0f0;border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px;"></div>
+      <div style="font-size:13px;color:var(--grey);">Loading products...</div>
     </div>
   </div>
 </div>
@@ -407,7 +317,7 @@ footer{background:var(--black);color:var(--white);padding:60px 20px 30px;}
 <!-- BRAND STORY -->
 <div class="brand-story">
   <div class="brand-story-inner">
-    <div style="font-family:&#39;DM Mono&#39;,monospace;font-size:9px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;margin-bottom:20px;">Our Story</div>
+    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;margin-bottom:20px;">Our Story</div>
     <h2 class="section-title" style="margin-bottom:20px;">Born from a <em>Love of Craft</em></h2>
     <div style="width:36px;height:1px;background:var(--gold);margin:0 auto 28px;"></div>
     <p style="font-size:14px;line-height:2;color:var(--grey);margin-bottom:20px;">Elbnam was founded with a simple yet powerful belief — that every Pakistani deserves to wear clothing that reflects their heritage, elegance, and identity. We are a Lahore-based brand that blends traditional craftsmanship with modern design sensibilities.</p>
@@ -432,14 +342,14 @@ footer{background:var(--black);color:var(--white);padding:60px 20px 30px;}
 
 <!-- INSTAGRAM -->
 <div class="insta-section">
-  <div style="font-family:&#39;DM Mono&#39;,monospace;font-size:9px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;margin-bottom:14px;">Follow Us</div>
+  <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;margin-bottom:14px;">Follow Us</div>
   <h2 class="section-title" style="margin-bottom:14px;">Find Us on <em>Instagram</em></h2>
   <p style="font-size:13px;color:var(--grey);margin-bottom:28px;">Stay updated with our latest collections and exclusive offers.</p>
   <a href="https://instagram.com/" target="_blank" style="display:inline-flex;align-items:center;gap:10px;background:var(--black);color:var(--white);padding:14px 32px;font-size:10px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;">📸 Follow @elbnam</a>
 </div>
 
 <footer>
-  <div class="footer-brand"><span style="font-family:&#39;Playfair Display&#39;,serif;font-style:italic;font-weight:400;font-size:32px;color:var(--gold);">El</span><span style="font-family:&#39;Playfair Display&#39;,serif;font-style:normal;font-weight:400;font-size:32px;color:var(--white);letter-spacing:2px;">bnam</span></div>
+  <div class="footer-brand"><span style="font-family:'Playfair Display',serif;font-style:italic;font-weight:400;font-size:32px;color:var(--gold);">El</span><span style="font-family:'Playfair Display',serif;font-style:normal;font-weight:400;font-size:32px;color:var(--white);letter-spacing:2px;">bnam</span></div>
   <div class="footer-grid">
     <div class="footer-col">
       <h3>Contact</h3>
@@ -448,9 +358,9 @@ footer{background:var(--black);color:var(--white);padding:60px 20px 30px;}
     </div>
     <div class="footer-col">
       <h3>Collections</h3>
-      <a href="file:///C:/Users/ammar/Downloads/index-elbnam_2.html#">Men's Wear</a><br>
-      <a href="file:///C:/Users/ammar/Downloads/index-elbnam_2.html#">Kids' Wear</a><br>
-      <a href="file:///C:/Users/ammar/Downloads/index-elbnam_2.html#">Festive Wear</a>
+      <a href="#">Men's Wear</a><br>
+      <a href="#">Kids' Wear</a><br>
+      <a href="#">Festive Wear</a>
     </div>
     <div class="footer-col">
       <h3>About Us</h3>
@@ -467,17 +377,17 @@ footer{background:var(--black);color:var(--white);padding:60px 20px 30px;}
 <div id="panelOverlay" class="panel-overlay" onclick="closePanel()"></div>
 <div id="sidePanel" class="side-panel">
   <div class="panel-header">
-    <div class="panel-title" id="panelProductName">Blue Ocean</div>
+    <div class="panel-title" id="panelProductName"></div>
     <button class="panel-close" onclick="closePanel()">✕</button>
   </div>
   <div class="panel-body">
-    <div class="product-detail-img" id="panelProductImg"><img src="./index_files/caxssuwt5gzwujzxirzb.webp" alt="Blue Ocean" id="mainImage"></div>
-    <div id="imageGallery" style="display: none; gap: 8px; overflow-x: auto; padding: 8px 0px; margin-bottom: 14px; scrollbar-width: thin;"></div>
-    <div class="detail-cat" id="panelProductCat">KIDS</div>
-    <div class="detail-price" id="panelProductPrice">PKR 1,400</div>
+    <div class="product-detail-img" id="panelProductImg"><img src="" alt="" id="mainImage"></div>
+    <div id="imageGallery" style="display:none;gap:8px;overflow-x:auto;padding:8px 0;margin-bottom:14px;scrollbar-width:thin;"></div>
+    <div class="detail-cat" id="panelProductCat"></div>
+    <div class="detail-price" id="panelProductPrice"></div>
     <div style="margin:18px 0;">
       <label class="size-label">Select Size</label>
-      <div class="size-buttons" id="sizeWrap"><button class="size-btn active">XL</button></div>
+      <div class="size-buttons" id="sizeWrap"></div>
     </div>
     <div style="border-top:1px solid var(--grey-light);padding-top:16px;">
       <label style="display:block;font-size:11px;font-weight:600;color:var(--black);margin-bottom:10px;letter-spacing:1px;text-transform:uppercase;">Quantity</label>
@@ -488,7 +398,7 @@ footer{background:var(--black);color:var(--white);padding:60px 20px 30px;}
       </div>
     </div>
     <div class="action-buttons">
-      <button class="btn-full" onclick="addToCart()">Add to Cart</button>
+      <button class="btn-full" id="addToCartBtn" onclick="addToCart()">Add to Cart</button>
       <button class="btn-full secondary" onclick="orderNowWhatsApp()">Order via WhatsApp</button>
     </div>
   </div>
@@ -502,10 +412,10 @@ footer{background:var(--black);color:var(--white);padding:60px 20px 30px;}
     <button class="panel-close" onclick="closeCart()">✕</button>
   </div>
   <div class="panel-body">
-    <div id="cartItems"><div class="cart-item"><div class="cart-item-info"><div class="cart-item-name">Blue Ocean</div><div class="cart-item-meta">kids · Size: XL · Qty: 1</div><div class="cart-item-price">PKR 1,400</div></div><button class="cart-item-remove" onclick="removeItem(0)">✕</button></div></div>
-    <div id="cartFooter" style="display: block;">
+    <div id="cartItems"></div>
+    <div id="cartFooter" style="display:none;">
       <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:600;margin:20px 0;padding-top:16px;border-top:1px solid var(--grey-light);">
-        <span>Total:</span><span id="cartTotal" style="color:var(--gold);">PKR 1,400</span>
+        <span>Total:</span><span id="cartTotal" style="color:var(--gold);"></span>
       </div>
       <div class="action-buttons">
         <button class="btn-full" onclick="openCheckoutForm()">Proceed to Checkout</button>
@@ -525,20 +435,18 @@ footer{background:var(--black);color:var(--white);padding:60px 20px 30px;}
   <div class="panel-body">
     <div style="font-size:11px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:20px;">Order Details</div>
     <div id="checkoutOrderSummary" style="background:var(--grey-ultra);padding:16px;margin-bottom:20px;font-size:12px;line-height:1.8;"></div>
-    
     <div style="font-size:11px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:16px;">Your Information</div>
-    
     <div style="margin-bottom:14px;">
       <label style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--grey);display:block;margin-bottom:6px;">Full Name *</label>
-      <input id="coName" type="text" placeholder="e.g. Ahmed Khan" style="width:100%;padding:12px;border:1px solid var(--grey-light);font-family:&#39;Jost&#39;,sans-serif;font-size:13px;outline:none;background:var(--white);">
+      <input id="coName" type="text" placeholder="e.g. Ahmed Khan" style="width:100%;padding:12px;border:1px solid var(--grey-light);font-family:'Jost',sans-serif;font-size:13px;outline:none;background:var(--white);">
     </div>
     <div style="margin-bottom:14px;">
       <label style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--grey);display:block;margin-bottom:6px;">Phone Number *</label>
-      <input id="coPhone" type="tel" placeholder="e.g. 0310 1234567" style="width:100%;padding:12px;border:1px solid var(--grey-light);font-family:&#39;Jost&#39;,sans-serif;font-size:13px;outline:none;background:var(--white);">
+      <input id="coPhone" type="tel" placeholder="e.g. 0310 1234567" style="width:100%;padding:12px;border:1px solid var(--grey-light);font-family:'Jost',sans-serif;font-size:13px;outline:none;background:var(--white);">
     </div>
     <div style="margin-bottom:14px;">
       <label style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--grey);display:block;margin-bottom:6px;">Delivery Address *</label>
-      <textarea id="coAddress" placeholder="House/Flat no, Street, Area, City" style="width:100%;padding:12px;border:1px solid var(--grey-light);font-family:&#39;Jost&#39;,sans-serif;font-size:13px;outline:none;background:var(--white);height:80px;resize:none;"></textarea>
+      <textarea id="coAddress" placeholder="House/Flat no, Street, Area, City" style="width:100%;padding:12px;border:1px solid var(--grey-light);font-family:'Jost',sans-serif;font-size:13px;outline:none;background:var(--white);height:80px;resize:none;"></textarea>
     </div>
     <div style="margin-bottom:24px;">
       <label style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--grey);display:block;margin-bottom:6px;">Payment Method</label>
@@ -553,9 +461,9 @@ footer{background:var(--black);color:var(--white);padding:60px 20px 30px;}
 <div id="orderSuccess" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:300;align-items:center;justify-content:center;">
   <div style="background:var(--white);padding:48px 32px;text-align:center;max-width:340px;width:90%;">
     <div style="font-size:48px;margin-bottom:16px;">✅</div>
-    <h3 style="font-family:&#39;Cormorant Garamond&#39;,serif;font-size:24px;margin-bottom:12px;">Order Placed!</h3>
+    <h3 style="font-family:'Cormorant Garamond',serif;font-size:24px;margin-bottom:12px;">Order Placed!</h3>
     <p style="font-size:13px;color:var(--grey);line-height:1.8;margin-bottom:24px;">Thank you for your order. Our team will contact you on WhatsApp shortly to confirm.</p>
-    <button class="btn-full" onclick="document.getElementById(&#39;orderSuccess&#39;).style.display=&#39;none&#39;;">Continue Shopping</button>
+    <button class="btn-full" onclick="document.getElementById('orderSuccess').style.display='none';">Continue Shopping</button>
   </div>
 </div>
 
@@ -569,15 +477,28 @@ const API_URL='https://libas-admin.onrender.com/api/products';
 let allProducts=[],cart=[],currentProduct=null,selectedSize=null,currentQty=1,activeCategory='all',activeSubcategory='';
 const SUBCATEGORIES={mens:['Shirts','Pants','Kurta','Waistcoat','Shalwar Kameez'],kids:['Shirts','Pants','Frocks','Suits','Shalwar Kameez'],festive:['Sherwani','Kurta','Lehenga','Saree','Gharara']};
 
-async function loadProducts(){
+async function loadProducts(retryCount){
+  retryCount=retryCount||0;
+  const container=document.getElementById('productsContainer');
+  if(retryCount===0){
+    container.innerHTML='<div style="grid-column:1/-1;padding:60px 20px;text-align:center;"><div style="width:36px;height:36px;border:3px solid #f0f0f0;border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px;"></div><div style="font-size:13px;color:var(--grey);">Loading products...</div></div>';
+  }
   try{
     const res=await fetch(API_URL);
+    if(!res.ok)throw new Error('HTTP '+res.status);
     allProducts=await res.json();
+    if(!Array.isArray(allProducts))throw new Error('Bad response');
     document.getElementById('productCount').textContent=allProducts.length;
     renderProducts(allProducts);
     renderCategoryFilter();
   }catch(err){
-    document.getElementById('productsContainer').innerHTML='<div class="loading">Failed to load products</div>';
+    if(retryCount<3){
+      const delay=Math.pow(2,retryCount)*1500;
+      container.innerHTML='<div style="grid-column:1/-1;padding:60px 20px;text-align:center;color:var(--grey);font-size:13px;">Connecting'+(retryCount>0?' (attempt '+(retryCount+1)+')':'')+' — retrying in '+Math.round(delay/1000)+'s…</div>';
+      setTimeout(function(){loadProducts(retryCount+1);},delay);
+    }else{
+      container.innerHTML='<div style="grid-column:1/-1;padding:60px 20px;text-align:center;"><div style="font-size:13px;color:var(--grey);margin-bottom:16px;">Could not load products</div><button onclick="loadProducts(0)" style="padding:10px 24px;background:var(--gold);color:#fff;border:none;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">Try Again</button></div>';
+    }
   }
 }
 
@@ -622,12 +543,12 @@ function renderProducts(products){
     const oos=!p.inStock;
     const stockMap=p.sizeStock||{};
     const sizeTags=p.sizes&&p.sizes.length?p.sizes.map(s=>{
-      const qty=stockMap[s]??null;
+      const qty=stockMap[s]!=null?stockMap[s]:null;
       const sOos=qty!==null&&qty===0;
       return `<span class="size-tag" style="${sOos?'opacity:0.35;text-decoration:line-through;':''}">${s}</span>`;
     }).join(''):'';
     return `
-    <div class="product-card" style="${oos?'opacity:0.8;':'}">
+    <div class="product-card" style="${oos?'opacity:0.85;':''}">
       <div class="product-img" style="position:relative;">
         ${p.label&&!oos?`<div class="product-label ${p.label.toLowerCase()}">${p.label}</div>`:''}
         ${oos?`<div style="position:absolute;inset:0;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;z-index:2;"><span style="background:#e53935;color:#fff;font-size:9px;letter-spacing:2px;padding:5px 14px;text-transform:uppercase;">Out of Stock</span></div>`:''}
@@ -639,10 +560,10 @@ function renderProducts(products){
         <div class="product-price">PKR ${p.price.toLocaleString()}${p.originalPrice?`<del>PKR ${p.originalPrice.toLocaleString()}</del>`:''}</div>
         ${sizeTags?`<div class="product-sizes">${sizeTags}</div>`:''}
         <div class="product-line"></div>
-        <button class="quick-view-btn" ${oos?'disabled style="background:#ccc;cursor:not-allowed;"':''} onclick="${oos?'':'openProductPanel(\''+p._id+'\')'}">${oos?'Out of Stock':'Quick View'}</button>
+        <button class="quick-view-btn" ${oos?'disabled style="background:#ccc;cursor:not-allowed;"':''} ${oos?'':`onclick="openProductPanel('${p._id}')"`}>${oos?'Out of Stock':'Quick View'}</button>
       </div>
-    </div>
-  `}).join('');
+    </div>`;
+  }).join('');
 }
 
 function openProductPanel(id){
@@ -662,13 +583,13 @@ function openProductPanel(id){
   document.getElementById('qtyNum').textContent='1';
   const sw=document.getElementById('sizeWrap');sw.innerHTML='';
   const stockMap=currentProduct.sizeStock||{};
-  const allOos=currentProduct.sizes.length>0&&currentProduct.sizes.every(s=>(stockMap[s]??null)===0);
-  currentProduct.sizes.forEach(size=>{
-    const qty=stockMap[size]??null;
+  const allOos=currentProduct.sizes.length>0&&currentProduct.sizes.every(s=>(stockMap[s]!=null?stockMap[s]:1)===0);
+  currentProduct.sizes.forEach(function(size){
+    const qty=stockMap[size]!=null?stockMap[size]:null;
     const sOos=qty!==null&&qty===0;
     const btn=document.createElement('button');
-    btn.className='size-btn'+(sOos?' oos-size':'');
-    btn.textContent=size+(sOos?' ✕':'');
+    btn.className='size-btn';
+    btn.textContent=size;
     btn.disabled=sOos;
     if(sOos){btn.style.cssText='opacity:0.35;cursor:not-allowed;text-decoration:line-through;';}
     btn.onclick=function(){
@@ -680,16 +601,12 @@ function openProductPanel(id){
     };
     sw.appendChild(btn);
   });
-  // Show OOS message and disable add to cart if all sizes OOS
-  const addCartBtn=document.querySelector('.action-buttons .btn-full');
-  if(addCartBtn){
-    if(allOos){
-      addCartBtn.disabled=true;addCartBtn.style.background='#ccc';addCartBtn.style.cursor='not-allowed';
-      addCartBtn.textContent='Out of Stock';
-    }else{
-      addCartBtn.disabled=false;addCartBtn.style.background='';addCartBtn.style.cursor='';
-      addCartBtn.textContent='Add to Cart';
-    }
+  const addBtn=document.getElementById('addToCartBtn');
+  if(addBtn){
+    addBtn.disabled=allOos;
+    addBtn.style.background=allOos?'#ccc':'';
+    addBtn.style.cursor=allOos?'not-allowed':'';
+    addBtn.textContent=allOos?'Out of Stock':'Add to Cart';
   }
   document.getElementById('panelOverlay').classList.add('open');
   document.getElementById('sidePanel').classList.add('open');
@@ -697,10 +614,11 @@ function openProductPanel(id){
 }
 
 function closePanel(){document.getElementById('panelOverlay').classList.remove('open');document.getElementById('sidePanel').classList.remove('open');document.body.style.overflow='';}
+
 function changeQty(d){
   const stockMap=currentProduct&&currentProduct.sizeStock?currentProduct.sizeStock:{};
   const maxStock=selectedSize&&stockMap[selectedSize]!=null?stockMap[selectedSize]:999;
-  currentQty=Math.min(maxStock,Math.max(1,currentQty+d));
+  currentQty=Math.min(maxStock||1,Math.max(1,currentQty+d));
   document.getElementById('qtyNum').textContent=currentQty;
 }
 
@@ -711,7 +629,7 @@ function addToCart(){
   const ex=cart.find(i=>i._id===currentProduct._id&&i.size===selectedSize);
   const inCart=ex?ex.qty:0;
   if(inCart+currentQty>available){
-    alert(`Only ${available} unit(s) available in size ${selectedSize}. You already have ${inCart} in your cart.`);
+    alert('Only '+available+' unit(s) available in size '+selectedSize+'. You already have '+inCart+' in your cart.');
     return;
   }
   if(ex)ex.qty+=currentQty;
@@ -732,7 +650,7 @@ function closeCart(){document.getElementById('cartOverlay').classList.remove('op
 
 function renderCart(){
   const c=document.getElementById('cartItems'),f=document.getElementById('cartFooter');
-  if(!cart.length){c.innerHTML='<div class="cart-empty" style="text-align:center;padding:40px 20px;color:var(--grey);">🛒<br><br>Your cart is empty</div>';f.style.display='none';return;}
+  if(!cart.length){c.innerHTML='<div class="cart-empty">🛒<br><br>Your cart is empty</div>';f.style.display='none';return;}
   f.style.display='block';
   let total=0;
   c.innerHTML=cart.map((item,i)=>{total+=item.priceNum*item.qty;return`<div class="cart-item"><div class="cart-item-info"><div class="cart-item-name">${item.name}</div><div class="cart-item-meta">${item.cat} · Size: ${item.size} · Qty: ${item.qty}</div><div class="cart-item-price">PKR ${(item.priceNum*item.qty).toLocaleString()}</div></div><button class="cart-item-remove" onclick="removeItem(${i})">✕</button></div>`;}).join('');
@@ -743,7 +661,7 @@ function removeItem(i){cart.splice(i,1);updateCartCount();renderCart();}
 
 function openCheckoutForm(){
   let summary='',total=0;
-  cart.forEach((item,i)=>{
+  cart.forEach(item=>{
     summary+=`<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #eee;"><span>${item.name} (${item.size}) x${item.qty}</span><span style="font-weight:600;">PKR ${(item.priceNum*item.qty).toLocaleString()}</span></div>`;
     total+=item.priceNum*item.qty;
   });
@@ -766,31 +684,17 @@ async function placeOrder(){
   const phone=document.getElementById('coPhone').value.trim();
   const address=document.getElementById('coAddress').value.trim();
   if(!name||!phone||!address){alert('Please fill all required fields!');return;}
-  
   const orderData={
-    customerName:name,
-    phone,
-    address,
+    customerName:name,phone,address,
     items:cart.map(i=>({productId:i._id,name:i.name,category:i.cat,size:i.size,qty:i.qty,price:i.priceNum})),
     total:cart.reduce((s,i)=>s+i.priceNum*i.qty,0),
-    payment:'COD',
-    status:'Pending',
-    date:new Date().toISOString()
+    payment:'COD',status:'Pending',date:new Date().toISOString()
   };
-
   try{
-    const orderRes=await fetch('https://libas-admin.onrender.com/api/orders',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(orderData)
-    });
+    const orderRes=await fetch('https://libas-admin.onrender.com/api/orders',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(orderData)});
     const orderJson=await orderRes.json();
-    if(!orderJson.success){
-      alert(orderJson.error||'Could not place order. Please try again.');
-      return;
-    }
-  }catch(e){console.log('Order save error',e);}
-
+    if(!orderJson.success){alert(orderJson.error||'Could not place order. Please try again.');return;}
+  }catch(e){console.log('Order error',e);}
   closeCheckout();
   cart=[];updateCartCount();
   document.getElementById('orderSuccess').style.display='flex';
@@ -808,5 +712,5 @@ function scrollToProducts(){document.querySelector('.category-filter').scrollInt
 loadProducts();
 </script>
 
-
-</body></html>
+</body>
+</html>
