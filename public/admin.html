@@ -128,11 +128,11 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
   </div>
 
   <div class="import-section" id="importSection">
-    <div class="import-title">Bulk Import via <span>Excel</span></div>
+    <div class="import-title">Bulk Import via <span>Excel / CSV</span></div>
     <div class="import-row">
-      <button class="import-btn outline" onclick="downloadTemplate()">&#11015; Download Template</button>
-      <input type="file" id="excelFile" accept=".xlsx,.xls" style="display:none" onchange="handleExcelUpload(this)">
-      <button class="import-btn" onclick="document.getElementById('excelFile').click()">&#128194; Select Excel File</button>
+      <button class="import-btn outline" onclick="downloadInventoryReport()">&#11015; Inventory Report</button>
+      <input type="file" id="excelFile" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleExcelUpload(this)">
+      <button class="import-btn" onclick="document.getElementById('excelFile').click()">&#128194; Select File (.xlsx / .csv)</button>
       <span id="excelFileName" style="font-size:12px;color:#999;"></span>
       <button class="import-btn" id="startImportBtn" onclick="startImport()" style="display:none;background:#b8860b;">&#9654; Start Import</button>
     </div>
@@ -239,7 +239,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
             <button class="import-btn outline" onclick="downloadOrderTemplate()">&#11015; Download Sample</button>
             <input type="file" id="orderExcelFile" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleOrderExcelUpload(this)">
-            <button class="import-btn" onclick="document.getElementById('orderExcelFile').click()">&#128194; Select Excel File</button>
+            <button class="import-btn" onclick="document.getElementById('orderExcelFile').click()">&#128194; Select File (.xlsx / .csv)</button>
             <span id="orderExcelFileName" style="font-size:12px;color:#999;"></span>
             <button class="import-btn" id="startOrderImportBtn" onclick="startOrderImport()" style="display:none;background:#b8860b;">&#9654; Import Orders</button>
           </div>
@@ -262,7 +262,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
 
 <div class="modal" id="editModal">
   <div class="modal-content">
-    <button class="modal-close" onclick="closeEditModal()">✕</button>
+    <button class="modal-close" onclick="closeEditModal()">&#10005;</button>
     <h2 class="modal-title">Edit Product</h2>
     <div class="form-group">
       <label class="form-label">Product Name</label>
@@ -449,7 +449,7 @@ function renderProducts(products) {
     const stockSummary = (p.sizes || []).map(s => `${s}:${stockMap[s] ?? '–'}`).join(' · ');
     return `
     <div class="product-item" draggable="true" data-id="${p._id}" style="${!p.inStock ? 'border-color:#ffcdd2;' : ''}">
-      <div class="drag-handle">⠷</div>
+      <div class="drag-handle">⢷</div>
       <div class="product-img">
         ${p.label ? `<div class="product-label-tag">${p.label}</div>` : ''}
         ${!p.inStock ? '<div style="position:absolute;bottom:0;left:0;right:0;background:rgba(229,57,53,0.85);color:#fff;font-size:9px;letter-spacing:2px;text-align:center;padding:4px;text-transform:uppercase;">Out of Stock</div>' : ''}
@@ -616,7 +616,7 @@ async function loadOrders() {
           </div>
           <div style="display:flex;gap:8px;align-items:center;">
             <span style="font-size:10px;background:#f0f0f0;padding:4px 8px;border-radius:2px;">&#128181; ${o.payment}</span>
-            <button onclick="deleteOrder('${o._id}')" style="background:none;border:1px solid #eee;color:#ccc;cursor:pointer;padding:4px 8px;font-size:12px;border-radius:2px;">✕</button>
+            <button onclick="deleteOrder('${o._id}')" style="background:none;border:1px solid #eee;color:#ccc;cursor:pointer;padding:4px 8px;font-size:12px;border-radius:2px;">&#10005;</button>
           </div>
         </div>
       </div>`).join('');
@@ -697,15 +697,52 @@ async function startOrderImport() {
   btn.textContent = `► Import Again`;
 }
 
-// ─── Product Excel Import
-function downloadTemplate() {
-  const csv = ['Name,Category,Subcategory,Price,Original Price,Sizes,Label,Image URL',
-    'Linen Kurta,mens,Kurta,1400,2000,"S,M,L,XL",Sale,https://example.com/image.jpg'].join('\n');
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
-  a.download = 'libas_products_template.csv';
-  a.click();
+// ─── Inventory Report Download
+async function downloadInventoryReport() {
+  try {
+    const [prods, orders] = await Promise.all([
+      fetch(API_URL).then(r => r.json()),
+      fetch(ORDERS_URL).then(r => r.json())
+    ]);
+
+    // Build sold map: productId|size and name|size => qty sold (exclude Cancelled)
+    const soldMap = {};
+    orders.filter(o => o.status !== 'Cancelled').forEach(o => {
+      (o.items || []).forEach(item => {
+        const key     = (item.productId || '') + '|' + item.size;
+        const nameKey = (item.name      || '') + '|' + item.size;
+        soldMap[key]     = (soldMap[key]     || 0) + (item.qty || 0);
+        soldMap[nameKey] = (soldMap[nameKey] || 0) + (item.qty || 0);
+      });
+    });
+
+    const rows = [['Product Name', 'Category', 'Sub-category', 'Price (PKR)', 'Size', 'Remaining Stock', 'Units Sold']];
+    prods.forEach(p => {
+      const sizes = p.sizes || [];
+      const stock = p.sizeStock || {};
+      if (!sizes.length) {
+        rows.push([p.name, p.category, p.subcategory || '', p.price, '–', '–', '–']);
+        return;
+      }
+      sizes.forEach(size => {
+        const byId   = (p._id  || '') + '|' + size;
+        const byName = (p.name || '') + '|' + size;
+        const sold   = soldMap[byId] || soldMap[byName] || 0;
+        rows.push([p.name, p.category, p.subcategory || '', p.price, size, stock[size] ?? 0, sold]);
+      });
+    });
+
+    const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+    a.download = 'elbnam_inventory_' + new Date().toISOString().slice(0, 10) + '.csv';
+    a.click();
+  } catch (err) {
+    alert('Could not generate report: ' + err.message);
+  }
 }
+
+// ─── Product Excel / CSV Import
 function handleExcelUpload(input) {
   const file = input.files[0];
   if (!file) return;
