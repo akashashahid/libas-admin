@@ -2,6 +2,38 @@ const express = require('express');
 const router = express.Router();
 const Order = require('../models/Order');
 const Product = require('../models/Product');
+const nodemailer = require('nodemailer');
+
+async function sendOrderEmail(order) {
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) return;
+  try {
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
+    });
+    const itemsList = order.items.map(i =>
+      `• ${i.name} (${i.size}) × ${i.qty} — PKR ${(i.price * i.qty).toLocaleString()}`
+    ).join('\n');
+    // Notify admin
+    await transporter.sendMail({
+      from: `"Elbnam Orders" <${process.env.EMAIL_USER}>`,
+      to: process.env.ADMIN_EMAIL || process.env.EMAIL_USER,
+      subject: `New Order — ${order.customerName}`,
+      text: `New order received!\n\nCustomer: ${order.customerName}\nPhone: ${order.phone}\nEmail: ${order.email || 'N/A'}\nAddress: ${order.address}\n\nItems:\n${itemsList}\n\nTotal: PKR ${order.total.toLocaleString()}\nPayment: ${order.payment}`
+    });
+    // Confirmation to customer if email provided
+    if (order.email) {
+      await transporter.sendMail({
+        from: `"Elbnam" <${process.env.EMAIL_USER}>`,
+        to: order.email,
+        subject: 'Order Confirmed — Elbnam',
+        text: `Thank you for your order, ${order.customerName}!\n\nYour order has been received and our team will contact you on WhatsApp to confirm delivery.\n\nOrder Summary:\n${itemsList}\n\nTotal: PKR ${order.total.toLocaleString()}\nPayment: ${order.payment}\nDelivery to: ${order.address}\n\n— Elbnam Team\nWhatsApp: +92 310 4508143`
+      });
+    }
+  } catch (err) {
+    console.log('Email error (non-fatal):', err.message);
+  }
+}
 
 router.get('/', async (req, res) => {
   try {
@@ -12,7 +44,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// POST — validate stock for all items first, then save order and decrement
 router.post('/', async (req, res) => {
   try {
     const items = req.body.items || [];
@@ -47,13 +78,14 @@ router.post('/', async (req, res) => {
         }
       }
     }
+    // Step 4: send email notification (non-blocking)
+    sendOrderEmail(order);
     res.json({ success: true, order });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
 });
 
-// PUT — restore stock when order is cancelled
 router.put('/:id', async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);

@@ -9,7 +9,7 @@
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
-.login-wrap { min-height:100vh; display:flex; align-items:center; justify-content:center; background:#0a0a0a; }
+.login-wrap { min-height:100vh; display:none; align-items:center; justify-content:center; background:#0a0a0a; }
 .login-box { background:#fff; padding:48px; width:380px; border-radius:4px; }
 .login-logo { font-family:Georgia,serif; font-size:28px; font-weight:700; text-align:center; margin-bottom:8px; }
 .login-sub { text-align:center; font-size:12px; color:#999; letter-spacing:2px; margin-bottom:32px; }
@@ -123,7 +123,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
       <span class="topbar-tag">Admin Panel</span>
       <button class="topbar-btn active" onclick="showSection('products')" id="tabProducts">Products</button>
       <button class="topbar-btn" onclick="showSection('orders')" id="tabOrders">Orders</button>
-      <button class="topbar-btn" onclick="toggleImport()">📊 Excel Import</button>
+      <button class="topbar-btn" onclick="toggleImport()">&#128202; Excel Import</button>
       <button class="topbar-btn" onclick="logout()">Logout</button>
     </div>
   </div>
@@ -132,11 +132,11 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
   <div class="import-section" id="importSection">
     <div class="import-title">Bulk Import via <span>Excel</span></div>
     <div class="import-row">
-      <button class="import-btn outline" onclick="downloadTemplate()">⬇ Download Template</button>
+      <button class="import-btn outline" onclick="downloadTemplate()">&#11015; Download Template</button>
       <input type="file" id="excelFile" accept=".xlsx,.xls" style="display:none" onchange="handleExcelUpload(this)">
-      <button class="import-btn" onclick="document.getElementById('excelFile').click()">📂 Select Excel File</button>
+      <button class="import-btn" onclick="document.getElementById('excelFile').click()">&#128194; Select Excel File</button>
       <span id="excelFileName" style="font-size:12px;color:#999;"></span>
-      <button class="import-btn" id="startImportBtn" onclick="startImport()" style="display:none;background:#b8860b;">▶ Start Import</button>
+      <button class="import-btn" id="startImportBtn" onclick="startImport()" style="display:none;background:#b8860b;">&#9654; Start Import</button>
     </div>
     <div class="import-progress" id="importProgress">
       <div style="font-size:12px;color:#666;" id="importStatus">Importing...</div>
@@ -201,12 +201,12 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
         <input type="file" id="pImage" accept="image/*" multiple style="display:none" onchange="previewImgs(this,'imgPreview','imgPreviewText','imgPreviewGrid')">
         <div class="img-preview" onclick="document.getElementById('pImage').click()">
           <img id="imgPreview">
-          <div class="img-preview-text" id="imgPreviewText">📷 Click to upload images</div>
+          <div class="img-preview-text" id="imgPreviewText">&#128247; Click to upload images</div>
         </div>
         <div id="imgPreviewGrid" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;"></div>
       </div>
-      <button class="submit-btn" id="submitBtn" onclick="addProduct()">◆ Add Product</button>
-      <div class="success-toast" id="successToast">✅ Product added successfully!</div>
+      <button class="submit-btn" id="submitBtn" onclick="addProduct()">&#9670; Add Product</button>
+      <div class="success-toast" id="successToast">&#10003; Product added successfully!</div>
     </div>
 
     <!-- Products List -->
@@ -298,7 +298,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
       <input type="file" id="eImage" accept="image/*" multiple style="display:none" onchange="previewImgs(this,'eImgPreview','eImgPreviewText','eImgPreviewGrid')">
       <div class="img-preview" onclick="document.getElementById('eImage').click()">
         <img id="eImgPreview">
-        <div class="img-preview-text" id="eImgPreviewText">📷 Click to change images</div>
+        <div class="img-preview-text" id="eImgPreviewText">&#128247; Click to change images</div>
       </div>
       <div id="eImgPreviewGrid" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;"></div>
     </div>
@@ -308,7 +308,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
 
 <script src="./admin_files/xlsx.full.min.js.download"></script>
 <script>
-// ─── Config ───────────────────────────────────────────────
+// ─── Config ────────────────────────────────────────────────────
 const API_URL = CONFIG.API_BASE + '/api/products';
 const ORDERS_URL = CONFIG.API_BASE + '/api/orders';
 
@@ -322,7 +322,7 @@ let allProducts = [];
 let editingProductId = null;
 let excelData = [];
 
-// ─── Session ──────────────────────────────────────────────
+// ─── Session ──────────────────────────────────────────────────
 function isLoggedIn() { return localStorage.getItem('elbnam_admin') === 'true'; }
 
 function login() {
@@ -349,7 +349,7 @@ function showDashboard() {
   loadProducts();
 }
 
-// ─── UI Sections ──────────────────────────────────────────
+// ─── UI Sections ──────────────────────────────────────────────
 function showSection(section) {
   const isProducts = section === 'products';
   document.getElementById('productsSection').style.display = isProducts ? 'block' : 'none';
@@ -364,7 +364,7 @@ function toggleImport() {
   s.style.display = s.style.display === 'none' ? 'block' : 'none';
 }
 
-// ─── Subcategory ──────────────────────────────────────────
+// ─── Subcategory ─────────────────────────────────────────────
 function updateSubcategory(catId, subId, selected = '') {
   const cat = document.getElementById(catId).value;
   const el  = document.getElementById(subId);
@@ -373,7 +373,7 @@ function updateSubcategory(catId, subId, selected = '') {
   ).join('');
 }
 
-// ─── Image Preview ────────────────────────────────────────
+// ─── Image Preview ────────────────────────────────────────────
 function previewImgs(input, mainId, textId, gridId) {
   const grid = document.getElementById(gridId);
   grid.innerHTML = '';
@@ -389,7 +389,7 @@ function previewImgs(input, mainId, textId, gridId) {
   });
 }
 
-// ─── Stock Inputs ─────────────────────────────────────────
+// ─── Stock Inputs ─────────────────────────────────────────────
 function updateStockInputs(containerId, sizesId, groupId) {
   const sizes = document.getElementById(sizesId).value.split(',').map(s => s.trim()).filter(Boolean);
   const group = document.getElementById(groupId);
@@ -415,7 +415,7 @@ function getStockData(containerId) {
   return stock;
 }
 
-// ─── Products ─────────────────────────────────────────────
+// ─── Products ─────────────────────────────────────────────────────
 async function loadProducts() {
   try {
     const res = await fetch(API_URL);
@@ -441,7 +441,7 @@ function renderProducts(products) {
     const stockSummary = (p.sizes || []).map(s => `${s}:${stockMap[s] ?? '–'}`).join(' · ');
     return `
     <div class="product-item" draggable="true" data-id="${p._id}" style="${!p.inStock ? 'border-color:#ffcdd2;' : ''}">
-      <div class="drag-handle">⠿</div>
+      <div class="drag-handle">⠷</div>
       <div class="product-img">
         ${p.label ? `<div class="product-label-tag">${p.label}</div>` : ''}
         ${!p.inStock ? '<div style="position:absolute;bottom:0;left:0;right:0;background:rgba(229,57,53,0.85);color:#fff;font-size:9px;letter-spacing:2px;text-align:center;padding:4px;text-transform:uppercase;">Out of Stock</div>' : ''}
@@ -576,7 +576,7 @@ async function deleteProduct(id) {
   catch { alert('Error deleting product'); }
 }
 
-// ─── Drag & Drop Reorder ──────────────────────────────────
+// ─── Drag & Drop Reorder ──────────────────────────────────────────
 function initDragDrop() {
   const grid = document.getElementById('productsGrid');
   let dragged = null;
@@ -594,7 +594,7 @@ async function saveNewOrder() {
   catch { console.log('Reorder save failed'); }
 }
 
-// ─── Orders ───────────────────────────────────────────────
+// ─── Orders ─────────────────────────────────────────────────────
 async function loadOrders() {
   try {
     const res    = await fetch(ORDERS_URL);
@@ -605,11 +605,11 @@ async function loadOrders() {
     body.innerHTML = orders.map(o => `
       <div style="border:1px solid #f0f0f0;border-radius:4px;padding:16px;margin-bottom:12px;">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
-          <div><div style="font-weight:600;font-size:14px;">${o.customerName}</div><div style="font-size:11px;color:#999;margin-top:2px;">${o.phone}</div></div>
+          <div><div style="font-weight:600;font-size:14px;">${o.customerName}</div><div style="font-size:11px;color:#999;margin-top:2px;">${o.phone}${o.email ? ' &middot; ' + o.email : ''}</div></div>
           <div style="text-align:right;"><div style="font-weight:600;color:#b8860b;">PKR ${o.total.toLocaleString()}</div><div style="font-size:10px;color:#999;margin-top:2px;">${new Date(o.createdAt).toLocaleDateString('en-PK')}</div></div>
         </div>
-        <div style="font-size:11px;color:#666;margin-bottom:10px;padding:8px;background:#f8f8f8;border-radius:2px;">${o.items.map(i=>`<div>${i.name} (${i.size}) × ${i.qty}</div>`).join('')}</div>
-        <div style="font-size:11px;color:#999;margin-bottom:10px;">📍 ${o.address}</div>
+        <div style="font-size:11px;color:#666;margin-bottom:10px;padding:8px;background:#f8f8f8;border-radius:2px;">${o.items.map(i=>`<div>${i.name} (${i.size}) &times; ${i.qty}</div>`).join('')}</div>
+        <div style="font-size:11px;color:#999;margin-bottom:10px;">&#128205; ${o.address}</div>
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
           <div style="display:flex;align-items:center;gap:8px;">
             <span style="font-size:10px;color:#999;text-transform:uppercase;">Status:</span>
@@ -618,7 +618,7 @@ async function loadOrders() {
             </select>
           </div>
           <div style="display:flex;gap:8px;align-items:center;">
-            <span style="font-size:10px;background:#f0f0f0;padding:4px 8px;border-radius:2px;">💵 ${o.payment}</span>
+            <span style="font-size:10px;background:#f0f0f0;padding:4px 8px;border-radius:2px;">&#128181; ${o.payment}</span>
             <button onclick="deleteOrder('${o._id}')" style="background:none;border:1px solid #eee;color:#ccc;cursor:pointer;padding:4px 8px;font-size:12px;border-radius:2px;">✕</button>
           </div>
         </div>
@@ -637,7 +637,7 @@ async function deleteOrder(id) {
   catch (err) { console.log(err); }
 }
 
-// ─── Excel Import ─────────────────────────────────────────
+// ─── Excel Import ───────────────────────────────────────────────
 function downloadTemplate() {
   const csv = ['Name,Category,Subcategory,Price,Original Price,Sizes,Label,Image URL',
     'Linen Kurta,mens,Kurta,1400,2000,"S,M,L,XL",Sale,https://example.com/image.jpg'].join('\n');
@@ -657,7 +657,7 @@ function handleExcelUpload(input) {
     excelData = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
     const btn = document.getElementById('startImportBtn');
     btn.style.display = 'inline-block';
-    btn.textContent = `▶ Import ${excelData.length} Products`;
+    btn.textContent = `► Import ${excelData.length} Products`;
   };
   reader.readAsBinaryString(file);
 }
@@ -678,18 +678,18 @@ async function startImport() {
     try {
       const res  = await fetch(API_URL + '/import', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: row['Name']||'', category: (row['Category']||'mens').toLowerCase(), subcategory: row['Subcategory']||'', price: Number(row['Price'])||0, originalPrice: Number(row['Original Price'])||0, sizes: row['Sizes']?row['Sizes'].toString().split(',').map(s=>s.trim()):[], label: row['Label']||'', image: row['Image URL']||'' }) });
       const data = await res.json();
-      if (data.success) { ok++;   logEl.innerHTML += `<div style="color:green">✅ ${row['Name']}</div>`; }
-      else              { fail++; logEl.innerHTML += `<div style="color:red">❌ ${row['Name']} — ${data.message}</div>`; }
-    } catch { fail++; logEl.innerHTML += `<div style="color:red">❌ ${row['Name']} — Network error</div>`; }
+      if (data.success) { ok++;   logEl.innerHTML += `<div style="color:green">&#10003; ${row['Name']}</div>`; }
+      else              { fail++; logEl.innerHTML += `<div style="color:red">&#10007; ${row['Name']} &mdash; ${data.message}</div>`; }
+    } catch { fail++; logEl.innerHTML += `<div style="color:red">&#10007; ${row['Name']} &mdash; Network error</div>`; }
     logEl.scrollTop = logEl.scrollHeight;
   }
-  statusEl.textContent = `Done! ✅ ${ok} imported, ❌ ${fail} failed`;
-  btn.disabled = false; btn.textContent = '▶ Import Again';
+  statusEl.textContent = `Done! &#10003; ${ok} imported, &#10007; ${fail} failed`;
+  btn.disabled = false; btn.textContent = '► Import Again';
   loadProducts();
 }
 
-// ─── Init ─────────────────────────────────────────────────
-if (isLoggedIn()) { showDashboard(); }
+// ─── Init ──────────────────────────────────────────────────────────
+if (isLoggedIn()) { showDashboard(); } else { document.getElementById('loginWrap').style.display = 'flex'; }
 </script>
 </body>
 </html>
