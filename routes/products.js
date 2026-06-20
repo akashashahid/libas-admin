@@ -123,21 +123,62 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+// Upsert by name — supports inventory CSV import
 router.post('/import', async (req, res) => {
   try {
-    const { name, category, subcategory, price, originalPrice, sizes, label, image } = req.body;
+    const { name, category, subcategory, price, originalPrice, sizes, label, available } = req.body;
     if (!name || !price) return res.json({ success: false, message: 'Name and price required' });
-    const sizeList = sizes || [];
+
+    const sizeList = Array.isArray(sizes)
+      ? sizes
+      : (sizes ? String(sizes).split(',').map(s => s.trim()).filter(Boolean) : []);
+
+    const totalAvailable = parseInt(available) || 0;
     const sizeStock = {};
-    sizeList.forEach(s => { sizeStock[s] = 0; });
+    if (sizeList.length > 0) {
+      const perSize = Math.floor(totalAvailable / sizeList.length);
+      const remainder = totalAvailable % sizeList.length;
+      sizeList.forEach((s, i) => { sizeStock[s] = perSize + (i === 0 ? remainder : 0); });
+    }
+    const inStock = Object.values(sizeStock).some(v => v > 0) || (sizeList.length === 0 && totalAvailable > 0);
+
+    // Upsert: find existing product by exact name (case-insensitive)
+    const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const existing = await Product.findOne({ name: new RegExp(`^${escaped}$`, 'i') });
+
+    if (existing) {
+      const updatedProduct = await Product.findByIdAndUpdate(
+        existing._id,
+        {
+          category: category ? category.toLowerCase() : existing.category,
+          subcategory: subcategory || existing.subcategory,
+          price: Number(price),
+          originalPrice: originalPrice ? Number(originalPrice) : existing.originalPrice,
+          label: label !== undefined ? label : existing.label,
+          sizes: sizeList.length ? sizeList : existing.sizes,
+          sizeStock: sizeList.length ? sizeStock : Object.fromEntries(existing.sizeStock || new Map()),
+          inStock
+        },
+        { new: true }
+      );
+      return res.json({ success: true, updated: true, product: updatedProduct });
+    }
+
+    // Create new (no image — must be added via Edit)
     const product = new Product({
-      name, category: category || 'mens', subcategory: subcategory || '',
-      price: Number(price), originalPrice: originalPrice ? Number(originalPrice) : undefined,
-      image: image || '', images: image ? [image] : [],
-      label: label || '', sizes: sizeList, sizeStock, inStock: true
+      name,
+      category: category ? category.toLowerCase() : 'mens',
+      subcategory: subcategory || '',
+      price: Number(price),
+      originalPrice: originalPrice ? Number(originalPrice) : undefined,
+      image: '', images: [],
+      label: label || '',
+      sizes: sizeList,
+      sizeStock,
+      inStock
     });
     await product.save();
-    res.json({ success: true, product });
+    res.json({ success: true, updated: false, product });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }

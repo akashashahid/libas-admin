@@ -68,32 +68,22 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
 .action-btn:hover { border-color:#b8860b; color:#b8860b; }
 .action-btn.delete { border-color:#ffcdd2; color:#e53935; }
 .action-btn.delete:hover { background:#ffebee; }
-.import-section { background:#fff; padding:24px 32px; border-radius:4px; border:1px solid #e5e5e5; margin:0 32px 24px; display:none; }
-.import-title { font-family:Georgia,serif; font-size:16px; font-weight:600; margin-bottom:16px; color:#0a0a0a; }
-.import-title span { color:#b8860b; font-style:italic; }
-.import-row { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
 .import-btn { padding:10px 20px; background:#0a0a0a; color:#fff; border:none; font-size:10px; letter-spacing:3px; text-transform:uppercase; cursor:pointer; border-radius:2px; }
 .import-btn:hover { background:#b8860b; }
 .import-btn.outline { background:transparent; color:#0a0a0a; border:1px solid #ddd; }
 .import-btn.outline:hover { border-color:#b8860b; color:#b8860b; }
-.import-progress { margin-top:12px; display:none; }
-.progress-bar-wrap { background:#f0f0f0; border-radius:4px; height:6px; margin-top:8px; }
-.progress-bar { height:6px; background:#b8860b; border-radius:4px; transition:width 0.3s; width:0%; }
-.import-log { margin-top:10px; font-size:11px; color:#666; max-height:80px; overflow-y:auto; }
+.csv-import-panel { background:#f8f8f8; border:1px solid #e5e5e5; border-radius:4px; padding:16px; margin-bottom:20px; display:none; }
 .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:300; align-items:center; justify-content:center; }
 .modal.open { display:flex; }
 .modal-content { background:#fff; padding:32px; border-radius:4px; width:90%; max-width:500px; max-height:90vh; overflow-y:auto; position:relative; }
 .modal-title { font-family:Georgia,serif; font-size:22px; font-weight:600; margin-bottom:20px; color:#0a0a0a; }
 .modal-close { position:absolute; top:16px; right:16px; background:none; border:none; font-size:24px; cursor:pointer; color:#999; }
-.order-import-panel { background:#f8f8f8; border:1px solid #e5e5e5; border-radius:4px; padding:16px; margin-bottom:20px; display:none; }
 @media (max-width:768px) {
   .main { grid-template-columns:1fr; padding:16px; }
   .products-grid { grid-template-columns:repeat(2,1fr); gap:10px; }
   .form-row { grid-template-columns:1fr; }
   .topbar { padding:12px 16px; flex-wrap:wrap; gap:8px; }
   .topbar-tag { display:none; }
-  .import-section { margin:0 16px 16px; padding:16px; }
-  .import-row { flex-direction:column; align-items:flex-start; }
   .modal-content { width:95%; padding:20px; }
   .products-card { padding:16px; }
 }
@@ -122,24 +112,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
       <span class="topbar-tag">Admin Panel</span>
       <button class="topbar-btn active" onclick="showSection('products')" id="tabProducts">Products</button>
       <button class="topbar-btn" onclick="showSection('orders')" id="tabOrders">Orders</button>
-      <button class="topbar-btn" onclick="toggleImport()">&#128202; Excel Import</button>
       <button class="topbar-btn" onclick="logout()">Logout</button>
-    </div>
-  </div>
-
-  <div class="import-section" id="importSection">
-    <div class="import-title">Bulk Import via <span>Excel / CSV</span></div>
-    <div class="import-row">
-      <button class="import-btn outline" onclick="downloadInventoryReport()">&#11015; Inventory Report</button>
-      <input type="file" id="excelFile" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleExcelUpload(this)">
-      <button class="import-btn" onclick="document.getElementById('excelFile').click()">&#128194; Select File (.xlsx / .csv)</button>
-      <span id="excelFileName" style="font-size:12px;color:#999;"></span>
-      <button class="import-btn" id="startImportBtn" onclick="startImport()" style="display:none;background:#b8860b;">&#9654; Start Import</button>
-    </div>
-    <div class="import-progress" id="importProgress">
-      <div style="font-size:12px;color:#666;" id="importStatus">Importing...</div>
-      <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
-      <div class="import-log" id="importLog"></div>
     </div>
   </div>
 
@@ -210,7 +183,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
       <div class="products-card">
         <div class="products-header">
           <div class="card-title" style="margin:0;border:none;padding:0">All <span style="color:#b8860b;font-style:italic">Products</span></div>
-          <div style="display:flex;align-items:center;gap:16px;">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
             <span class="products-count" id="productsCount">0 products</span>
             <div class="filter-tabs">
               <button class="filter-tab active" onclick="filterProducts('all',this)">All</button>
@@ -218,8 +191,29 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
               <button class="filter-tab" onclick="filterProducts('kids',this)">Kids'</button>
               <button class="filter-tab" onclick="filterProducts('festive',this)">Festive</button>
             </div>
+            <button class="import-btn outline" onclick="toggleProductImport()" style="padding:7px 14px;font-size:9px;">&#128202; Import CSV</button>
           </div>
         </div>
+
+        <!-- Product CSV Import Panel -->
+        <div class="csv-import-panel" id="productImportPanel">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
+            <button class="import-btn outline" onclick="downloadInventoryReport()">&#11015; Inventory Report</button>
+            <input type="file" id="productCsvFile" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleProductUpload(this)">
+            <button class="import-btn" onclick="document.getElementById('productCsvFile').click()">&#128194; Select File (.xlsx / .csv)</button>
+            <span id="productFileName" style="font-size:12px;color:#999;"></span>
+            <button class="import-btn" id="startProductImportBtn" onclick="startProductImport()" style="display:none;background:#b8860b;">&#9654; Import Products</button>
+          </div>
+          <div id="productImportResult" style="display:none;font-size:12px;padding:10px;background:#fff;border-radius:2px;border:1px solid #e5e5e5;">
+            <div id="productImportStatus" style="font-weight:600;margin-bottom:6px;"></div>
+            <div id="productImportLog" style="max-height:80px;overflow-y:auto;color:#e53935;"></div>
+          </div>
+          <div style="font-size:11px;color:#aaa;margin-top:8px;line-height:1.6;">
+            Columns: <code style="background:#eee;padding:1px 5px;border-radius:2px;">Name, Category, Subcategory, Price, Original Price, Sizes, Label, Available, Sold</code><br>
+            Same product name = update existing &nbsp;&mdash;&nbsp; <strong>Available</strong> = total stock distributed across all sizes.
+          </div>
+        </div>
+
         <div class="products-grid" id="productsGrid"></div>
       </div>
     </div>
@@ -230,17 +224,17 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
           <div class="card-title" style="margin:0;border:none;padding:0">Customer <span style="color:#b8860b;font-style:italic">Orders</span></div>
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
             <span class="products-count" id="ordersCount">0 orders</span>
-            <button class="import-btn outline" onclick="toggleOrderImport()" style="padding:7px 14px;font-size:9px;">&#128202; Import Excel</button>
+            <button class="import-btn outline" onclick="toggleOrderImport()" style="padding:7px 14px;font-size:9px;">&#128202; Import CSV</button>
           </div>
         </div>
 
-        <!-- Order Excel Import Panel -->
-        <div class="order-import-panel" id="orderImportPanel">
+        <!-- Order CSV Import Panel -->
+        <div class="csv-import-panel" id="orderImportPanel">
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
             <button class="import-btn outline" onclick="downloadOrderTemplate()">&#11015; Download Sample</button>
-            <input type="file" id="orderExcelFile" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleOrderExcelUpload(this)">
-            <button class="import-btn" onclick="document.getElementById('orderExcelFile').click()">&#128194; Select File (.xlsx / .csv)</button>
-            <span id="orderExcelFileName" style="font-size:12px;color:#999;"></span>
+            <input type="file" id="orderCsvFile" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleOrderUpload(this)">
+            <button class="import-btn" onclick="document.getElementById('orderCsvFile').click()">&#128194; Select File (.xlsx / .csv)</button>
+            <span id="orderFileName" style="font-size:12px;color:#999;"></span>
             <button class="import-btn" id="startOrderImportBtn" onclick="startOrderImport()" style="display:none;background:#b8860b;">&#9654; Import Orders</button>
           </div>
           <div id="orderImportResult" style="display:none;font-size:12px;padding:10px;background:#fff;border-radius:2px;border:1px solid #e5e5e5;">
@@ -248,9 +242,8 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
             <div id="orderImportLog" style="max-height:80px;overflow-y:auto;color:#e53935;"></div>
           </div>
           <div style="font-size:11px;color:#aaa;margin-top:8px;line-height:1.6;">
-            Items column format: <code style="background:#eee;padding:1px 5px;border-radius:2px;">ProductName:Size:Qty:Price</code>
-            &nbsp;&mdash;&nbsp; separate multiple items with <code style="background:#eee;padding:1px 5px;border-radius:2px;">;</code><br>
-            Orders with same <strong>Order ID</strong> are skipped unless status changed (no duplicate stock deduction).
+            Columns: <code style="background:#eee;padding:1px 5px;border-radius:2px;">Customer, Phone, Address, Order, Price, Order Date, Status</code><br>
+            Order format: <code style="background:#eee;padding:1px 5px;border-radius:2px;">Product Name (Size) &times; Qty</code> &nbsp;&mdash;&nbsp; same Order ID = skip unless status changed.
           </div>
         </div>
 
@@ -326,7 +319,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
 
 <script src="./admin_files/xlsx.full.min.js.download"></script>
 <script>
-const API_URL = CONFIG.API_BASE + '/api/products';
+const API_URL    = CONFIG.API_BASE + '/api/products';
 const ORDERS_URL = CONFIG.API_BASE + '/api/orders';
 
 const SUBCATEGORIES = {
@@ -335,7 +328,7 @@ const SUBCATEGORIES = {
   festive: ['Sherwani','Kurta','Lehenga','Saree','Gharara']
 };
 
-let allProducts = [], editingProductId = null, excelData = [], orderExcelData = [];
+let allProducts = [], editingProductId = null, productImportData = [], orderImportData = [];
 
 // ─── Session
 function isLoggedIn() { return localStorage.getItem('elbnam_admin') === 'true'; }
@@ -361,18 +354,18 @@ function showDashboard() {
 function showSection(section) {
   const isProducts = section === 'products';
   document.getElementById('productsSection').style.display = isProducts ? 'block' : 'none';
-  document.getElementById('ordersSection').style.display  = isProducts ? 'none'  : 'block';
-  document.getElementById('tabProducts').classList.toggle('active', isProducts);
-  document.getElementById('tabOrders').classList.toggle('active', !isProducts);
+  document.getElementById('ordersSection').style.display   = isProducts ? 'none'  : 'block';
+  document.getElementById('tabProducts').classList.toggle('active',  isProducts);
+  document.getElementById('tabOrders').classList.toggle('active',   !isProducts);
   if (!isProducts) loadOrders();
 }
-function toggleImport() {
-  const s = document.getElementById('importSection');
-  s.style.display = s.style.display === 'none' ? 'block' : 'none';
+function toggleProductImport() {
+  const p = document.getElementById('productImportPanel');
+  p.style.display = p.style.display === 'none' ? 'block' : 'none';
 }
 function toggleOrderImport() {
-  const s = document.getElementById('orderImportPanel');
-  s.style.display = s.style.display === 'none' ? 'block' : 'none';
+  const p = document.getElementById('orderImportPanel');
+  p.style.display = p.style.display === 'none' ? 'block' : 'none';
 }
 
 // ─── Subcategory
@@ -585,6 +578,198 @@ async function saveNewOrder() {
   catch { console.log('Reorder save failed'); }
 }
 
+// ─── Product CSV Import
+function handleProductUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  document.getElementById('productFileName').textContent = file.name;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const wb = XLSX.read(e.target.result, { type: 'binary' });
+    productImportData = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
+    const btn = document.getElementById('startProductImportBtn');
+    btn.style.display = 'inline-block';
+    btn.textContent = `► Import ${productImportData.length} Products`;
+    document.getElementById('productImportResult').style.display = 'none';
+  };
+  reader.readAsBinaryString(file);
+}
+async function startProductImport() {
+  if (!productImportData.length) return;
+  const btn = document.getElementById('startProductImportBtn');
+  btn.disabled = true; btn.textContent = 'Importing...';
+  let created = 0, updated = 0, failed = 0;
+  const errors = [];
+  for (const row of productImportData) {
+    const sizesRaw = row['Sizes'] ? String(row['Sizes']) : '';
+    const sizeList = sizesRaw.split(',').map(s => s.trim()).filter(Boolean);
+    try {
+      const res = await fetch(API_URL + '/import', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name:          String(row['Name']            || ''),
+          category:      String(row['Category']        || 'mens').toLowerCase(),
+          subcategory:   String(row['Subcategory']     || ''),
+          price:         Number(row['Price'])          || 0,
+          originalPrice: Number(row['Original Price']) || 0,
+          sizes:         sizeList,
+          label:         String(row['Label']           || ''),
+          available:     parseInt(row['Available'])    || 0
+        })
+      });
+      const data = await res.json();
+      if (data.success) { data.updated ? updated++ : created++; }
+      else { failed++; errors.push(`${row['Name']} — ${data.message}`); }
+    } catch { failed++; errors.push(`${row['Name']} — Network error`); }
+  }
+  const resultEl = document.getElementById('productImportResult');
+  resultEl.style.display = 'block';
+  document.getElementById('productImportStatus').innerHTML =
+    `✅ ${created} created &nbsp; 🔄 ${updated} updated &nbsp; ❌ ${failed} failed`;
+  document.getElementById('productImportLog').innerHTML = errors.map(e => `<div>${e}</div>`).join('');
+  btn.disabled = false; btn.textContent = '► Import Again';
+  loadProducts();
+}
+
+// ─── Inventory Report (downloadable in import format)
+async function downloadInventoryReport() {
+  try {
+    const [prods, orders] = await Promise.all([
+      fetch(API_URL).then(r => r.json()),
+      fetch(ORDERS_URL).then(r => r.json())
+    ]);
+    // Sold per product id+size and name+size (non-cancelled)
+    const soldMap = {};
+    orders.filter(o => o.status !== 'Cancelled').forEach(o => {
+      (o.items || []).forEach(item => {
+        const k1 = (item.productId || '') + '|' + item.size;
+        const k2 = (item.name      || '') + '|' + item.size;
+        soldMap[k1] = (soldMap[k1] || 0) + (item.qty || 0);
+        soldMap[k2] = (soldMap[k2] || 0) + (item.qty || 0);
+      });
+    });
+    const rows = [['Name','Category','Subcategory','Price','Original Price','Sizes','Label','Available','Sold']];
+    prods.forEach(p => {
+      const sizes    = p.sizes    || [];
+      const stock    = p.sizeStock|| {};
+      const totalAvail = sizes.reduce((s, sz) => s + (stock[sz] ?? 0), 0);
+      const totalSold  = sizes.reduce((s, sz) => {
+        const k1 = (p._id  || '') + '|' + sz;
+        const k2 = (p.name || '') + '|' + sz;
+        return s + (soldMap[k1] || soldMap[k2] || 0);
+      }, 0);
+      rows.push([
+        p.name, p.category, p.subcategory || '',
+        p.price, p.originalPrice || '',
+        sizes.join(','), p.label || '',
+        totalAvail, totalSold
+      ]);
+    });
+    const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+    a.download = 'elbnam_inventory_' + new Date().toISOString().slice(0,10) + '.csv';
+    a.click();
+  } catch (err) { alert('Could not generate report: ' + err.message); }
+}
+
+// ─── Order CSV Import
+function parseOrderStr(str) {
+  // Matches: Product Name (Size) × Qty  or  Product Name (Size) x Qty
+  const m = String(str).match(/^(.+)\s+\(([^)]+)\)\s+[×x]\s*(\d+)$/i);
+  return m ? { name: m[1].trim(), size: m[2].trim(), qty: parseInt(m[3]) } : null;
+}
+function handleOrderUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  document.getElementById('orderFileName').textContent = file.name;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const wb  = XLSX.read(e.target.result, { type: 'binary' });
+    const raw = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
+    // Detect format by first row's keys
+    const isCustomerFormat = raw.length > 0 && 'Customer' in raw[0];
+    if (isCustomerFormat) {
+      orderImportData = raw.map(row => {
+        const parsed = parseOrderStr(row['Order'] || '');
+        const qty    = parsed ? parsed.qty  : 1;
+        const price  = parseFloat(row['Price']) || 0;
+        const itemsStr = parsed
+          ? `${parsed.name}:${parsed.size}:${qty}:${price}`
+          : '';
+        return {
+          externalId:   null,
+          customerName: String(row['Customer']   || ''),
+          phone:        String(row['Phone']       || ''),
+          email:        '',
+          address:      String(row['Address']     || ''),
+          items:        itemsStr,
+          total:        price,
+          status:       String(row['Status']      || 'Pending'),
+          payment:      'COD'
+        };
+      });
+    } else {
+      // Original format: Order ID, Customer Name, Phone, Email, Address, Items, Total, Status, Payment
+      orderImportData = raw.map(row => ({
+        externalId:   row['Order ID']      ? String(row['Order ID'])      : null,
+        customerName: String(row['Customer Name'] || ''),
+        phone:        String(row['Phone']         || ''),
+        email:        String(row['Email']         || ''),
+        address:      String(row['Address']       || ''),
+        items:        String(row['Items']         || ''),
+        total:        parseFloat(row['Total'])    || 0,
+        status:       String(row['Status']        || 'Pending'),
+        payment:      String(row['Payment']       || 'COD')
+      }));
+    }
+    const btn = document.getElementById('startOrderImportBtn');
+    btn.style.display = 'inline-block';
+    btn.textContent = `► Import ${orderImportData.length} Orders`;
+    document.getElementById('orderImportResult').style.display = 'none';
+  };
+  reader.readAsBinaryString(file);
+}
+async function startOrderImport() {
+  if (!orderImportData.length) return;
+  const btn = document.getElementById('startOrderImportBtn');
+  btn.disabled = true; btn.textContent = 'Importing...';
+  try {
+    const res  = await fetch(ORDERS_URL + '/import', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ orders: orderImportData })
+    });
+    const data = await res.json();
+    document.getElementById('orderImportResult').style.display = 'block';
+    document.getElementById('orderImportStatus').innerHTML =
+      `✅ ${data.created} created &nbsp; 🔄 ${data.updated} updated &nbsp; ⏩ ${data.skipped} skipped`;
+    const logEl = document.getElementById('orderImportLog');
+    logEl.innerHTML = '';
+    if (data.errors && data.errors.length)
+      data.errors.forEach(e => { logEl.innerHTML += `<div>❌ ${e}</div>`; });
+    loadOrders();
+  } catch (err) {
+    document.getElementById('orderImportResult').style.display = 'block';
+    document.getElementById('orderImportStatus').textContent = 'Error: ' + err.message;
+  }
+  btn.disabled = false; btn.textContent = '► Import Again';
+}
+function downloadOrderTemplate() {
+  const ws = XLSX.utils.aoa_to_sheet([
+    ['Customer','Phone','Address','Order','Price','Order Date','Status'],
+    ['Ahmed Khan','03001234567','123 Model Town, Lahore','Blue Ocean (XL) × 1','2500','20/06/2026','Pending'],
+    ['Sara Malik','03109876543','45 DHA Phase 5, Karachi','Red Kurta (M) × 2','3600','20/06/2026','Confirmed'],
+    ['Usman Ali','03331122334','7 Gulberg III, Lahore','White Sherwani (XL) × 1','4500','20/06/2026','Delivered'],
+    ['Ayesha Raza','03215678901','22 F-10, Islamabad','Kids Suit (S) × 2','1800','20/06/2026','Cancelled']
+  ]);
+  ws['!cols'] = [18,14,28,32,8,14,12].map(w => ({ wch: w }));
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Customers');
+  XLSX.writeFile(wb, 'elbnam_customers_template.xlsx');
+}
+
 // ─── Orders
 async function loadOrders() {
   try {
@@ -630,157 +815,6 @@ async function deleteOrder(id) {
   if (!confirm('Delete this order?')) return;
   try { await fetch(ORDERS_URL + '/' + id, { method: 'DELETE' }); loadOrders(); }
   catch (err) { console.log(err); }
-}
-
-// ─── Order Excel Import
-function downloadOrderTemplate() {
-  const ws = XLSX.utils.aoa_to_sheet([
-    ['Order ID', 'Customer Name', 'Phone', 'Email', 'Address', 'Items', 'Total', 'Status', 'Payment'],
-    ['ORD-001', 'Ahmed Khan', '03001234567', 'ahmed@email.com', '123 Model Town, Lahore', 'Blue Ocean:XL:1:2500', '2500', 'Pending', 'COD'],
-    ['ORD-002', 'Sara Malik', '03109876543', '', '45 DHA Phase 5, Karachi', 'Red Kurta:M:2:1800;Classic Kurta:L:1:1400', '5000', 'Confirmed', 'COD'],
-    ['ORD-003', 'Usman Ali', '03331122334', 'usman@email.com', '7 Gulberg III, Lahore', 'White Sherwani:XL:1:4500', '4500', 'Delivered', 'COD'],
-    ['ORD-004', 'Ayesha Raza', '03215678901', '', '22 F-10, Islamabad', 'Kids Suit:S:2:900', '1800', 'Cancelled', 'COD']
-  ]);
-  ws['!cols'] = [10,18,14,22,28,38,8,12,10].map(w => ({ wch: w }));
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'Orders');
-  XLSX.writeFile(wb, 'elbnam_orders_template.xlsx');
-}
-function handleOrderExcelUpload(input) {
-  const file = input.files[0];
-  if (!file) return;
-  document.getElementById('orderExcelFileName').textContent = file.name;
-  const reader = new FileReader();
-  reader.onload = e => {
-    const wb = XLSX.read(e.target.result, { type: 'binary' });
-    orderExcelData = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
-    const btn = document.getElementById('startOrderImportBtn');
-    btn.style.display = 'inline-block';
-    btn.textContent = `► Import ${orderExcelData.length} Orders`;
-    document.getElementById('orderImportResult').style.display = 'none';
-  };
-  reader.readAsBinaryString(file);
-}
-async function startOrderImport() {
-  if (!orderExcelData.length) return;
-  const btn = document.getElementById('startOrderImportBtn');
-  btn.disabled = true; btn.textContent = 'Importing...';
-  const orders = orderExcelData.map(row => ({
-    externalId:   row['Order ID']      ? String(row['Order ID'])      : null,
-    customerName: String(row['Customer Name'] || ''),
-    phone:        String(row['Phone']         || ''),
-    email:        String(row['Email']         || ''),
-    address:      String(row['Address']       || ''),
-    items:        String(row['Items']         || ''),
-    total:        parseFloat(row['Total'])    || 0,
-    status:       row['Status']              || 'Pending',
-    payment:      row['Payment']             || 'COD'
-  }));
-  try {
-    const res  = await fetch(ORDERS_URL + '/import', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ orders }) });
-    const data = await res.json();
-    const resultEl = document.getElementById('orderImportResult');
-    const statusEl = document.getElementById('orderImportStatus');
-    const logEl    = document.getElementById('orderImportLog');
-    resultEl.style.display = 'block';
-    statusEl.innerHTML = `✅ ${data.created} created &nbsp; 🔄 ${data.updated} updated &nbsp; ⏩ ${data.skipped} skipped`;
-    logEl.innerHTML = '';
-    if (data.errors && data.errors.length) {
-      data.errors.forEach(e => { logEl.innerHTML += `<div>❌ ${e}</div>`; });
-    }
-    loadOrders();
-  } catch (err) {
-    document.getElementById('orderImportResult').style.display = 'block';
-    document.getElementById('orderImportStatus').textContent = 'Error: ' + err.message;
-  }
-  btn.disabled = false;
-  btn.textContent = `► Import Again`;
-}
-
-// ─── Inventory Report Download
-async function downloadInventoryReport() {
-  try {
-    const [prods, orders] = await Promise.all([
-      fetch(API_URL).then(r => r.json()),
-      fetch(ORDERS_URL).then(r => r.json())
-    ]);
-
-    // Build sold map: productId|size and name|size => qty sold (exclude Cancelled)
-    const soldMap = {};
-    orders.filter(o => o.status !== 'Cancelled').forEach(o => {
-      (o.items || []).forEach(item => {
-        const key     = (item.productId || '') + '|' + item.size;
-        const nameKey = (item.name      || '') + '|' + item.size;
-        soldMap[key]     = (soldMap[key]     || 0) + (item.qty || 0);
-        soldMap[nameKey] = (soldMap[nameKey] || 0) + (item.qty || 0);
-      });
-    });
-
-    const rows = [['Product Name', 'Category', 'Sub-category', 'Price (PKR)', 'Size', 'Remaining Stock', 'Units Sold']];
-    prods.forEach(p => {
-      const sizes = p.sizes || [];
-      const stock = p.sizeStock || {};
-      if (!sizes.length) {
-        rows.push([p.name, p.category, p.subcategory || '', p.price, '–', '–', '–']);
-        return;
-      }
-      sizes.forEach(size => {
-        const byId   = (p._id  || '') + '|' + size;
-        const byName = (p.name || '') + '|' + size;
-        const sold   = soldMap[byId] || soldMap[byName] || 0;
-        rows.push([p.name, p.category, p.subcategory || '', p.price, size, stock[size] ?? 0, sold]);
-      });
-    });
-
-    const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
-    a.download = 'elbnam_inventory_' + new Date().toISOString().slice(0, 10) + '.csv';
-    a.click();
-  } catch (err) {
-    alert('Could not generate report: ' + err.message);
-  }
-}
-
-// ─── Product Excel / CSV Import
-function handleExcelUpload(input) {
-  const file = input.files[0];
-  if (!file) return;
-  document.getElementById('excelFileName').textContent = file.name;
-  const reader = new FileReader();
-  reader.onload = e => {
-    const wb = XLSX.read(e.target.result, { type: 'binary' });
-    excelData = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
-    const btn = document.getElementById('startImportBtn');
-    btn.style.display = 'inline-block';
-    btn.textContent = `► Import ${excelData.length} Products`;
-  };
-  reader.readAsBinaryString(file);
-}
-async function startImport() {
-  if (!excelData.length) return;
-  const btn      = document.getElementById('startImportBtn');
-  const statusEl = document.getElementById('importStatus');
-  const logEl    = document.getElementById('importLog');
-  const bar      = document.getElementById('progressBar');
-  document.getElementById('importProgress').style.display = 'block';
-  btn.disabled = true; logEl.innerHTML = '';
-  let ok = 0, fail = 0;
-  for (let i = 0; i < excelData.length; i++) {
-    const row = excelData[i];
-    bar.style.width = Math.round(((i+1)/excelData.length)*100) + '%';
-    statusEl.textContent = `Importing ${i+1} of ${excelData.length}...`;
-    try {
-      const res  = await fetch(API_URL + '/import', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: row['Name']||'', category: (row['Category']||'mens').toLowerCase(), subcategory: row['Subcategory']||'', price: Number(row['Price'])||0, originalPrice: Number(row['Original Price'])||0, sizes: row['Sizes']?row['Sizes'].toString().split(',').map(s=>s.trim()):[], label: row['Label']||'', image: row['Image URL']||'' }) });
-      const data = await res.json();
-      if (data.success) { ok++;   logEl.innerHTML += `<div style="color:green">✓ ${row['Name']}</div>`; }
-      else              { fail++; logEl.innerHTML += `<div style="color:red">✗ ${row['Name']} — ${data.message}</div>`; }
-    } catch { fail++; logEl.innerHTML += `<div style="color:red">✗ ${row['Name']} — Network error</div>`; }
-    logEl.scrollTop = logEl.scrollHeight;
-  }
-  statusEl.textContent = `Done! ✓ ${ok} imported, ✗ ${fail} failed`;
-  btn.disabled = false; btn.textContent = '► Import Again';
-  loadProducts();
 }
 
 // ─── Init
