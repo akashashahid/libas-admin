@@ -2,29 +2,28 @@ const express = require('express');
 const router = express.Router();
 const Order = require('../models/Order');
 const Product = require('../models/Product');
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 
 async function sendOrderEmail(order) {
-  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) return;
+  if (!process.env.RESEND_API_KEY) return;
   try {
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
-    });
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    const from = process.env.FROM_EMAIL || 'orders@elbnam.com';
+    const adminTo = process.env.ADMIN_EMAIL || 'akashashahid07@gmail.com';
     const itemsList = order.items.map(i =>
       `• ${i.name} (${i.size}) × ${i.qty} — PKR ${(i.price * i.qty).toLocaleString()}`
     ).join('\n');
-    // Notify admin
-    await transporter.sendMail({
-      from: `"Elbnam Orders" <${process.env.EMAIL_USER}>`,
-      to: process.env.ADMIN_EMAIL || process.env.EMAIL_USER,
+
+    await resend.emails.send({
+      from: `Elbnam Orders <${from}>`,
+      to: adminTo,
       subject: `New Order — ${order.customerName}`,
       text: `New order received!\n\nCustomer: ${order.customerName}\nPhone: ${order.phone}\nEmail: ${order.email || 'N/A'}\nAddress: ${order.address}\n\nItems:\n${itemsList}\n\nTotal: PKR ${order.total.toLocaleString()}\nPayment: ${order.payment}`
     });
-    // Confirmation to customer if email provided
+
     if (order.email) {
-      await transporter.sendMail({
-        from: `"Elbnam" <${process.env.EMAIL_USER}>`,
+      await resend.emails.send({
+        from: `Elbnam <${from}>`,
         to: order.email,
         subject: 'Order Confirmed — Elbnam',
         text: `Thank you for your order, ${order.customerName}!\n\nYour order has been received and our team will contact you on WhatsApp to confirm delivery.\n\nOrder Summary:\n${itemsList}\n\nTotal: PKR ${order.total.toLocaleString()}\nPayment: ${order.payment}\nDelivery to: ${order.address}\n\n— Elbnam Team\nWhatsApp: +92 310 4508143`
@@ -47,7 +46,6 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const items = req.body.items || [];
-    // Step 1: validate all stock before touching anything
     for (const item of items) {
       if (item.productId && item.size) {
         const product = await Product.findById(item.productId);
@@ -62,10 +60,8 @@ router.post('/', async (req, res) => {
         }
       }
     }
-    // Step 2: save order
     const order = new Order(req.body);
     await order.save();
-    // Step 3: decrement stock
     for (const item of items) {
       if (item.productId && item.size && item.qty) {
         const product = await Product.findById(item.productId);
@@ -78,7 +74,6 @@ router.post('/', async (req, res) => {
         }
       }
     }
-    // Step 4: send email notification (non-blocking)
     sendOrderEmail(order);
     res.json({ success: true, order });
   } catch (err) {
