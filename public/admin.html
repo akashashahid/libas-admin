@@ -333,7 +333,8 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
 
 <script>
 const ADMIN_PASSWORD = 'libas2026';
-const API_URL = 'https://libas-admin.onrender.com/api/products';
+const API_BASE = 'https://libas-admin-ssip.onrender.com';
+const API_URL = API_BASE + '/api/products';
 let allProducts = [];
 let currentFilter = 'all';
 let editingProductId = null;
@@ -567,7 +568,7 @@ async function saveNewOrder() {
   }));
 
   try {
-    await fetch('https://libas-admin.onrender.com/api/products/reorder', {
+    await fetch(API_BASE + '/api/products/reorder', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ order: newOrder })
@@ -830,7 +831,7 @@ function showSection(section) {
 
 async function loadOrders() {
   try {
-    const res = await fetch('https://libas-admin.onrender.com/api/orders');
+    const res = await fetch(API_BASE + '/api/orders');
     const orders = await res.json();
     document.getElementById('ordersCount').textContent = orders.length + ' orders';
     const body = document.getElementById('ordersBody');
@@ -878,7 +879,7 @@ async function loadOrders() {
 
 async function updateOrderStatus(id, status) {
   try {
-    await fetch('https://libas-admin.onrender.com/api/orders/' + id, {
+    await fetch(API_BASE + '/api/orders/' + id, {
       method: 'PUT',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({ status })
@@ -890,7 +891,7 @@ async function updateOrderStatus(id, status) {
 async function deleteOrder(id) {
   if(!confirm('Delete this order?')) return;
   try {
-    await fetch('https://libas-admin.onrender.com/api/orders/' + id, { method: 'DELETE' });
+    await fetch(API_BASE + '/api/orders/' + id, { method: 'DELETE' });
     loadOrders();
   } catch(err) { console.log(err); }
 }
