@@ -85,6 +85,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
 .modal-content { background:#fff; padding:32px; border-radius:4px; width:90%; max-width:500px; max-height:90vh; overflow-y:auto; position:relative; }
 .modal-title { font-family:Georgia,serif; font-size:22px; font-weight:600; margin-bottom:20px; color:#0a0a0a; }
 .modal-close { position:absolute; top:16px; right:16px; background:none; border:none; font-size:24px; cursor:pointer; color:#999; }
+.order-import-panel { background:#f8f8f8; border:1px solid #e5e5e5; border-radius:4px; padding:16px; margin-bottom:20px; display:none; }
 @media (max-width:768px) {
   .main { grid-template-columns:1fr; padding:16px; }
   .products-grid { grid-template-columns:repeat(2,1fr); gap:10px; }
@@ -104,7 +105,6 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
 </head>
 <body>
 
-<!-- Login Screen -->
 <div class="login-wrap" id="loginWrap">
   <div class="login-box">
     <div class="login-logo"><span>El</span>bnam</div>
@@ -115,7 +115,6 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
   </div>
 </div>
 
-<!-- Dashboard -->
 <div class="dashboard" id="dashboard">
   <div class="topbar">
     <div class="topbar-brand"><span>El</span>bnam</div>
@@ -128,7 +127,6 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
     </div>
   </div>
 
-  <!-- Excel Import -->
   <div class="import-section" id="importSection">
     <div class="import-title">Bulk Import via <span>Excel</span></div>
     <div class="import-row">
@@ -146,7 +144,6 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
   </div>
 
   <div class="main">
-    <!-- Add Product Form -->
     <div class="form-card">
       <div class="card-title">Add <span>New Product</span></div>
       <div class="form-group">
@@ -209,7 +206,6 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
       <div class="success-toast" id="successToast">&#10003; Product added successfully!</div>
     </div>
 
-    <!-- Products List -->
     <div id="productsSection">
       <div class="products-card">
         <div class="products-header">
@@ -228,20 +224,42 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
       </div>
     </div>
 
-    <!-- Orders List -->
     <div id="ordersSection" style="display:none;">
       <div class="products-card">
         <div class="products-header">
           <div class="card-title" style="margin:0;border:none;padding:0">Customer <span style="color:#b8860b;font-style:italic">Orders</span></div>
-          <span class="products-count" id="ordersCount">0 orders</span>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <span class="products-count" id="ordersCount">0 orders</span>
+            <button class="import-btn outline" onclick="toggleOrderImport()" style="padding:7px 14px;font-size:9px;">&#128202; Import Excel</button>
+          </div>
         </div>
+
+        <!-- Order Excel Import Panel -->
+        <div class="order-import-panel" id="orderImportPanel">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
+            <button class="import-btn outline" onclick="downloadOrderTemplate()">&#11015; Download Sample</button>
+            <input type="file" id="orderExcelFile" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleOrderExcelUpload(this)">
+            <button class="import-btn" onclick="document.getElementById('orderExcelFile').click()">&#128194; Select Excel File</button>
+            <span id="orderExcelFileName" style="font-size:12px;color:#999;"></span>
+            <button class="import-btn" id="startOrderImportBtn" onclick="startOrderImport()" style="display:none;background:#b8860b;">&#9654; Import Orders</button>
+          </div>
+          <div id="orderImportResult" style="display:none;font-size:12px;padding:10px;background:#fff;border-radius:2px;border:1px solid #e5e5e5;">
+            <div id="orderImportStatus" style="font-weight:600;margin-bottom:6px;"></div>
+            <div id="orderImportLog" style="max-height:80px;overflow-y:auto;color:#e53935;"></div>
+          </div>
+          <div style="font-size:11px;color:#aaa;margin-top:8px;line-height:1.6;">
+            Items column format: <code style="background:#eee;padding:1px 5px;border-radius:2px;">ProductName:Size:Qty:Price</code>
+            &nbsp;&mdash;&nbsp; separate multiple items with <code style="background:#eee;padding:1px 5px;border-radius:2px;">;</code><br>
+            Orders with same <strong>Order ID</strong> are skipped unless status changed (no duplicate stock deduction).
+          </div>
+        </div>
+
         <div id="ordersBody"></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Edit Modal -->
 <div class="modal" id="editModal">
   <div class="modal-content">
     <button class="modal-close" onclick="closeEditModal()">✕</button>
@@ -308,7 +326,6 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
 
 <script src="./admin_files/xlsx.full.min.js.download"></script>
 <script>
-// ─── Config ────────────────────────────────────────────────────
 const API_URL = CONFIG.API_BASE + '/api/products';
 const ORDERS_URL = CONFIG.API_BASE + '/api/orders';
 
@@ -318,38 +335,29 @@ const SUBCATEGORIES = {
   festive: ['Sherwani','Kurta','Lehenga','Saree','Gharara']
 };
 
-let allProducts = [];
-let editingProductId = null;
-let excelData = [];
+let allProducts = [], editingProductId = null, excelData = [], orderExcelData = [];
 
-// ─── Session ──────────────────────────────────────────────────
+// ─── Session
 function isLoggedIn() { return localStorage.getItem('elbnam_admin') === 'true'; }
-
 function login() {
   const pwd = document.getElementById('passwordInput').value;
-  if (pwd === CONFIG.ADMIN_PASSWORD) {
-    localStorage.setItem('elbnam_admin', 'true');
-    showDashboard();
-  } else {
-    document.getElementById('loginError').style.display = 'block';
-  }
+  if (pwd === CONFIG.ADMIN_PASSWORD) { localStorage.setItem('elbnam_admin','true'); showDashboard(); }
+  else { document.getElementById('loginError').style.display = 'block'; }
 }
-
 function logout() {
   localStorage.removeItem('elbnam_admin');
   document.getElementById('dashboard').style.display = 'none';
   document.getElementById('loginWrap').style.display = 'flex';
   document.getElementById('passwordInput').value = '';
 }
-
 function showDashboard() {
   document.getElementById('loginWrap').style.display = 'none';
   document.getElementById('dashboard').style.display = 'block';
-  updateSubcategory('pCategory', 'pSubcategory');
+  updateSubcategory('pCategory','pSubcategory');
   loadProducts();
 }
 
-// ─── UI Sections ──────────────────────────────────────────────
+// ─── UI Sections
 function showSection(section) {
   const isProducts = section === 'products';
   document.getElementById('productsSection').style.display = isProducts ? 'block' : 'none';
@@ -358,13 +366,16 @@ function showSection(section) {
   document.getElementById('tabOrders').classList.toggle('active', !isProducts);
   if (!isProducts) loadOrders();
 }
-
 function toggleImport() {
   const s = document.getElementById('importSection');
   s.style.display = s.style.display === 'none' ? 'block' : 'none';
 }
+function toggleOrderImport() {
+  const s = document.getElementById('orderImportPanel');
+  s.style.display = s.style.display === 'none' ? 'block' : 'none';
+}
 
-// ─── Subcategory ─────────────────────────────────────────────
+// ─── Subcategory
 function updateSubcategory(catId, subId, selected = '') {
   const cat = document.getElementById(catId).value;
   const el  = document.getElementById(subId);
@@ -373,7 +384,7 @@ function updateSubcategory(catId, subId, selected = '') {
   ).join('');
 }
 
-// ─── Image Preview ────────────────────────────────────────────
+// ─── Image Preview
 function previewImgs(input, mainId, textId, gridId) {
   const grid = document.getElementById(gridId);
   grid.innerHTML = '';
@@ -389,7 +400,7 @@ function previewImgs(input, mainId, textId, gridId) {
   });
 }
 
-// ─── Stock Inputs ─────────────────────────────────────────────
+// ─── Stock Inputs
 function updateStockInputs(containerId, sizesId, groupId) {
   const sizes = document.getElementById(sizesId).value.split(',').map(s => s.trim()).filter(Boolean);
   const group = document.getElementById(groupId);
@@ -406,7 +417,6 @@ function updateStockInputs(containerId, sizesId, groupId) {
         onfocus="this.style.borderColor='#b8860b'" onblur="this.style.borderColor='#e5e5e5'">
     </div>`).join('');
 }
-
 function getStockData(containerId) {
   const stock = {};
   document.getElementById(containerId).querySelectorAll('input').forEach(i => {
@@ -415,7 +425,7 @@ function getStockData(containerId) {
   return stock;
 }
 
-// ─── Products ─────────────────────────────────────────────────────
+// ─── Products
 async function loadProducts() {
   try {
     const res = await fetch(API_URL);
@@ -425,13 +435,11 @@ async function loadProducts() {
     document.getElementById('productsGrid').innerHTML = '<div style="padding:20px;color:#999;">Could not load products</div>';
   }
 }
-
 function filterProducts(cat, btn) {
   document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   renderProducts(cat === 'all' ? allProducts : allProducts.filter(p => p.category === cat));
 }
-
 function renderProducts(products) {
   document.getElementById('productsCount').textContent = products.length + ' products';
   const grid = document.getElementById('productsGrid');
@@ -461,16 +469,13 @@ function renderProducts(products) {
   }).join('');
   initDragDrop();
 }
-
 async function addProduct() {
   const name  = document.getElementById('pName').value.trim();
   const price = document.getElementById('pPrice').value;
   const files = document.getElementById('pImage').files;
   if (!name || !price || !files.length) { alert('Name, price, and at least one image are required!'); return; }
-
   const btn = document.getElementById('submitBtn');
   btn.disabled = true; btn.textContent = 'Uploading...';
-
   const fd = new FormData();
   fd.append('name', name);
   fd.append('category', document.getElementById('pCategory').value);
@@ -481,7 +486,6 @@ async function addProduct() {
   fd.append('sizes', document.getElementById('pSizes').value);
   fd.append('sizeStock', JSON.stringify(getStockData('stockInputs')));
   Array.from(files).forEach(f => fd.append('images', f));
-
   try {
     const res  = await fetch(API_URL, { method: 'POST', body: fd });
     const data = await res.json();
@@ -498,23 +502,21 @@ async function addProduct() {
       loadProducts();
     } else { alert(data.error || 'Failed to add product'); }
   } catch (err) { alert('Error: ' + err.message); }
-
   btn.disabled = false; btn.textContent = '◆ Add Product';
 }
-
 function openEditModal(id) {
   const p = allProducts.find(x => x._id === id);
   if (!p) return;
   editingProductId = id;
   document.getElementById('eName').value = p.name;
   document.getElementById('eCategory').value = p.category;
-  updateSubcategory('eCategory', 'eSubcategory', p.subcategory || '');
+  updateSubcategory('eCategory','eSubcategory', p.subcategory || '');
   document.getElementById('eLabel').value = p.label || '';
   document.getElementById('ePrice').value = p.price;
   document.getElementById('eOriginalPrice').value = p.originalPrice || '';
   document.getElementById('eSizes').value = p.sizes.join(', ');
   setTimeout(() => {
-    updateStockInputs('eStockInputs', 'eSizes', 'eStockGroup');
+    updateStockInputs('eStockInputs','eSizes','eStockGroup');
     const stockMap = p.sizeStock || {};
     document.querySelectorAll('#eStockInputs input').forEach(i => { i.value = stockMap[i.dataset.size] ?? 0; });
   }, 0);
@@ -534,21 +536,14 @@ function openEditModal(id) {
   }
   document.getElementById('editModal').classList.add('open');
 }
-
-function closeEditModal() {
-  document.getElementById('editModal').classList.remove('open');
-  editingProductId = null;
-}
-
+function closeEditModal() { document.getElementById('editModal').classList.remove('open'); editingProductId = null; }
 async function updateProduct() {
   if (!editingProductId) return;
   const name  = document.getElementById('eName').value.trim();
   const price = document.getElementById('ePrice').value;
   if (!name || !price) { alert('Name and price are required!'); return; }
-
   const btn = document.getElementById('updateBtn');
   btn.disabled = true; btn.textContent = 'Updating...';
-
   const fd = new FormData();
   fd.append('name', name);
   fd.append('category', document.getElementById('eCategory').value);
@@ -559,24 +554,21 @@ async function updateProduct() {
   fd.append('sizes', document.getElementById('eSizes').value);
   fd.append('sizeStock', JSON.stringify(getStockData('eStockInputs')));
   Array.from(document.getElementById('eImage').files).forEach(f => fd.append('images', f));
-
   try {
     const res  = await fetch(API_URL + '/' + editingProductId, { method: 'PUT', body: fd });
     const data = await res.json();
     if (data.success) { closeEditModal(); loadProducts(); }
     else { alert(data.error || 'Update failed'); }
   } catch (err) { alert('Error: ' + err.message); }
-
   btn.disabled = false; btn.textContent = 'Update Product';
 }
-
 async function deleteProduct(id) {
   if (!confirm('Delete this product?')) return;
   try { await fetch(API_URL + '/' + id, { method: 'DELETE' }); loadProducts(); }
   catch { alert('Error deleting product'); }
 }
 
-// ─── Drag & Drop Reorder ──────────────────────────────────────────
+// ─── Drag & Drop
 function initDragDrop() {
   const grid = document.getElementById('productsGrid');
   let dragged = null;
@@ -587,14 +579,13 @@ function initDragDrop() {
     item.addEventListener('drop',      e => { e.preventDefault(); if (item !== dragged) { const all = [...grid.querySelectorAll('.product-item')]; all.indexOf(dragged) < all.indexOf(item) ? grid.insertBefore(dragged, item.nextSibling) : grid.insertBefore(dragged, item); } });
   });
 }
-
 async function saveNewOrder() {
-  const order = [...document.getElementById('productsGrid').querySelectorAll('.product-item')].map((el, i) => ({ id: el.dataset.id, position: i }));
+  const order = [...document.getElementById('productsGrid').querySelectorAll('.product-item')].map((el,i) => ({ id: el.dataset.id, position: i }));
   try { await fetch(CONFIG.API_BASE + '/api/products/reorder', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ order }) }); }
   catch { console.log('Reorder save failed'); }
 }
 
-// ─── Orders ─────────────────────────────────────────────────────
+// ─── Orders
 async function loadOrders() {
   try {
     const res    = await fetch(ORDERS_URL);
@@ -605,8 +596,14 @@ async function loadOrders() {
     body.innerHTML = orders.map(o => `
       <div style="border:1px solid #f0f0f0;border-radius:4px;padding:16px;margin-bottom:12px;">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
-          <div><div style="font-weight:600;font-size:14px;">${o.customerName}</div><div style="font-size:11px;color:#999;margin-top:2px;">${o.phone}${o.email ? ' &middot; ' + o.email : ''}</div></div>
-          <div style="text-align:right;"><div style="font-weight:600;color:#b8860b;">PKR ${o.total.toLocaleString()}</div><div style="font-size:10px;color:#999;margin-top:2px;">${new Date(o.createdAt).toLocaleDateString('en-PK')}</div></div>
+          <div>
+            <div style="font-weight:600;font-size:14px;">${o.customerName}</div>
+            <div style="font-size:11px;color:#999;margin-top:2px;">${o.phone}${o.email ? ' &middot; ' + o.email : ''}${o.externalId ? ' &middot; <span style="background:#f0f0f0;padding:1px 5px;border-radius:2px;font-size:10px;">' + o.externalId + '</span>' : ''}</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-weight:600;color:#b8860b;">PKR ${o.total.toLocaleString()}</div>
+            <div style="font-size:10px;color:#999;margin-top:2px;">${new Date(o.createdAt).toLocaleDateString('en-PK')}</div>
+          </div>
         </div>
         <div style="font-size:11px;color:#666;margin-bottom:10px;padding:8px;background:#f8f8f8;border-radius:2px;">${o.items.map(i=>`<div>${i.name} (${i.size}) &times; ${i.qty}</div>`).join('')}</div>
         <div style="font-size:11px;color:#999;margin-bottom:10px;">&#128205; ${o.address}</div>
@@ -625,19 +622,82 @@ async function loadOrders() {
       </div>`).join('');
   } catch (err) { console.log('Orders error:', err); }
 }
-
 async function updateOrderStatus(id, status) {
   try { await fetch(ORDERS_URL + '/' + id, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status }) }); loadOrders(); }
   catch (err) { console.log(err); }
 }
-
 async function deleteOrder(id) {
   if (!confirm('Delete this order?')) return;
   try { await fetch(ORDERS_URL + '/' + id, { method: 'DELETE' }); loadOrders(); }
   catch (err) { console.log(err); }
 }
 
-// ─── Excel Import ───────────────────────────────────────────────
+// ─── Order Excel Import
+function downloadOrderTemplate() {
+  const ws = XLSX.utils.aoa_to_sheet([
+    ['Order ID', 'Customer Name', 'Phone', 'Email', 'Address', 'Items', 'Total', 'Status', 'Payment'],
+    ['ORD-001', 'Ahmed Khan', '03001234567', 'ahmed@email.com', '123 Model Town, Lahore', 'Blue Ocean:XL:1:2500', '2500', 'Pending', 'COD'],
+    ['ORD-002', 'Sara Malik', '03109876543', '', '45 DHA Phase 5, Karachi', 'Red Kurta:M:2:1800;Classic Kurta:L:1:1400', '5000', 'Confirmed', 'COD'],
+    ['ORD-003', 'Usman Ali', '03331122334', 'usman@email.com', '7 Gulberg III, Lahore', 'White Sherwani:XL:1:4500', '4500', 'Delivered', 'COD'],
+    ['ORD-004', 'Ayesha Raza', '03215678901', '', '22 F-10, Islamabad', 'Kids Suit:S:2:900', '1800', 'Cancelled', 'COD']
+  ]);
+  ws['!cols'] = [10,18,14,22,28,38,8,12,10].map(w => ({ wch: w }));
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Orders');
+  XLSX.writeFile(wb, 'elbnam_orders_template.xlsx');
+}
+function handleOrderExcelUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  document.getElementById('orderExcelFileName').textContent = file.name;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const wb = XLSX.read(e.target.result, { type: 'binary' });
+    orderExcelData = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
+    const btn = document.getElementById('startOrderImportBtn');
+    btn.style.display = 'inline-block';
+    btn.textContent = `► Import ${orderExcelData.length} Orders`;
+    document.getElementById('orderImportResult').style.display = 'none';
+  };
+  reader.readAsBinaryString(file);
+}
+async function startOrderImport() {
+  if (!orderExcelData.length) return;
+  const btn = document.getElementById('startOrderImportBtn');
+  btn.disabled = true; btn.textContent = 'Importing...';
+  const orders = orderExcelData.map(row => ({
+    externalId:   row['Order ID']      ? String(row['Order ID'])      : null,
+    customerName: String(row['Customer Name'] || ''),
+    phone:        String(row['Phone']         || ''),
+    email:        String(row['Email']         || ''),
+    address:      String(row['Address']       || ''),
+    items:        String(row['Items']         || ''),
+    total:        parseFloat(row['Total'])    || 0,
+    status:       row['Status']              || 'Pending',
+    payment:      row['Payment']             || 'COD'
+  }));
+  try {
+    const res  = await fetch(ORDERS_URL + '/import', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ orders }) });
+    const data = await res.json();
+    const resultEl = document.getElementById('orderImportResult');
+    const statusEl = document.getElementById('orderImportStatus');
+    const logEl    = document.getElementById('orderImportLog');
+    resultEl.style.display = 'block';
+    statusEl.innerHTML = `✅ ${data.created} created &nbsp; 🔄 ${data.updated} updated &nbsp; ⏩ ${data.skipped} skipped`;
+    logEl.innerHTML = '';
+    if (data.errors && data.errors.length) {
+      data.errors.forEach(e => { logEl.innerHTML += `<div>❌ ${e}</div>`; });
+    }
+    loadOrders();
+  } catch (err) {
+    document.getElementById('orderImportResult').style.display = 'block';
+    document.getElementById('orderImportStatus').textContent = 'Error: ' + err.message;
+  }
+  btn.disabled = false;
+  btn.textContent = `► Import Again`;
+}
+
+// ─── Product Excel Import
 function downloadTemplate() {
   const csv = ['Name,Category,Subcategory,Price,Original Price,Sizes,Label,Image URL',
     'Linen Kurta,mens,Kurta,1400,2000,"S,M,L,XL",Sale,https://example.com/image.jpg'].join('\n');
@@ -646,7 +706,6 @@ function downloadTemplate() {
   a.download = 'libas_products_template.csv';
   a.click();
 }
-
 function handleExcelUpload(input) {
   const file = input.files[0];
   if (!file) return;
@@ -661,7 +720,6 @@ function handleExcelUpload(input) {
   };
   reader.readAsBinaryString(file);
 }
-
 async function startImport() {
   if (!excelData.length) return;
   const btn      = document.getElementById('startImportBtn');
@@ -678,17 +736,17 @@ async function startImport() {
     try {
       const res  = await fetch(API_URL + '/import', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: row['Name']||'', category: (row['Category']||'mens').toLowerCase(), subcategory: row['Subcategory']||'', price: Number(row['Price'])||0, originalPrice: Number(row['Original Price'])||0, sizes: row['Sizes']?row['Sizes'].toString().split(',').map(s=>s.trim()):[], label: row['Label']||'', image: row['Image URL']||'' }) });
       const data = await res.json();
-      if (data.success) { ok++;   logEl.innerHTML += `<div style="color:green">&#10003; ${row['Name']}</div>`; }
-      else              { fail++; logEl.innerHTML += `<div style="color:red">&#10007; ${row['Name']} &mdash; ${data.message}</div>`; }
-    } catch { fail++; logEl.innerHTML += `<div style="color:red">&#10007; ${row['Name']} &mdash; Network error</div>`; }
+      if (data.success) { ok++;   logEl.innerHTML += `<div style="color:green">✓ ${row['Name']}</div>`; }
+      else              { fail++; logEl.innerHTML += `<div style="color:red">✗ ${row['Name']} — ${data.message}</div>`; }
+    } catch { fail++; logEl.innerHTML += `<div style="color:red">✗ ${row['Name']} — Network error</div>`; }
     logEl.scrollTop = logEl.scrollHeight;
   }
-  statusEl.textContent = `Done! &#10003; ${ok} imported, &#10007; ${fail} failed`;
+  statusEl.textContent = `Done! ✓ ${ok} imported, ✗ ${fail} failed`;
   btn.disabled = false; btn.textContent = '► Import Again';
   loadProducts();
 }
 
-// ─── Init ──────────────────────────────────────────────────────────
+// ─── Init
 if (isLoggedIn()) { showDashboard(); } else { document.getElementById('loginWrap').style.display = 'flex'; }
 </script>
 </body>
