@@ -123,26 +123,44 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-// Upsert by name — supports inventory CSV import
+// Upsert by name. Available can be:
+//   a number  → distribute evenly across sizes
+//   "S:5;M:3" → per-size stock
 router.post('/import', async (req, res) => {
   try {
-    const { name, category, subcategory, price, originalPrice, sizes, label, available } = req.body;
+    const { name, category, subcategory, price, originalPrice, sizes, label } = req.body;
     if (!name || !price) return res.json({ success: false, message: 'Name and price required' });
 
-    const sizeList = Array.isArray(sizes)
+    let sizeList = Array.isArray(sizes)
       ? sizes
       : (sizes ? String(sizes).split(',').map(s => s.trim()).filter(Boolean) : []);
 
-    const totalAvailable = parseInt(available) || 0;
+    const availableRaw = String(req.body.available || '0').trim();
     const sizeStock = {};
-    if (sizeList.length > 0) {
-      const perSize = Math.floor(totalAvailable / sizeList.length);
-      const remainder = totalAvailable % sizeList.length;
-      sizeList.forEach((s, i) => { sizeStock[s] = perSize + (i === 0 ? remainder : 0); });
-    }
-    const inStock = Object.values(sizeStock).some(v => v > 0) || (sizeList.length === 0 && totalAvailable > 0);
 
-    // Upsert: find existing product by exact name (case-insensitive)
+    if (availableRaw.includes(':')) {
+      // Per-size format: "S:5;M:3;L:4;XL:2"
+      availableRaw.split(';').forEach(part => {
+        const [s, q] = part.split(':').map(x => x.trim());
+        if (s) sizeStock[s] = parseInt(q) || 0;
+      });
+      // Ensure Sizes column entries exist in map
+      sizeList.forEach(s => { if (!(s in sizeStock)) sizeStock[s] = 0; });
+      // Add any extra sizes from per-size string that weren't in Sizes column
+      Object.keys(sizeStock).forEach(s => { if (!sizeList.includes(s)) sizeList.push(s); });
+    } else {
+      // Total number — distribute evenly across sizes
+      const total = parseInt(availableRaw) || 0;
+      if (sizeList.length > 0) {
+        const perSize   = Math.floor(total / sizeList.length);
+        const remainder = total % sizeList.length;
+        sizeList.forEach((s, i) => { sizeStock[s] = perSize + (i === 0 ? remainder : 0); });
+      }
+    }
+
+    const inStock = Object.values(sizeStock).some(v => v > 0);
+
+    // Upsert by exact name (case-insensitive)
     const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const existing = await Product.findOne({ name: new RegExp(`^${escaped}$`, 'i') });
 
@@ -150,13 +168,13 @@ router.post('/import', async (req, res) => {
       const updatedProduct = await Product.findByIdAndUpdate(
         existing._id,
         {
-          category: category ? category.toLowerCase() : existing.category,
-          subcategory: subcategory || existing.subcategory,
-          price: Number(price),
-          originalPrice: originalPrice ? Number(originalPrice) : existing.originalPrice,
-          label: label !== undefined ? label : existing.label,
-          sizes: sizeList.length ? sizeList : existing.sizes,
-          sizeStock: sizeList.length ? sizeStock : Object.fromEntries(existing.sizeStock || new Map()),
+          category:      category ? category.toLowerCase() : existing.category,
+          subcategory:   subcategory    || existing.subcategory,
+          price:         Number(price),
+          originalPrice: originalPrice  ? Number(originalPrice) : existing.originalPrice,
+          label:         label !== undefined ? label : existing.label,
+          sizes:         sizeList.length ? sizeList : existing.sizes,
+          sizeStock:     sizeList.length ? sizeStock : Object.fromEntries(existing.sizeStock || new Map()),
           inStock
         },
         { new: true }
@@ -164,12 +182,12 @@ router.post('/import', async (req, res) => {
       return res.json({ success: true, updated: true, product: updatedProduct });
     }
 
-    // Create new (no image — must be added via Edit)
+    // Create new (no image — add via Edit after import)
     const product = new Product({
       name,
-      category: category ? category.toLowerCase() : 'mens',
-      subcategory: subcategory || '',
-      price: Number(price),
+      category:      category ? category.toLowerCase() : 'mens',
+      subcategory:   subcategory || '',
+      price:         Number(price),
       originalPrice: originalPrice ? Number(originalPrice) : undefined,
       image: '', images: [],
       label: label || '',

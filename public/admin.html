@@ -68,8 +68,8 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
 .action-btn:hover { border-color:#b8860b; color:#b8860b; }
 .action-btn.delete { border-color:#ffcdd2; color:#e53935; }
 .action-btn.delete:hover { background:#ffebee; }
-.import-btn { padding:10px 20px; background:#0a0a0a; color:#fff; border:none; font-size:10px; letter-spacing:3px; text-transform:uppercase; cursor:pointer; border-radius:2px; }
-.import-btn:hover { background:#b8860b; }
+.import-btn { display:inline-block; padding:10px 20px; background:#0a0a0a; color:#fff; border:none; font-size:10px; letter-spacing:3px; text-transform:uppercase; cursor:pointer; border-radius:2px; text-decoration:none; }
+.import-btn:hover { background:#b8860b; color:#fff; }
 .import-btn.outline { background:transparent; color:#0a0a0a; border:1px solid #ddd; }
 .import-btn.outline:hover { border-color:#b8860b; color:#b8860b; }
 .csv-import-panel { background:#f8f8f8; border:1px solid #e5e5e5; border-radius:4px; padding:16px; margin-bottom:20px; display:none; }
@@ -100,7 +100,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
     <div class="login-logo"><span>El</span>bnam</div>
     <div class="login-sub">Admin Panel</div>
     <input type="password" class="login-input" id="passwordInput" placeholder="Enter admin password" onkeypress="if(event.key==='Enter')login()">
-    <button class="login-btn" onclick="login()">Access Dashboard</button>
+    <button type="button" class="login-btn" onclick="login()">Access Dashboard</button>
     <div class="login-error" id="loginError">Incorrect password!</div>
   </div>
 </div>
@@ -110,9 +110,9 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
     <div class="topbar-brand"><span>El</span>bnam</div>
     <div class="topbar-right">
       <span class="topbar-tag">Admin Panel</span>
-      <button class="topbar-btn active" onclick="showSection('products')" id="tabProducts">Products</button>
-      <button class="topbar-btn" onclick="showSection('orders')" id="tabOrders">Orders</button>
-      <button class="topbar-btn" onclick="logout()">Logout</button>
+      <button type="button" class="topbar-btn active" onclick="showSection('products')" id="tabProducts">Products</button>
+      <button type="button" class="topbar-btn" onclick="showSection('orders')" id="tabOrders">Orders</button>
+      <button type="button" class="topbar-btn" onclick="logout()">Logout</button>
     </div>
   </div>
 
@@ -175,7 +175,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
         </div>
         <div id="imgPreviewGrid" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;"></div>
       </div>
-      <button class="submit-btn" id="submitBtn" onclick="addProduct()">&#9670; Add Product</button>
+      <button type="button" class="submit-btn" id="submitBtn" onclick="addProduct()">&#9670; Add Product</button>
       <div class="success-toast" id="successToast">&#10003; Product added successfully!</div>
     </div>
 
@@ -186,31 +186,32 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
             <span class="products-count" id="productsCount">0 products</span>
             <div class="filter-tabs">
-              <button class="filter-tab active" onclick="filterProducts('all',this)">All</button>
-              <button class="filter-tab" onclick="filterProducts('mens',this)">Men's</button>
-              <button class="filter-tab" onclick="filterProducts('kids',this)">Kids'</button>
-              <button class="filter-tab" onclick="filterProducts('festive',this)">Festive</button>
+              <button type="button" class="filter-tab active" onclick="filterProducts('all',this)">All</button>
+              <button type="button" class="filter-tab" onclick="filterProducts('mens',this)">Men's</button>
+              <button type="button" class="filter-tab" onclick="filterProducts('kids',this)">Kids'</button>
+              <button type="button" class="filter-tab" onclick="filterProducts('festive',this)">Festive</button>
             </div>
-            <button class="import-btn outline" onclick="toggleProductImport()" style="padding:7px 14px;font-size:9px;">&#128202; Import CSV</button>
+            <button type="button" class="import-btn outline" onclick="toggleProductImport()" style="padding:7px 14px;font-size:9px;">&#128202; Import CSV</button>
           </div>
         </div>
 
         <!-- Product CSV Import Panel -->
         <div class="csv-import-panel" id="productImportPanel">
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
-            <button class="import-btn outline" onclick="downloadInventoryReport()">&#11015; Inventory Report</button>
+            <button type="button" class="import-btn outline" onclick="downloadInventoryReport()">&#11015; Inventory Report</button>
             <input type="file" id="productCsvFile" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleProductUpload(this)">
-            <button class="import-btn" onclick="document.getElementById('productCsvFile').click()">&#128194; Select File (.xlsx / .csv)</button>
+            <label for="productCsvFile" class="import-btn" style="cursor:pointer;">&#128194; Select File (.xlsx / .csv)</label>
             <span id="productFileName" style="font-size:12px;color:#999;"></span>
-            <button class="import-btn" id="startProductImportBtn" onclick="startProductImport()" style="display:none;background:#b8860b;">&#9654; Import Products</button>
+            <button type="button" class="import-btn" id="startProductImportBtn" onclick="startProductImport()" style="display:none;background:#b8860b;">&#9654; Import Products</button>
           </div>
           <div id="productImportResult" style="display:none;font-size:12px;padding:10px;background:#fff;border-radius:2px;border:1px solid #e5e5e5;">
             <div id="productImportStatus" style="font-weight:600;margin-bottom:6px;"></div>
             <div id="productImportLog" style="max-height:80px;overflow-y:auto;color:#e53935;"></div>
           </div>
-          <div style="font-size:11px;color:#aaa;margin-top:8px;line-height:1.6;">
+          <div style="font-size:11px;color:#aaa;margin-top:8px;line-height:1.8;">
             Columns: <code style="background:#eee;padding:1px 5px;border-radius:2px;">Name, Category, Subcategory, Price, Original Price, Sizes, Label, Available, Sold</code><br>
-            Same product name = update existing &nbsp;&mdash;&nbsp; <strong>Available</strong> = total stock distributed across all sizes.
+            <strong>Available</strong> &amp; <strong>Sold</strong> are per-size: <code style="background:#eee;padding:1px 5px;border-radius:2px;">S:5;M:3;L:4;XL:2</code><br>
+            Same product name = update existing &nbsp;&mdash;&nbsp; new name = create (add image via Edit after import)
           </div>
         </div>
 
@@ -224,26 +225,27 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
           <div class="card-title" style="margin:0;border:none;padding:0">Customer <span style="color:#b8860b;font-style:italic">Orders</span></div>
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
             <span class="products-count" id="ordersCount">0 orders</span>
-            <button class="import-btn outline" onclick="toggleOrderImport()" style="padding:7px 14px;font-size:9px;">&#128202; Import CSV</button>
+            <button type="button" class="import-btn outline" onclick="toggleOrderImport()" style="padding:7px 14px;font-size:9px;">&#128202; Import CSV</button>
           </div>
         </div>
 
         <!-- Order CSV Import Panel -->
         <div class="csv-import-panel" id="orderImportPanel">
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
-            <button class="import-btn outline" onclick="downloadOrderTemplate()">&#11015; Download Sample</button>
+            <button type="button" class="import-btn outline" onclick="downloadOrderTemplate()">&#11015; Download Sample</button>
             <input type="file" id="orderCsvFile" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleOrderUpload(this)">
-            <button class="import-btn" onclick="document.getElementById('orderCsvFile').click()">&#128194; Select File (.xlsx / .csv)</button>
+            <label for="orderCsvFile" class="import-btn" style="cursor:pointer;">&#128194; Select File (.xlsx / .csv)</label>
             <span id="orderFileName" style="font-size:12px;color:#999;"></span>
-            <button class="import-btn" id="startOrderImportBtn" onclick="startOrderImport()" style="display:none;background:#b8860b;">&#9654; Import Orders</button>
+            <button type="button" class="import-btn" id="startOrderImportBtn" onclick="startOrderImport()" style="display:none;background:#b8860b;">&#9654; Import Orders</button>
           </div>
           <div id="orderImportResult" style="display:none;font-size:12px;padding:10px;background:#fff;border-radius:2px;border:1px solid #e5e5e5;">
             <div id="orderImportStatus" style="font-weight:600;margin-bottom:6px;"></div>
             <div id="orderImportLog" style="max-height:80px;overflow-y:auto;color:#e53935;"></div>
           </div>
-          <div style="font-size:11px;color:#aaa;margin-top:8px;line-height:1.6;">
+          <div style="font-size:11px;color:#aaa;margin-top:8px;line-height:1.8;">
             Columns: <code style="background:#eee;padding:1px 5px;border-radius:2px;">Customer, Phone, Address, Order, Price, Order Date, Status</code><br>
-            Order format: <code style="background:#eee;padding:1px 5px;border-radius:2px;">Product Name (Size) &times; Qty</code> &nbsp;&mdash;&nbsp; same Order ID = skip unless status changed.
+            Order format: <code style="background:#eee;padding:1px 5px;border-radius:2px;">Product Name (Size) &times; Qty</code><br>
+            Same Order ID = skip unless status changed (no duplicate stock deduction)
           </div>
         </div>
 
@@ -255,7 +257,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
 
 <div class="modal" id="editModal">
   <div class="modal-content">
-    <button class="modal-close" onclick="closeEditModal()">&#10005;</button>
+    <button type="button" class="modal-close" onclick="closeEditModal()">&#10005;</button>
     <h2 class="modal-title">Edit Product</h2>
     <div class="form-group">
       <label class="form-label">Product Name</label>
@@ -313,7 +315,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
       </div>
       <div id="eImgPreviewGrid" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;"></div>
     </div>
-    <button class="submit-btn" id="updateBtn" onclick="updateProduct()">Update Product</button>
+    <button type="button" class="submit-btn" id="updateBtn" onclick="updateProduct()">Update Product</button>
   </div>
 </div>
 
@@ -454,8 +456,8 @@ function renderProducts(products) {
         <div class="product-price-mini">PKR ${p.price.toLocaleString()}</div>
         ${stockSummary ? `<div style="font-size:9px;color:#999;margin-bottom:8px;">${stockSummary}</div>` : ''}
         <div class="product-actions">
-          <button class="action-btn" onclick="openEditModal('${p._id}')">Edit</button>
-          <button class="action-btn delete" onclick="deleteProduct('${p._id}')">Delete</button>
+          <button type="button" class="action-btn" onclick="openEditModal('${p._id}')">Edit</button>
+          <button type="button" class="action-btn delete" onclick="deleteProduct('${p._id}')">Delete</button>
         </div>
       </div>
     </div>`;
@@ -603,6 +605,8 @@ async function startProductImport() {
   for (const row of productImportData) {
     const sizesRaw = row['Sizes'] ? String(row['Sizes']) : '';
     const sizeList = sizesRaw.split(',').map(s => s.trim()).filter(Boolean);
+    // Pass Available as-is (number OR "S:5;M:3" string) — backend handles both
+    const available = row['Available'] !== undefined ? String(row['Available']) : '0';
     try {
       const res = await fetch(API_URL + '/import', {
         method: 'POST',
@@ -615,7 +619,7 @@ async function startProductImport() {
           originalPrice: Number(row['Original Price']) || 0,
           sizes:         sizeList,
           label:         String(row['Label']           || ''),
-          available:     parseInt(row['Available'])    || 0
+          available
         })
       });
       const data = await res.json();
@@ -632,14 +636,14 @@ async function startProductImport() {
   loadProducts();
 }
 
-// ─── Inventory Report (downloadable in import format)
+// ─── Inventory Report (per-size format, re-importable)
 async function downloadInventoryReport() {
   try {
     const [prods, orders] = await Promise.all([
       fetch(API_URL).then(r => r.json()),
       fetch(ORDERS_URL).then(r => r.json())
     ]);
-    // Sold per product id+size and name+size (non-cancelled)
+    // Sold per productId|size and name|size (non-cancelled orders)
     const soldMap = {};
     orders.filter(o => o.status !== 'Cancelled').forEach(o => {
       (o.items || []).forEach(item => {
@@ -651,19 +655,20 @@ async function downloadInventoryReport() {
     });
     const rows = [['Name','Category','Subcategory','Price','Original Price','Sizes','Label','Available','Sold']];
     prods.forEach(p => {
-      const sizes    = p.sizes    || [];
-      const stock    = p.sizeStock|| {};
-      const totalAvail = sizes.reduce((s, sz) => s + (stock[sz] ?? 0), 0);
-      const totalSold  = sizes.reduce((s, sz) => {
+      const sizes = p.sizes || [];
+      const stock = p.sizeStock || {};
+      // Per-size strings: "S:5;M:3;L:4;XL:2"
+      const availStr = sizes.map(sz => `${sz}:${stock[sz] ?? 0}`).join(';');
+      const soldStr  = sizes.map(sz => {
         const k1 = (p._id  || '') + '|' + sz;
         const k2 = (p.name || '') + '|' + sz;
-        return s + (soldMap[k1] || soldMap[k2] || 0);
-      }, 0);
+        return `${sz}:${soldMap[k1] || soldMap[k2] || 0}`;
+      }).join(';');
       rows.push([
         p.name, p.category, p.subcategory || '',
         p.price, p.originalPrice || '',
         sizes.join(','), p.label || '',
-        totalAvail, totalSold
+        availStr || '0', soldStr || '0'
       ]);
     });
     const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
@@ -676,9 +681,15 @@ async function downloadInventoryReport() {
 
 // ─── Order CSV Import
 function parseOrderStr(str) {
-  // Matches: Product Name (Size) × Qty  or  Product Name (Size) x Qty
-  const m = String(str).match(/^(.+)\s+\(([^)]+)\)\s+[×x]\s*(\d+)$/i);
-  return m ? { name: m[1].trim(), size: m[2].trim(), qty: parseInt(m[3]) } : null;
+  str = String(str || '').trim();
+  // Find the last occurrence of (Size) × Qty at the end
+  // Handles ×, x, X and optional spaces
+  const m = str.match(/^(.+?)\s*\(([^)]+)\)\s*[×xX]\s*(\d+)\s*$/i);
+  if (m) return { name: m[1].trim(), size: m[2].trim(), qty: parseInt(m[3]) };
+  // Fallback: find last (…) block and trailing × N
+  const xMatch = str.match(/^(.*?)\(([^)]+)\)\s*[×xX*]\s*(\d+)\s*$/);
+  if (xMatch) return { name: xMatch[1].trim(), size: xMatch[2].trim(), qty: parseInt(xMatch[3]) };
+  return null;
 }
 function handleOrderUpload(input) {
   const file = input.files[0];
@@ -688,30 +699,26 @@ function handleOrderUpload(input) {
   reader.onload = e => {
     const wb  = XLSX.read(e.target.result, { type: 'binary' });
     const raw = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
-    // Detect format by first row's keys
-    const isCustomerFormat = raw.length > 0 && 'Customer' in raw[0];
-    if (isCustomerFormat) {
+    const isCustomerFmt = raw.length > 0 && 'Customer' in raw[0];
+    if (isCustomerFmt) {
       orderImportData = raw.map(row => {
-        const parsed = parseOrderStr(row['Order'] || '');
-        const qty    = parsed ? parsed.qty  : 1;
-        const price  = parseFloat(row['Price']) || 0;
-        const itemsStr = parsed
-          ? `${parsed.name}:${parsed.size}:${qty}:${price}`
-          : '';
+        const parsed   = parseOrderStr(row['Order'] || '');
+        const price    = parseFloat(row['Price']) || 0;
+        const qty      = parsed ? parsed.qty : 1;
+        const itemsStr = parsed ? `${parsed.name}:${parsed.size}:${qty}:${price}` : '';
         return {
           externalId:   null,
-          customerName: String(row['Customer']   || ''),
-          phone:        String(row['Phone']       || ''),
+          customerName: String(row['Customer']  || ''),
+          phone:        String(row['Phone']      || ''),
           email:        '',
-          address:      String(row['Address']     || ''),
+          address:      String(row['Address']    || ''),
           items:        itemsStr,
           total:        price,
-          status:       String(row['Status']      || 'Pending'),
+          status:       String(row['Status']     || 'Pending'),
           payment:      'COD'
         };
       });
     } else {
-      // Original format: Order ID, Customer Name, Phone, Email, Address, Items, Total, Status, Payment
       orderImportData = raw.map(row => ({
         externalId:   row['Order ID']      ? String(row['Order ID'])      : null,
         customerName: String(row['Customer Name'] || ''),
@@ -748,7 +755,7 @@ async function startOrderImport() {
     const logEl = document.getElementById('orderImportLog');
     logEl.innerHTML = '';
     if (data.errors && data.errors.length)
-      data.errors.forEach(e => { logEl.innerHTML += `<div>❌ ${e}</div>`; });
+      data.errors.forEach(err => { logEl.innerHTML += `<div>❌ ${err}</div>`; });
     loadOrders();
   } catch (err) {
     document.getElementById('orderImportResult').style.display = 'block';
@@ -759,10 +766,10 @@ async function startOrderImport() {
 function downloadOrderTemplate() {
   const ws = XLSX.utils.aoa_to_sheet([
     ['Customer','Phone','Address','Order','Price','Order Date','Status'],
-    ['Ahmed Khan','03001234567','123 Model Town, Lahore','Blue Ocean (XL) × 1','2500','20/06/2026','Pending'],
-    ['Sara Malik','03109876543','45 DHA Phase 5, Karachi','Red Kurta (M) × 2','3600','20/06/2026','Confirmed'],
-    ['Usman Ali','03331122334','7 Gulberg III, Lahore','White Sherwani (XL) × 1','4500','20/06/2026','Delivered'],
-    ['Ayesha Raza','03215678901','22 F-10, Islamabad','Kids Suit (S) × 2','1800','20/06/2026','Cancelled']
+    ['Ahmed Khan',   '03001234567','123 Model Town, Lahore',   'Blue Ocean (XL) × 1', '2500','20/06/2026','Pending'],
+    ['Sara Malik',   '03109876543','45 DHA Phase 5, Karachi',  'Red Kurta (M) × 2',   '3600','20/06/2026','Confirmed'],
+    ['Usman Ali',    '03331122334','7 Gulberg III, Lahore',    'White Sherwani (XL) × 1','4500','20/06/2026','Delivered'],
+    ['Ayesha Raza',  '03215678901','22 F-10, Islamabad',       'Kids Suit (S) × 2',   '1800','20/06/2026','Cancelled']
   ]);
   ws['!cols'] = [18,14,28,32,8,14,12].map(w => ({ wch: w }));
   const wb = XLSX.utils.book_new();
@@ -801,7 +808,7 @@ async function loadOrders() {
           </div>
           <div style="display:flex;gap:8px;align-items:center;">
             <span style="font-size:10px;background:#f0f0f0;padding:4px 8px;border-radius:2px;">&#128181; ${o.payment}</span>
-            <button onclick="deleteOrder('${o._id}')" style="background:none;border:1px solid #eee;color:#ccc;cursor:pointer;padding:4px 8px;font-size:12px;border-radius:2px;">&#10005;</button>
+            <button type="button" onclick="deleteOrder('${o._id}')" style="background:none;border:1px solid #eee;color:#ccc;cursor:pointer;padding:4px 8px;font-size:12px;border-radius:2px;">&#10005;</button>
           </div>
         </div>
       </div>`).join('');
