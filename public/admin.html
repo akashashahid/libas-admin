@@ -1,36 +1,33 @@
 <!DOCTYPE html>
-<!-- saved from url=(0052)file:///C:/Users/ammar/Downloads/admin-elbnam_5.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="en">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Elbnam — Admin Panel</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='4' fill='%230a0a0a'/><text x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='Georgia,serif' font-style='italic' font-size='20' font-weight='700' fill='%23b8860b'>E</text></svg>">
+<script src="/config.js"></script>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
-
 .login-wrap { min-height:100vh; display:flex; align-items:center; justify-content:center; background:#0a0a0a; }
 .login-box { background:#fff; padding:48px; width:380px; border-radius:4px; }
 .login-logo { font-family:Georgia,serif; font-size:28px; font-weight:700; text-align:center; margin-bottom:8px; }
-.login-logo span { color:#b8860b; font-style:italic; }
 .login-sub { text-align:center; font-size:12px; color:#999; letter-spacing:2px; margin-bottom:32px; }
 .login-input { width:100%; padding:12px 16px; border:1px solid #ddd; border-radius:2px; font-size:14px; margin-bottom:14px; outline:none; }
 .login-input:focus { border-color:#b8860b; }
 .login-btn { width:100%; padding:14px; background:#0a0a0a; color:#fff; border:none; font-size:11px; letter-spacing:4px; text-transform:uppercase; cursor:pointer; border-radius:2px; }
 .login-btn:hover { background:#b8860b; }
 .login-error { color:red; font-size:12px; text-align:center; margin-top:8px; display:none; }
-
 .dashboard { display:none; }
 .topbar { background:#0a0a0a; padding:16px 32px; display:flex; align-items:center; justify-content:space-between; }
 .topbar-brand { font-family:Georgia,serif; font-size:20px; color:#fff; }
 .topbar-brand span { color:#b8860b; font-style:italic; }
-.topbar-right { display:flex; align-items:center; gap:16px; }
+.topbar-right { display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
 .topbar-tag { font-size:10px; letter-spacing:3px; color:rgba(255,255,255,0.4); text-transform:uppercase; }
-.logout-btn { background:transparent; border:1px solid rgba(255,255,255,0.2); color:#fff; padding:8px 16px; font-size:10px; letter-spacing:2px; cursor:pointer; }
-.logout-btn:hover { border-color:#b8860b; color:#b8860b; }
-
+.topbar-btn { background:transparent; border:1px solid rgba(255,255,255,0.2); color:#fff; padding:8px 16px; font-size:10px; letter-spacing:2px; cursor:pointer; }
+.topbar-btn:hover { border-color:#b8860b; color:#b8860b; }
+.topbar-btn.active { background:#b8860b; color:#fff; border-color:#b8860b; }
 .main { display:grid; grid-template-columns:400px 1fr; gap:24px; padding:24px 32px; }
-
 .form-card { background:#fff; padding:32px; border-radius:4px; border:1px solid #e5e5e5; height:fit-content; }
 .card-title { font-family:Georgia,serif; font-size:20px; font-weight:600; margin-bottom:24px; padding-bottom:16px; border-bottom:1px solid #f0f0f0; }
 .card-title span { color:#b8860b; font-style:italic; }
@@ -43,14 +40,13 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
 .img-preview img { width:100%; height:100%; object-fit:cover; display:none; }
 .img-preview-text { font-size:12px; color:#ccc; text-align:center; }
 .submit-btn { width:100%; padding:14px; background:#0a0a0a; color:#fff; border:none; font-size:10px; letter-spacing:4px; text-transform:uppercase; cursor:pointer; border-radius:2px; margin-top:8px; }
-.submit-btn:hover { background:#b8960a; }
+.submit-btn:hover { background:#b8860b; }
 .submit-btn:disabled { background:#ccc; cursor:not-allowed; }
 .success-toast { display:none; background:#e8f5e9; border:1px solid #a5d6a7; color:#2e7d32; padding:12px; border-radius:2px; font-size:13px; text-align:center; margin-top:12px; }
-
 .products-card { background:#fff; padding:32px; border-radius:4px; border:1px solid #e5e5e5; }
-.products-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; padding-bottom:16px; border-bottom:1px solid #f0f0f0; }
+.products-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; padding-bottom:16px; border-bottom:1px solid #f0f0f0; flex-wrap:wrap; gap:12px; }
 .products-count { font-size:12px; color:#999; letter-spacing:1px; }
-.filter-tabs { display:flex; gap:0; border:1px solid #e5e5e5; }
+.filter-tabs { display:flex; border:1px solid #e5e5e5; }
 .filter-tab { padding:8px 16px; background:transparent; border:none; font-size:10px; letter-spacing:2px; text-transform:uppercase; cursor:pointer; color:#999; border-right:1px solid #e5e5e5; }
 .filter-tab:last-child { border-right:none; }
 .filter-tab.active { background:#0a0a0a; color:#fff; }
@@ -72,56 +68,46 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
 .action-btn:hover { border-color:#b8860b; color:#b8860b; }
 .action-btn.delete { border-color:#ffcdd2; color:#e53935; }
 .action-btn.delete:hover { background:#ffebee; }
-.import-section{background:#fff;padding:24px 32px;border-radius:4px;border:1px solid #e5e5e5;margin:0 32px 24px;}
-.import-title{font-family:Georgia,serif;font-size:16px;font-weight:600;margin-bottom:16px;color:#0a0a0a;}
-.import-title span{color:#b8860b;font-style:italic;}
-.import-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
-.import-btn{padding:10px 20px;background:#0a0a0a;color:#fff;border:none;font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;border-radius:2px;}
-.import-btn:hover{background:#b8860b;}
-.import-btn.outline{background:transparent;color:#0a0a0a;border:1px solid #ddd;}
-.import-btn.outline:hover{border-color:#b8860b;color:#b8860b;}
-.import-progress{margin-top:12px;display:none;}
-.progress-bar-wrap{background:#f0f0f0;border-radius:4px;height:6px;margin-top:8px;}
-.progress-bar{height:6px;background:#b8860b;border-radius:4px;transition:width 0.3s;width:0%;}
-.import-log{margin-top:10px;font-size:11px;color:#666;max-height:80px;overflow-y:auto;}
-
+.import-section { background:#fff; padding:24px 32px; border-radius:4px; border:1px solid #e5e5e5; margin:0 32px 24px; display:none; }
+.import-title { font-family:Georgia,serif; font-size:16px; font-weight:600; margin-bottom:16px; color:#0a0a0a; }
+.import-title span { color:#b8860b; font-style:italic; }
+.import-row { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+.import-btn { padding:10px 20px; background:#0a0a0a; color:#fff; border:none; font-size:10px; letter-spacing:3px; text-transform:uppercase; cursor:pointer; border-radius:2px; }
+.import-btn:hover { background:#b8860b; }
+.import-btn.outline { background:transparent; color:#0a0a0a; border:1px solid #ddd; }
+.import-btn.outline:hover { border-color:#b8860b; color:#b8860b; }
+.import-progress { margin-top:12px; display:none; }
+.progress-bar-wrap { background:#f0f0f0; border-radius:4px; height:6px; margin-top:8px; }
+.progress-bar { height:6px; background:#b8860b; border-radius:4px; transition:width 0.3s; width:0%; }
+.import-log { margin-top:10px; font-size:11px; color:#666; max-height:80px; overflow-y:auto; }
 .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:300; align-items:center; justify-content:center; }
 .modal.open { display:flex; }
-.modal-content { background:#fff; padding:32px; border-radius:4px; width:90%; max-width:500px; max-height:90vh; overflow-y:auto; }
+.modal-content { background:#fff; padding:32px; border-radius:4px; width:90%; max-width:500px; max-height:90vh; overflow-y:auto; position:relative; }
 .modal-title { font-family:Georgia,serif; font-size:22px; font-weight:600; margin-bottom:20px; color:#0a0a0a; }
 .modal-close { position:absolute; top:16px; right:16px; background:none; border:none; font-size:24px; cursor:pointer; color:#999; }
-
 @media (max-width:768px) {
   .main { grid-template-columns:1fr; padding:16px; }
   .products-grid { grid-template-columns:repeat(2,1fr); gap:10px; }
   .form-row { grid-template-columns:1fr; }
   .topbar { padding:12px 16px; flex-wrap:wrap; gap:8px; }
-  .topbar-right { flex-wrap:wrap; gap:6px; }
-  .logout-btn { padding:6px 10px; font-size:9px; letter-spacing:1px; }
   .topbar-tag { display:none; }
-  .products-header { flex-direction:column; align-items:flex-start; gap:12px; }
-  .filter-tabs { flex-wrap:wrap; }
-  .filter-tab { font-size:9px; padding:6px 10px; }
   .import-section { margin:0 16px 16px; padding:16px; }
   .import-row { flex-direction:column; align-items:flex-start; }
-  .modal-content { width:95%; padding:20px; max-height:90vh; overflow-y:auto; }
+  .modal-content { width:95%; padding:20px; }
   .products-card { padding:16px; }
-  .card-title { font-size:20px; }
-  table { font-size:11px; }
-  table th, table td { padding:8px 10px; }
 }
 @media (max-width:480px) {
   .products-grid { grid-template-columns:1fr; }
   .topbar-brand { font-size:16px; }
-  .product-item { flex-direction:column; }
 }
 </style>
 </head>
 <body>
 
+<!-- Login Screen -->
 <div class="login-wrap" id="loginWrap">
   <div class="login-box">
-    <div class="login-logo"><span style="font-family:Georgia,serif;font-style:italic;color:#b8860b;">El</span><span style="font-family:Georgia,serif;">bnam</span></div>
+    <div class="login-logo"><span>El</span>bnam</div>
     <div class="login-sub">Admin Panel</div>
     <input type="password" class="login-input" id="passwordInput" placeholder="Enter admin password" onkeypress="if(event.key==='Enter')login()">
     <button class="login-btn" onclick="login()">Access Dashboard</button>
@@ -129,27 +115,44 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
   </div>
 </div>
 
+<!-- Dashboard -->
 <div class="dashboard" id="dashboard">
   <div class="topbar">
-    <div class="topbar-brand"><span style="font-family:Georgia,serif;font-style:italic;color:#b8860b;">El</span><span style="font-family:Georgia,serif;">bnam</span></div>
+    <div class="topbar-brand"><span>El</span>bnam</div>
     <div class="topbar-right">
       <span class="topbar-tag">Admin Panel</span>
-      <button class="logout-btn" onclick="showSection('products')" id="tabProducts" style="background:#b8860b;color:#fff;border-color:#b8860b;">Products</button>
-      <button class="logout-btn" onclick="showSection('orders')" id="tabOrders">Orders</button>
-      <button class="logout-btn" onclick="toggleImport()">📊 Excel Import</button>
-      <button class="logout-btn" onclick="logout()">Logout</button>
+      <button class="topbar-btn active" onclick="showSection('products')" id="tabProducts">Products</button>
+      <button class="topbar-btn" onclick="showSection('orders')" id="tabOrders">Orders</button>
+      <button class="topbar-btn" onclick="toggleImport()">📊 Excel Import</button>
+      <button class="topbar-btn" onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <!-- Excel Import -->
+  <div class="import-section" id="importSection">
+    <div class="import-title">Bulk Import via <span>Excel</span></div>
+    <div class="import-row">
+      <button class="import-btn outline" onclick="downloadTemplate()">⬇ Download Template</button>
+      <input type="file" id="excelFile" accept=".xlsx,.xls" style="display:none" onchange="handleExcelUpload(this)">
+      <button class="import-btn" onclick="document.getElementById('excelFile').click()">📂 Select Excel File</button>
+      <span id="excelFileName" style="font-size:12px;color:#999;"></span>
+      <button class="import-btn" id="startImportBtn" onclick="startImport()" style="display:none;background:#b8860b;">▶ Start Import</button>
+    </div>
+    <div class="import-progress" id="importProgress">
+      <div style="font-size:12px;color:#666;" id="importStatus">Importing...</div>
+      <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
+      <div class="import-log" id="importLog"></div>
     </div>
   </div>
 
   <div class="main">
+    <!-- Add Product Form -->
     <div class="form-card">
       <div class="card-title">Add <span>New Product</span></div>
-
       <div class="form-group">
         <label class="form-label">Product Name</label>
         <input type="text" class="form-input" id="pName" placeholder="e.g. Linen Kurta">
       </div>
-
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Category</label>
@@ -164,7 +167,6 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
           <select class="form-select" id="pSubcategory"></select>
         </div>
       </div>
-
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Label</label>
@@ -176,7 +178,6 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
           </select>
         </div>
       </div>
-
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Price (PKR)</label>
@@ -187,65 +188,47 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
           <input type="number" class="form-input" id="pOriginalPrice" placeholder="2000">
         </div>
       </div>
-
       <div class="form-group">
         <label class="form-label">Sizes (comma separated)</label>
         <input type="text" class="form-input" id="pSizes" placeholder="S, M, L, XL, XXL" oninput="updateStockInputs('stockInputs','pSizes','pStockGroup')">
       </div>
-
       <div class="form-group" id="pStockGroup" style="display:none;">
         <label class="form-label">Stock Per Size</label>
         <div id="stockInputs" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;margin-top:8px;"></div>
       </div>
-
       <div class="form-group">
         <label class="form-label">Product Images (Max 5)</label>
-        <input type="file" id="pImage" accept="image/*" multiple="" style="display:none" onchange="previewImgs(this)">
+        <input type="file" id="pImage" accept="image/*" multiple style="display:none" onchange="previewImgs(this,'imgPreview','imgPreviewText','imgPreviewGrid')">
         <div class="img-preview" onclick="document.getElementById('pImage').click()">
           <img id="imgPreview">
-          <div class="img-preview-text" id="imgPreviewText">📷 Click to upload images (select multiple)</div>
+          <div class="img-preview-text" id="imgPreviewText">📷 Click to upload images</div>
         </div>
         <div id="imgPreviewGrid" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;"></div>
       </div>
-
       <button class="submit-btn" id="submitBtn" onclick="addProduct()">◆ Add Product</button>
       <div class="success-toast" id="successToast">✅ Product added successfully!</div>
     </div>
 
-    <!-- Excel Import Section -->
-    <div class="import-section" id="importSection" style="display:none;">
-      <div class="import-title">Bulk Import via <span>Excel</span></div>
-      <div class="import-row">
-        <button class="import-btn outline" onclick="downloadTemplate()">⬇ Download Template</button>
-        <input type="file" id="excelFile" accept=".xlsx,.xls" style="display:none" onchange="handleExcelUpload(this)">
-        <button class="import-btn" onclick="document.getElementById('excelFile').click()">📂 Select Excel File</button>
-        <span id="excelFileName" style="font-size:12px;color:#999;"></span>
-        <button class="import-btn" id="startImportBtn" onclick="startImport()" style="display:none;background:#b8860b;">▶ Start Import</button>
-      </div>
-      <div class="import-progress" id="importProgress">
-        <div style="font-size:12px;color:#666;" id="importStatus">Importing...</div>
-        <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
-        <div class="import-log" id="importLog"></div>
-      </div>
-    </div>
-
-      <div class="products-card" id="productsSection">
-      <div class="products-header">
-        <div class="card-title" style="margin:0;border:none;padding:0">All <span style="color:#b8860b;font-style:italic">Products</span></div>
-        <div style="display:flex;align-items:center;gap:16px;">
-          <span class="products-count" id="productsCount">0 products</span>
-          <div class="filter-tabs">
-            <button class="filter-tab active" onclick="filterProducts('all',this)">All</button>
-            <button class="filter-tab" onclick="filterProducts('mens',this)">Men's</button>
-            <button class="filter-tab" onclick="filterProducts('kids',this)">Kids'</button>
-            <button class="filter-tab" onclick="filterProducts('festive',this)">Festive</button>
+    <!-- Products List -->
+    <div id="productsSection">
+      <div class="products-card">
+        <div class="products-header">
+          <div class="card-title" style="margin:0;border:none;padding:0">All <span style="color:#b8860b;font-style:italic">Products</span></div>
+          <div style="display:flex;align-items:center;gap:16px;">
+            <span class="products-count" id="productsCount">0 products</span>
+            <div class="filter-tabs">
+              <button class="filter-tab active" onclick="filterProducts('all',this)">All</button>
+              <button class="filter-tab" onclick="filterProducts('mens',this)">Men's</button>
+              <button class="filter-tab" onclick="filterProducts('kids',this)">Kids'</button>
+              <button class="filter-tab" onclick="filterProducts('festive',this)">Festive</button>
+            </div>
           </div>
         </div>
+        <div class="products-grid" id="productsGrid"></div>
       </div>
-      <div class="products-grid" id="productsGrid"></div>
     </div>
 
-    <!-- ORDERS SECTION -->
+    <!-- Orders List -->
     <div id="ordersSection" style="display:none;">
       <div class="products-card">
         <div class="products-header">
@@ -255,20 +238,18 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
         <div id="ordersBody"></div>
       </div>
     </div>
-
   </div>
 </div>
 
+<!-- Edit Modal -->
 <div class="modal" id="editModal">
   <div class="modal-content">
     <button class="modal-close" onclick="closeEditModal()">✕</button>
     <h2 class="modal-title">Edit Product</h2>
-    
     <div class="form-group">
       <label class="form-label">Product Name</label>
       <input type="text" class="form-input" id="eName" placeholder="Product name">
     </div>
-
     <div class="form-row">
       <div class="form-group">
         <label class="form-label">Category</label>
@@ -283,7 +264,6 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
         <select class="form-select" id="eSubcategory"></select>
       </div>
     </div>
-
     <div class="form-row">
       <div class="form-group">
         <label class="form-label">Label</label>
@@ -295,7 +275,6 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
         </select>
       </div>
     </div>
-
     <div class="form-row">
       <div class="form-group">
         <label class="form-label">Price (PKR)</label>
@@ -306,147 +285,210 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
         <input type="number" class="form-input" id="eOriginalPrice" placeholder="2000">
       </div>
     </div>
-
     <div class="form-group">
       <label class="form-label">Sizes (comma separated)</label>
       <input type="text" class="form-input" id="eSizes" placeholder="S, M, L, XL, XXL" oninput="updateStockInputs('eStockInputs','eSizes','eStockGroup')">
     </div>
-
     <div class="form-group" id="eStockGroup" style="display:none;">
       <label class="form-label">Stock Per Size</label>
       <div id="eStockInputs" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;margin-top:8px;"></div>
     </div>
-
     <div class="form-group">
       <label class="form-label">Product Images (Max 5)</label>
-      <input type="file" id="eImage" accept="image/*" multiple="" style="display:none" onchange="previewEditImgs(this)">
+      <input type="file" id="eImage" accept="image/*" multiple style="display:none" onchange="previewImgs(this,'eImgPreview','eImgPreviewText','eImgPreviewGrid')">
       <div class="img-preview" onclick="document.getElementById('eImage').click()">
         <img id="eImgPreview">
         <div class="img-preview-text" id="eImgPreviewText">📷 Click to change images</div>
       </div>
       <div id="eImgPreviewGrid" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;"></div>
     </div>
-
     <button class="submit-btn" id="updateBtn" onclick="updateProduct()">Update Product</button>
   </div>
 </div>
 
+<script src="./admin_files/xlsx.full.min.js.download"></script>
 <script>
-const ADMIN_PASSWORD = 'libas2026';
-const API_BASE = 'https://libas-admin-ssip.onrender.com';
-const API_URL = API_BASE + '/api/products';
-let allProducts = [];
-let currentFilter = 'all';
-let editingProductId = null;
+// ─── Config ───────────────────────────────────────────────
+const API_URL = CONFIG.API_BASE + '/api/products';
+const ORDERS_URL = CONFIG.API_BASE + '/api/orders';
 
 const SUBCATEGORIES = {
-  mens: ['Shirts', 'Pants', 'Kurta', 'Waistcoat', 'Shalwar Kameez'],
-  kids: ['Shirts', 'Pants', 'Frocks', 'Suits', 'Shalwar Kameez'],
-  festive: ['Sherwani', 'Kurta', 'Lehenga', 'Saree', 'Gharara']
+  mens:    ['Shirts','Pants','Kurta','Waistcoat','Shalwar Kameez'],
+  kids:    ['Shirts','Pants','Frocks','Suits','Shalwar Kameez'],
+  festive: ['Sherwani','Kurta','Lehenga','Saree','Gharara']
 };
 
-function updateSubcategory(catId, subId, selectedValue = '') {
-  const cat = document.getElementById(catId).value;
-  const subSelect = document.getElementById(subId);
-  const options = SUBCATEGORIES[cat] || [];
-  subSelect.innerHTML = options.map(s =>
-    `<option value="${s}" ${s === selectedValue ? 'selected' : ''}>${s}</option>`
-  ).join('');
-}
+let allProducts = [];
+let editingProductId = null;
+let excelData = [];
+
+// ─── Session ──────────────────────────────────────────────
+function isLoggedIn() { return localStorage.getItem('elbnam_admin') === 'true'; }
 
 function login() {
   const pwd = document.getElementById('passwordInput').value;
-  if (pwd === ADMIN_PASSWORD) {
-    document.getElementById('loginWrap').style.display = 'none';
-    document.getElementById('dashboard').style.display = 'block';
-    updateSubcategory('pCategory', 'pSubcategory');
-    loadProducts();
+  if (pwd === CONFIG.ADMIN_PASSWORD) {
+    localStorage.setItem('elbnam_admin', 'true');
+    showDashboard();
   } else {
     document.getElementById('loginError').style.display = 'block';
   }
 }
 
 function logout() {
-  document.getElementById('loginWrap').style.display = 'flex';
+  localStorage.removeItem('elbnam_admin');
   document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('loginWrap').style.display = 'flex';
   document.getElementById('passwordInput').value = '';
 }
 
-function previewImgs(input) {
-  const grid = document.getElementById('imgPreviewGrid');
+function showDashboard() {
+  document.getElementById('loginWrap').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  updateSubcategory('pCategory', 'pSubcategory');
+  loadProducts();
+}
+
+// ─── UI Sections ──────────────────────────────────────────
+function showSection(section) {
+  const isProducts = section === 'products';
+  document.getElementById('productsSection').style.display = isProducts ? 'block' : 'none';
+  document.getElementById('ordersSection').style.display  = isProducts ? 'none'  : 'block';
+  document.getElementById('tabProducts').classList.toggle('active', isProducts);
+  document.getElementById('tabOrders').classList.toggle('active', !isProducts);
+  if (!isProducts) loadOrders();
+}
+
+function toggleImport() {
+  const s = document.getElementById('importSection');
+  s.style.display = s.style.display === 'none' ? 'block' : 'none';
+}
+
+// ─── Subcategory ──────────────────────────────────────────
+function updateSubcategory(catId, subId, selected = '') {
+  const cat = document.getElementById(catId).value;
+  const el  = document.getElementById(subId);
+  el.innerHTML = (SUBCATEGORIES[cat] || []).map(s =>
+    `<option value="${s}" ${s === selected ? 'selected' : ''}>${s}</option>`
+  ).join('');
+}
+
+// ─── Image Preview ────────────────────────────────────────
+function previewImgs(input, mainId, textId, gridId) {
+  const grid = document.getElementById(gridId);
   grid.innerHTML = '';
-  if (input.files && input.files.length > 0) {
-    document.getElementById('imgPreview').src = URL.createObjectURL(input.files[0]);
-    document.getElementById('imgPreview').style.display = 'block';
-    document.getElementById('imgPreviewText').style.display = 'none';
-    Array.from(input.files).forEach((file, i) => {
-      if (i === 0) return;
-      const img = document.createElement('img');
-      img.src = URL.createObjectURL(file);
-      img.style.cssText = 'width:60px;height:60px;object-fit:cover;border:1px solid #ddd;border-radius:2px;';
-      grid.appendChild(img);
-    });
+  if (!input.files.length) return;
+  document.getElementById(mainId).src = URL.createObjectURL(input.files[0]);
+  document.getElementById(mainId).style.display = 'block';
+  document.getElementById(textId).style.display = 'none';
+  Array.from(input.files).slice(1).forEach(file => {
+    const img = document.createElement('img');
+    img.src = URL.createObjectURL(file);
+    img.style.cssText = 'width:60px;height:60px;object-fit:cover;border:1px solid #ddd;border-radius:2px;';
+    grid.appendChild(img);
+  });
+}
+
+// ─── Stock Inputs ─────────────────────────────────────────
+function updateStockInputs(containerId, sizesId, groupId) {
+  const sizes = document.getElementById(sizesId).value.split(',').map(s => s.trim()).filter(Boolean);
+  const group = document.getElementById(groupId);
+  const container = document.getElementById(containerId);
+  if (!sizes.length) { group.style.display = 'none'; return; }
+  group.style.display = 'block';
+  const prev = {};
+  container.querySelectorAll('input').forEach(i => { prev[i.dataset.size] = i.value; });
+  container.innerHTML = sizes.map(s => `
+    <div style="text-align:center;">
+      <label style="font-size:9px;letter-spacing:1px;color:#999;text-transform:uppercase;display:block;margin-bottom:4px;">${s}</label>
+      <input type="number" min="0" value="${prev[s] ?? 0}" data-size="${s}"
+        style="width:100%;padding:8px;border:1px solid #e5e5e5;border-radius:2px;text-align:center;font-size:13px;outline:none;"
+        onfocus="this.style.borderColor='#b8860b'" onblur="this.style.borderColor='#e5e5e5'">
+    </div>`).join('');
+}
+
+function getStockData(containerId) {
+  const stock = {};
+  document.getElementById(containerId).querySelectorAll('input').forEach(i => {
+    stock[i.dataset.size] = parseInt(i.value) || 0;
+  });
+  return stock;
+}
+
+// ─── Products ─────────────────────────────────────────────
+async function loadProducts() {
+  try {
+    const res = await fetch(API_URL);
+    allProducts = await res.json();
+    renderProducts(allProducts);
+  } catch {
+    document.getElementById('productsGrid').innerHTML = '<div style="padding:20px;color:#999;">Could not load products</div>';
   }
 }
 
-function previewEditImgs(input) {
-  const grid = document.getElementById('eImgPreviewGrid');
-  grid.innerHTML = '';
-  if (input.files && input.files.length > 0) {
-    document.getElementById('eImgPreview').src = URL.createObjectURL(input.files[0]);
-    document.getElementById('eImgPreview').style.display = 'block';
-    document.getElementById('eImgPreviewText').style.display = 'none';
-    Array.from(input.files).forEach((file, i) => {
-      if (i === 0) return;
-      const img = document.createElement('img');
-      img.src = URL.createObjectURL(file);
-      img.style.cssText = 'width:60px;height:60px;object-fit:cover;border:1px solid #ddd;border-radius:2px;';
-      grid.appendChild(img);
-    });
-  }
+function filterProducts(cat, btn) {
+  document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderProducts(cat === 'all' ? allProducts : allProducts.filter(p => p.category === cat));
+}
+
+function renderProducts(products) {
+  document.getElementById('productsCount').textContent = products.length + ' products';
+  const grid = document.getElementById('productsGrid');
+  if (!products.length) { grid.innerHTML = '<div style="padding:20px;color:#999;">No products yet</div>'; return; }
+  grid.innerHTML = products.map(p => {
+    const stockMap = p.sizeStock || {};
+    const stockSummary = (p.sizes || []).map(s => `${s}:${stockMap[s] ?? '–'}`).join(' · ');
+    return `
+    <div class="product-item" draggable="true" data-id="${p._id}" style="${!p.inStock ? 'border-color:#ffcdd2;' : ''}">
+      <div class="drag-handle">⠿</div>
+      <div class="product-img">
+        ${p.label ? `<div class="product-label-tag">${p.label}</div>` : ''}
+        ${!p.inStock ? '<div style="position:absolute;bottom:0;left:0;right:0;background:rgba(229,57,53,0.85);color:#fff;font-size:9px;letter-spacing:2px;text-align:center;padding:4px;text-transform:uppercase;">Out of Stock</div>' : ''}
+        <img src="${p.image}" alt="${p.name}">
+      </div>
+      <div class="product-info-mini">
+        <div class="product-cat-mini">${p.category}${p.subcategory ? ' · ' + p.subcategory : ''}</div>
+        <div class="product-name-mini">${p.name}</div>
+        <div class="product-price-mini">PKR ${p.price.toLocaleString()}</div>
+        ${stockSummary ? `<div style="font-size:9px;color:#999;margin-bottom:8px;">${stockSummary}</div>` : ''}
+        <div class="product-actions">
+          <button class="action-btn" onclick="openEditModal('${p._id}')">Edit</button>
+          <button class="action-btn delete" onclick="deleteProduct('${p._id}')">Delete</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  initDragDrop();
 }
 
 async function addProduct() {
-  const name = document.getElementById('pName').value;
-  const category = document.getElementById('pCategory').value;
-  const subcategory = document.getElementById('pSubcategory').value;
+  const name  = document.getElementById('pName').value.trim();
   const price = document.getElementById('pPrice').value;
-  const origPrice = document.getElementById('pOriginalPrice').value;
-  const label = document.getElementById('pLabel').value;
-  const sizes = document.getElementById('pSizes').value;
-  const image = document.getElementById('pImage').files;
-
-  if (!name || !price || !image.length) {
-    alert('Name, price, and at least one image are required!');
-    return;
-  }
+  const files = document.getElementById('pImage').files;
+  if (!name || !price || !files.length) { alert('Name, price, and at least one image are required!'); return; }
 
   const btn = document.getElementById('submitBtn');
-  btn.disabled = true;
-  btn.textContent = 'Uploading...';
+  btn.disabled = true; btn.textContent = 'Uploading...';
 
-  const formData = new FormData();
-  formData.append('name', name);
-  formData.append('category', category);
-  formData.append('subcategory', subcategory);
-  formData.append('price', price);
-  formData.append('originalPrice', origPrice);
-  formData.append('label', label);
-  formData.append('sizes', sizes);
-  formData.append('sizeStock', JSON.stringify(getStockData('stockInputs')));
-  Array.from(image).forEach(file => formData.append('images', file));
+  const fd = new FormData();
+  fd.append('name', name);
+  fd.append('category', document.getElementById('pCategory').value);
+  fd.append('subcategory', document.getElementById('pSubcategory').value);
+  fd.append('price', price);
+  fd.append('originalPrice', document.getElementById('pOriginalPrice').value);
+  fd.append('label', document.getElementById('pLabel').value);
+  fd.append('sizes', document.getElementById('pSizes').value);
+  fd.append('sizeStock', JSON.stringify(getStockData('stockInputs')));
+  Array.from(files).forEach(f => fd.append('images', f));
 
   try {
-    const res = await fetch(API_URL, { method: 'POST', body: formData });
+    const res  = await fetch(API_URL, { method: 'POST', body: fd });
     const data = await res.json();
-
     if (data.success) {
       document.getElementById('successToast').style.display = 'block';
       setTimeout(() => document.getElementById('successToast').style.display = 'none', 3000);
-      document.getElementById('pName').value = '';
-      document.getElementById('pPrice').value = '';
-      document.getElementById('pOriginalPrice').value = '';
-      document.getElementById('pSizes').value = '';
+      ['pName','pPrice','pOriginalPrice','pSizes'].forEach(id => document.getElementById(id).value = '');
       document.getElementById('stockInputs').innerHTML = '';
       document.getElementById('pStockGroup').style.display = 'none';
       document.getElementById('pImage').value = '';
@@ -454,164 +496,42 @@ async function addProduct() {
       document.getElementById('imgPreview').style.display = 'none';
       document.getElementById('imgPreviewText').style.display = 'block';
       loadProducts();
-    }
-  } catch(err) {
-    alert('Error: ' + err.message);
-  }
+    } else { alert(data.error || 'Failed to add product'); }
+  } catch (err) { alert('Error: ' + err.message); }
 
-  btn.disabled = false;
-  btn.textContent = '◆ Add Product';
+  btn.disabled = false; btn.textContent = '◆ Add Product';
 }
 
-async function loadProducts() {
-  try {
-    const res = await fetch(API_URL);
-    allProducts = await res.json();
-    renderProducts(allProducts);
-  } catch(err) {
-    document.getElementById('productsGrid').innerHTML = '<div class="empty-state">Could not load products</div>';
-  }
-}
-
-function filterProducts(cat, btn) {
-  currentFilter = cat;
-  document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  const filtered = cat === 'all' ? allProducts : allProducts.filter(p => p.category === cat);
-  renderProducts(filtered);
-}
-
-function renderProducts(products) {
-  const grid = document.getElementById('productsGrid');
-  document.getElementById('productsCount').textContent = products.length + ' products';
-
-  if (products.length === 0) {
-    grid.innerHTML = '<div class="empty-state">No products yet</div>';
-    return;
-  }
-
-  grid.innerHTML = products.map(p => {
-    const stockMap = p.sizeStock || {};
-    const stockSummary = p.sizes && p.sizes.length
-      ? p.sizes.map(s => `${s}:${stockMap[s] ?? '–'}`).join(' · ')
-      : '';
-    const oosStyle = !p.inStock ? 'border-color:#ffcdd2;' : '';
-    return `
-    <div class="product-item" draggable="true" data-id="${p._id}" style="${oosStyle}">
-      <div class="drag-handle">⠿</div>
-      <div class="product-img">
-        ${p.label ? `<div class="product-label-tag">${p.label}</div>` : ''}
-        ${!p.inStock ? `<div style="position:absolute;bottom:0;left:0;right:0;background:rgba(229,57,53,0.85);color:#fff;font-size:9px;letter-spacing:2px;text-align:center;padding:4px;text-transform:uppercase;">Out of Stock</div>` : ''}
-        <img src="${p.image}" alt="${p.name}"/>
-      </div>
-      <div class="product-info-mini">
-        <div class="product-cat-mini">${p.category}${p.subcategory ? ' · ' + p.subcategory : ''}</div>
-        <div class="product-name-mini">${p.name}</div>
-        <div class="product-price-mini">PKR ${p.price.toLocaleString()}</div>
-        ${stockSummary ? `<div style="font-size:9px;color:#999;margin-bottom:8px;letter-spacing:0.5px;">${stockSummary}</div>` : ''}
-        <div class="product-actions">
-          <button class="action-btn" onclick="openEditModal('${p._id}')">✎ Edit</button>
-          <button class="action-btn delete" onclick="deleteProduct('${p._id}')">✕ Delete</button>
-        </div>
-      </div>
-    </div>
-  `}).join('');
-
-  initDragDrop();
-}
-
-function initDragDrop() {
-  const grid = document.getElementById('productsGrid');
-  const items = grid.querySelectorAll('.product-item');
-  let draggedItem = null;
-
-  items.forEach(item => {
-    item.addEventListener('dragstart', () => {
-      draggedItem = item;
-      setTimeout(() => item.classList.add('dragging'), 0);
-    });
-
-    item.addEventListener('dragend', () => {
-      item.classList.remove('dragging');
-      grid.querySelectorAll('.product-item').forEach(i => i.classList.remove('drag-over'));
-      saveNewOrder();
-    });
-
-    item.addEventListener('dragover', e => {
-      e.preventDefault();
-      grid.querySelectorAll('.product-item').forEach(i => i.classList.remove('drag-over'));
-      if (item !== draggedItem) item.classList.add('drag-over');
-    });
-
-    item.addEventListener('drop', e => {
-      e.preventDefault();
-      if (item !== draggedItem) {
-        const allItems = [...grid.querySelectorAll('.product-item')];
-        const dragIdx = allItems.indexOf(draggedItem);
-        const dropIdx = allItems.indexOf(item);
-        if (dragIdx < dropIdx) {
-          grid.insertBefore(draggedItem, item.nextSibling);
-        } else {
-          grid.insertBefore(draggedItem, item);
-        }
-      }
-    });
-  });
-}
-
-async function saveNewOrder() {
-  const grid = document.getElementById('productsGrid');
-  const items = [...grid.querySelectorAll('.product-item')];
-  const newOrder = items.map((item, idx) => ({
-    id: item.dataset.id,
-    position: idx
-  }));
-
-  try {
-    await fetch(API_BASE + '/api/products/reorder', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ order: newOrder })
-    });
-  } catch(err) {
-    console.log('Order save error:', err);
-  }
-}
-
-function openEditModal(productId) {
-  const product = allProducts.find(p => p._id === productId);
-  if (!product) return;
-
-  editingProductId = productId;
-  document.getElementById('eName').value = product.name;
-  document.getElementById('eCategory').value = product.category;
-  updateSubcategory('eCategory', 'eSubcategory', product.subcategory || '');
-  document.getElementById('eLabel').value = product.label || '';
-  document.getElementById('ePrice').value = product.price;
-  document.getElementById('eOriginalPrice').value = product.originalPrice || '';
-  document.getElementById('eSizes').value = product.sizes.join(', ');
+function openEditModal(id) {
+  const p = allProducts.find(x => x._id === id);
+  if (!p) return;
+  editingProductId = id;
+  document.getElementById('eName').value = p.name;
+  document.getElementById('eCategory').value = p.category;
+  updateSubcategory('eCategory', 'eSubcategory', p.subcategory || '');
+  document.getElementById('eLabel').value = p.label || '';
+  document.getElementById('ePrice').value = p.price;
+  document.getElementById('eOriginalPrice').value = p.originalPrice || '';
+  document.getElementById('eSizes').value = p.sizes.join(', ');
   setTimeout(() => {
     updateStockInputs('eStockInputs', 'eSizes', 'eStockGroup');
-    const stockMap = product.sizeStock || {};
-    document.querySelectorAll('#eStockInputs input').forEach(inp => {
-      inp.value = stockMap[inp.dataset.size] ?? 0;
-    });
+    const stockMap = p.sizeStock || {};
+    document.querySelectorAll('#eStockInputs input').forEach(i => { i.value = stockMap[i.dataset.size] ?? 0; });
   }, 0);
   document.getElementById('eImage').value = '';
   document.getElementById('eImgPreviewGrid').innerHTML = '';
-  const existingImages = product.images && product.images.length ? product.images : (product.image ? [product.image] : []);
-  if (existingImages.length > 0) {
-    document.getElementById('eImgPreview').src = existingImages[0];
+  const imgs = p.images?.length ? p.images : (p.image ? [p.image] : []);
+  if (imgs.length) {
+    document.getElementById('eImgPreview').src = imgs[0];
     document.getElementById('eImgPreview').style.display = 'block';
     document.getElementById('eImgPreviewText').style.display = 'none';
-    existingImages.slice(1).forEach(url => {
+    imgs.slice(1).forEach(url => {
       const img = document.createElement('img');
       img.src = url;
       img.style.cssText = 'width:60px;height:60px;object-fit:cover;border:1px solid #ddd;border-radius:2px;';
       document.getElementById('eImgPreviewGrid').appendChild(img);
     });
   }
-
   document.getElementById('editModal').classList.add('open');
 }
 
@@ -622,247 +542,79 @@ function closeEditModal() {
 
 async function updateProduct() {
   if (!editingProductId) return;
-
-  const name = document.getElementById('eName').value;
-  const category = document.getElementById('eCategory').value;
-  const subcategory = document.getElementById('eSubcategory').value;
+  const name  = document.getElementById('eName').value.trim();
   const price = document.getElementById('ePrice').value;
-  const origPrice = document.getElementById('eOriginalPrice').value;
-  const label = document.getElementById('eLabel').value;
-  const sizes = document.getElementById('eSizes').value;
-  const images = document.getElementById('eImage').files;
-
-  if (!name || !price) {
-    alert('Name and price are required!');
-    return;
-  }
+  if (!name || !price) { alert('Name and price are required!'); return; }
 
   const btn = document.getElementById('updateBtn');
-  btn.disabled = true;
-  btn.textContent = 'Updating...';
+  btn.disabled = true; btn.textContent = 'Updating...';
 
-  const formData = new FormData();
-  formData.append('name', name);
-  formData.append('category', category);
-  formData.append('subcategory', subcategory);
-  formData.append('price', price);
-  formData.append('originalPrice', origPrice);
-  formData.append('label', label);
-  formData.append('sizes', sizes);
-  formData.append('sizeStock', JSON.stringify(getStockData('eStockInputs')));
-  if (images && images.length > 0) {
-    Array.from(images).forEach(file => formData.append('images', file));
-  }
+  const fd = new FormData();
+  fd.append('name', name);
+  fd.append('category', document.getElementById('eCategory').value);
+  fd.append('subcategory', document.getElementById('eSubcategory').value);
+  fd.append('price', price);
+  fd.append('originalPrice', document.getElementById('eOriginalPrice').value);
+  fd.append('label', document.getElementById('eLabel').value);
+  fd.append('sizes', document.getElementById('eSizes').value);
+  fd.append('sizeStock', JSON.stringify(getStockData('eStockInputs')));
+  Array.from(document.getElementById('eImage').files).forEach(f => fd.append('images', f));
 
   try {
-    const res = await fetch(API_URL + '/' + editingProductId, { method: 'PUT', body: formData });
+    const res  = await fetch(API_URL + '/' + editingProductId, { method: 'PUT', body: fd });
     const data = await res.json();
-    if (data.success) {
-      closeEditModal();
-      loadProducts();
-    }
-  } catch(err) {
-    alert('Error: ' + err.message);
-  }
+    if (data.success) { closeEditModal(); loadProducts(); }
+    else { alert(data.error || 'Update failed'); }
+  } catch (err) { alert('Error: ' + err.message); }
 
-  btn.disabled = false;
-  btn.textContent = 'Update Product';
+  btn.disabled = false; btn.textContent = 'Update Product';
 }
 
 async function deleteProduct(id) {
-  if (!confirm('Are you sure you want to delete this product?')) return;
-  try {
-    await fetch(API_URL + '/' + id, { method: 'DELETE' });
-    loadProducts();
-  } catch(err) {
-    alert('Error deleting product');
-  }
+  if (!confirm('Delete this product?')) return;
+  try { await fetch(API_URL + '/' + id, { method: 'DELETE' }); loadProducts(); }
+  catch { alert('Error deleting product'); }
 }
 
-function updateStockInputs(containerId, sizesId, groupId) {
-  const sizesInput = document.getElementById(sizesId);
-  const container = document.getElementById(containerId);
-  const group = document.getElementById(groupId);
-  const sizes = sizesInput.value.split(',').map(s => s.trim()).filter(Boolean);
-  if (!sizes.length) { group.style.display = 'none'; return; }
-  group.style.display = 'block';
-  const existing = {};
-  container.querySelectorAll('input').forEach(inp => { existing[inp.dataset.size] = inp.value; });
-  container.innerHTML = sizes.map(s => `
-    <div style="text-align:center;">
-      <label style="font-size:9px;letter-spacing:1px;color:#999;text-transform:uppercase;display:block;margin-bottom:4px;">${s}</label>
-      <input type="number" min="0" value="${existing[s] !== undefined ? existing[s] : 0}" data-size="${s}" style="width:100%;padding:8px;border:1px solid #e5e5e5;border-radius:2px;text-align:center;font-size:13px;outline:none;" onfocus="this.style.borderColor='#b8860b'" onblur="this.style.borderColor='#e5e5e5'">
-    </div>
-  `).join('');
-}
-
-function getStockData(containerId) {
-  const container = document.getElementById(containerId);
-  const stock = {};
-  container.querySelectorAll('input').forEach(inp => {
-    stock[inp.dataset.size] = parseInt(inp.value) || 0;
+// ─── Drag & Drop Reorder ──────────────────────────────────
+function initDragDrop() {
+  const grid = document.getElementById('productsGrid');
+  let dragged = null;
+  grid.querySelectorAll('.product-item').forEach(item => {
+    item.addEventListener('dragstart', () => { dragged = item; setTimeout(() => item.classList.add('dragging'), 0); });
+    item.addEventListener('dragend',   () => { item.classList.remove('dragging'); grid.querySelectorAll('.product-item').forEach(i => i.classList.remove('drag-over')); saveNewOrder(); });
+    item.addEventListener('dragover',  e => { e.preventDefault(); grid.querySelectorAll('.product-item').forEach(i => i.classList.remove('drag-over')); if (item !== dragged) item.classList.add('drag-over'); });
+    item.addEventListener('drop',      e => { e.preventDefault(); if (item !== dragged) { const all = [...grid.querySelectorAll('.product-item')]; all.indexOf(dragged) < all.indexOf(item) ? grid.insertBefore(dragged, item.nextSibling) : grid.insertBefore(dragged, item); } });
   });
-  return stock;
-}
-</script>
-
-
-
-<script src="./admin_files/xlsx.full.min.js.download"></script>
-<script>
-let excelData = [];
-
-function toggleImport() {
-  const sec = document.getElementById('importSection');
-  sec.style.display = sec.style.display === 'none' ? 'block' : 'none';
 }
 
-function downloadTemplate() {
-  const csv = [
-    'Name,Category,Subcategory,Price,Original Price,Sizes,Label,Image URL',
-    'Linen Kurta,mens,Kurta,1400,2000,"S,M,L,XL",Sale,https://example.com/image.jpg',
-    'Kids Frock,kids,Frocks,800,,"S,M,L",New,https://example.com/image2.jpg'
-  ].join('\n');
-  const blob = new Blob([csv], { type: 'text/csv' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'libas_products_template.csv';
-  a.click();
-  URL.revokeObjectURL(url);
+async function saveNewOrder() {
+  const order = [...document.getElementById('productsGrid').querySelectorAll('.product-item')].map((el, i) => ({ id: el.dataset.id, position: i }));
+  try { await fetch(CONFIG.API_BASE + '/api/products/reorder', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ order }) }); }
+  catch { console.log('Reorder save failed'); }
 }
 
-function handleExcelUpload(input) {
-  const file = input.files[0];
-  if (!file) return;
-  document.getElementById('excelFileName').textContent = file.name;
-
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const wb = XLSX.read(e.target.result, { type: 'binary' });
-    const ws = wb.Sheets[wb.SheetNames[0]];
-    const rows = XLSX.utils.sheet_to_json(ws);
-    excelData = rows;
-    document.getElementById('startImportBtn').style.display = 'inline-block';
-    document.getElementById('startImportBtn').textContent = `▶ Import ${rows.length} Products`;
-  };
-  reader.readAsBinaryString(file);
-}
-
-async function startImport() {
-  if (!excelData.length) return;
-
-  const progressWrap = document.getElementById('importProgress');
-  const progressBar = document.getElementById('progressBar');
-  const statusEl = document.getElementById('importStatus');
-  const logEl = document.getElementById('importLog');
-  const btn = document.getElementById('startImportBtn');
-
-  progressWrap.style.display = 'block';
-  btn.disabled = true;
-  logEl.innerHTML = '';
-
-  let success = 0, failed = 0;
-
-  for (let i = 0; i < excelData.length; i++) {
-    const row = excelData[i];
-    const percent = Math.round(((i + 1) / excelData.length) * 100);
-    progressBar.style.width = percent + '%';
-    statusEl.textContent = `Importing ${i + 1} of ${excelData.length}...`;
-
-    try {
-      const res = await fetch(API_URL + '/import', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: row['Name'] || '',
-          category: (row['Category'] || 'mens').toLowerCase(),
-          subcategory: row['Subcategory'] || '',
-          price: Number(row['Price']) || 0,
-          originalPrice: Number(row['Original Price']) || 0,
-          sizes: row['Sizes'] ? row['Sizes'].toString().split(',').map(s => s.trim()) : [],
-          label: row['Label'] || '',
-          image: row['Image URL'] || ''
-        })
-      });
-      const data = await res.json();
-      if (data.success) {
-        success++;
-        logEl.innerHTML += `<div style="color:green">✅ ${row['Name']}</div>`;
-      } else {
-        failed++;
-        logEl.innerHTML += `<div style="color:red">❌ ${row['Name']} — ${data.message}</div>`;
-      }
-    } catch(err) {
-      failed++;
-      logEl.innerHTML += `<div style="color:red">❌ ${row['Name']} — Network error</div>`;
-    }
-    logEl.scrollTop = logEl.scrollHeight;
-  }
-
-  statusEl.textContent = `Done! ✅ ${success} imported, ❌ ${failed} failed`;
-  btn.disabled = false;
-  btn.textContent = '▶ Import Again';
-  loadProducts();
-}
-
-function showSection(section) {
-  if(section === 'products') {
-    document.getElementById('productsSection').style.display = 'block';
-    document.getElementById('ordersSection').style.display = 'none';
-    document.getElementById('tabProducts').style.background = '#b8860b';
-    document.getElementById('tabProducts').style.color = '#fff';
-    document.getElementById('tabProducts').style.borderColor = '#b8860b';
-    document.getElementById('tabOrders').style.background = 'transparent';
-    document.getElementById('tabOrders').style.color = '#fff';
-    document.getElementById('tabOrders').style.borderColor = 'rgba(255,255,255,0.2)';
-  } else {
-    document.getElementById('productsSection').style.display = 'none';
-    document.getElementById('ordersSection').style.display = 'block';
-    document.getElementById('tabOrders').style.background = '#b8860b';
-    document.getElementById('tabOrders').style.color = '#fff';
-    document.getElementById('tabOrders').style.borderColor = '#b8860b';
-    document.getElementById('tabProducts').style.background = 'transparent';
-    document.getElementById('tabProducts').style.color = '#fff';
-    document.getElementById('tabProducts').style.borderColor = 'rgba(255,255,255,0.2)';
-    loadOrders();
-  }
-}
-
+// ─── Orders ───────────────────────────────────────────────
 async function loadOrders() {
   try {
-    const res = await fetch(API_BASE + '/api/orders');
+    const res    = await fetch(ORDERS_URL);
     const orders = await res.json();
     document.getElementById('ordersCount').textContent = orders.length + ' orders';
     const body = document.getElementById('ordersBody');
-    if(!orders.length) {
-      body.innerHTML = '<div style="padding:40px;text-align:center;color:#ccc;">No orders yet</div>';
-      return;
-    }
-    body.innerHTML = orders.map((o, i) => `
-      <div style="border:1px solid #f0f0f0;border-radius:4px;padding:16px;margin-bottom:12px;background:#fff;">
+    if (!orders.length) { body.innerHTML = '<div style="padding:40px;text-align:center;color:#ccc;">No orders yet</div>'; return; }
+    body.innerHTML = orders.map(o => `
+      <div style="border:1px solid #f0f0f0;border-radius:4px;padding:16px;margin-bottom:12px;">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
-          <div>
-            <div style="font-weight:600;font-size:14px;color:#0a0a0a;">${o.customerName}</div>
-            <div style="font-size:11px;color:#999;margin-top:2px;">${o.phone}</div>
-          </div>
-          <div style="text-align:right;">
-            <div style="font-weight:600;color:#b8860b;font-size:14px;">PKR ${o.total.toLocaleString()}</div>
-            <div style="font-size:10px;color:#999;margin-top:2px;">${new Date(o.createdAt).toLocaleDateString('en-PK')}</div>
-          </div>
+          <div><div style="font-weight:600;font-size:14px;">${o.customerName}</div><div style="font-size:11px;color:#999;margin-top:2px;">${o.phone}</div></div>
+          <div style="text-align:right;"><div style="font-weight:600;color:#b8860b;">PKR ${o.total.toLocaleString()}</div><div style="font-size:10px;color:#999;margin-top:2px;">${new Date(o.createdAt).toLocaleDateString('en-PK')}</div></div>
         </div>
-        <div style="font-size:11px;color:#666;margin-bottom:10px;padding:8px;background:#f8f8f8;border-radius:2px;">
-          ${o.items.map(item=>`<div>${item.name} (${item.size}) × ${item.qty}</div>`).join('')}
-        </div>
+        <div style="font-size:11px;color:#666;margin-bottom:10px;padding:8px;background:#f8f8f8;border-radius:2px;">${o.items.map(i=>`<div>${i.name} (${i.size}) × ${i.qty}</div>`).join('')}</div>
         <div style="font-size:11px;color:#999;margin-bottom:10px;">📍 ${o.address}</div>
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
           <div style="display:flex;align-items:center;gap:8px;">
-            <span style="font-size:10px;color:#999;letter-spacing:1px;text-transform:uppercase;">Status:</span>
+            <span style="font-size:10px;color:#999;text-transform:uppercase;">Status:</span>
             <select onchange="updateOrderStatus('${o._id}',this.value)" style="padding:5px 8px;border:1px solid #ddd;font-size:11px;border-radius:2px;background:${o.status==='Delivered'?'#e6f4ea':o.status==='Cancelled'?'#fce8e6':o.status==='Confirmed'?'#fdf8ee':'#fff'};">
-              <option ${o.status==='Pending'?'selected':''}>Pending</option>
-              <option ${o.status==='Confirmed'?'selected':''}>Confirmed</option>
-              <option ${o.status==='Delivered'?'selected':''}>Delivered</option>
-              <option ${o.status==='Cancelled'?'selected':''}>Cancelled</option>
+              ${['Pending','Confirmed','Delivered','Cancelled'].map(s=>`<option ${o.status===s?'selected':''}>${s}</option>`).join('')}
             </select>
           </div>
           <div style="display:flex;gap:8px;align-items:center;">
@@ -870,33 +622,74 @@ async function loadOrders() {
             <button onclick="deleteOrder('${o._id}')" style="background:none;border:1px solid #eee;color:#ccc;cursor:pointer;padding:4px 8px;font-size:12px;border-radius:2px;">✕</button>
           </div>
         </div>
-      </div>
-    `).join('');
-  } catch(err) {
-    console.log('Orders error:', err);
-  }
+      </div>`).join('');
+  } catch (err) { console.log('Orders error:', err); }
 }
 
 async function updateOrderStatus(id, status) {
-  try {
-    await fetch(API_BASE + '/api/orders/' + id, {
-      method: 'PUT',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ status })
-    });
-    loadOrders();
-  } catch(err) { console.log(err); }
+  try { await fetch(ORDERS_URL + '/' + id, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status }) }); loadOrders(); }
+  catch (err) { console.log(err); }
 }
 
 async function deleteOrder(id) {
-  if(!confirm('Delete this order?')) return;
-  try {
-    await fetch(API_BASE + '/api/orders/' + id, { method: 'DELETE' });
-    loadOrders();
-  } catch(err) { console.log(err); }
+  if (!confirm('Delete this order?')) return;
+  try { await fetch(ORDERS_URL + '/' + id, { method: 'DELETE' }); loadOrders(); }
+  catch (err) { console.log(err); }
 }
+
+// ─── Excel Import ─────────────────────────────────────────
+function downloadTemplate() {
+  const csv = ['Name,Category,Subcategory,Price,Original Price,Sizes,Label,Image URL',
+    'Linen Kurta,mens,Kurta,1400,2000,"S,M,L,XL",Sale,https://example.com/image.jpg'].join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+  a.download = 'libas_products_template.csv';
+  a.click();
+}
+
+function handleExcelUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  document.getElementById('excelFileName').textContent = file.name;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const wb = XLSX.read(e.target.result, { type: 'binary' });
+    excelData = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
+    const btn = document.getElementById('startImportBtn');
+    btn.style.display = 'inline-block';
+    btn.textContent = `▶ Import ${excelData.length} Products`;
+  };
+  reader.readAsBinaryString(file);
+}
+
+async function startImport() {
+  if (!excelData.length) return;
+  const btn      = document.getElementById('startImportBtn');
+  const statusEl = document.getElementById('importStatus');
+  const logEl    = document.getElementById('importLog');
+  const bar      = document.getElementById('progressBar');
+  document.getElementById('importProgress').style.display = 'block';
+  btn.disabled = true; logEl.innerHTML = '';
+  let ok = 0, fail = 0;
+  for (let i = 0; i < excelData.length; i++) {
+    const row = excelData[i];
+    bar.style.width = Math.round(((i+1)/excelData.length)*100) + '%';
+    statusEl.textContent = `Importing ${i+1} of ${excelData.length}...`;
+    try {
+      const res  = await fetch(API_URL + '/import', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: row['Name']||'', category: (row['Category']||'mens').toLowerCase(), subcategory: row['Subcategory']||'', price: Number(row['Price'])||0, originalPrice: Number(row['Original Price'])||0, sizes: row['Sizes']?row['Sizes'].toString().split(',').map(s=>s.trim()):[], label: row['Label']||'', image: row['Image URL']||'' }) });
+      const data = await res.json();
+      if (data.success) { ok++;   logEl.innerHTML += `<div style="color:green">✅ ${row['Name']}</div>`; }
+      else              { fail++; logEl.innerHTML += `<div style="color:red">❌ ${row['Name']} — ${data.message}</div>`; }
+    } catch { fail++; logEl.innerHTML += `<div style="color:red">❌ ${row['Name']} — Network error</div>`; }
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+  statusEl.textContent = `Done! ✅ ${ok} imported, ❌ ${fail} failed`;
+  btn.disabled = false; btn.textContent = '▶ Import Again';
+  loadProducts();
+}
+
+// ─── Init ─────────────────────────────────────────────────
+if (isLoggedIn()) { showDashboard(); }
 </script>
-
-
-
-</body></html>
+</body>
+</html>
