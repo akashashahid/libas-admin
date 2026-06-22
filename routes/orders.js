@@ -4,27 +4,129 @@ const Order = require('../models/Order');
 const Product = require('../models/Product');
 const { Resend } = require('resend');
 
+function emailLogo() {
+  return `
+    <div style="text-align:center;padding:32px 0 20px;background:#0a0a0a;">
+      <div style="font-family:Georgia,serif;font-size:40px;line-height:1;">
+        <span style="font-style:italic;color:#b8860b;">El</span><span style="color:#ffffff;letter-spacing:3px;">bnam</span>
+      </div>
+      <div style="font-family:Georgia,serif;font-size:13px;font-style:italic;color:#b8860b;letter-spacing:3px;margin-top:6px;">Curated for the Discerning</div>
+    </div>`;
+}
+
+function itemCardHtml(item) {
+  const imgBlock = item.image
+    ? `<img src="${item.image}" alt="${item.name}" width="80" height="100" style="object-fit:cover;border-radius:2px;display:block;" />`
+    : `<div style="width:80px;height:100px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:28px;">👗</div>`;
+  return `
+    <tr>
+      <td style="padding:10px 0;border-bottom:1px solid #eeeeee;vertical-align:top;">
+        <table cellpadding="0" cellspacing="0" border="0"><tr>
+          <td style="width:88px;padding-right:12px;">${imgBlock}</td>
+          <td style="vertical-align:top;">
+            <div style="font-family:Georgia,serif;font-size:14px;font-weight:600;color:#0a0a0a;margin-bottom:3px;">${item.name}</div>
+            <div style="font-size:11px;color:#888;margin-bottom:4px;">${item.category || ''} · Size: ${item.size} · Qty: ${item.qty}</div>
+            <div style="font-size:13px;font-weight:600;color:#b8860b;">PKR ${(item.price * item.qty).toLocaleString()}</div>
+          </td>
+        </tr></table>
+      </td>
+    </tr>`;
+}
+
+async function buildItemsWithImages(items) {
+  return Promise.all(items.map(async item => {
+    let image = '';
+    if (item.productId) {
+      const p = await Product.findById(item.productId).select('image images').lean().catch(() => null);
+      if (p) image = (p.images && p.images.length) ? p.images[0] : (p.image || '');
+    }
+    return { ...item.toObject ? item.toObject() : item, image };
+  }));
+}
+
 async function sendOrderEmail(order) {
   if (!process.env.RESEND_API_KEY) return;
   try {
     const resend = new Resend(process.env.RESEND_API_KEY);
     const from = process.env.FROM_EMAIL || 'orders@elbnam.com';
     const adminTo = process.env.ADMIN_EMAIL || 'akashashahid07@gmail.com';
-    const itemsList = order.items.map(i =>
-      `• ${i.name} (${i.size}) × ${i.qty} — PKR ${(i.price * i.qty).toLocaleString()}`
-    ).join('\n');
+
+    const itemsWithImages = await buildItemsWithImages(order.items);
+    const itemRows = itemsWithImages.map(itemCardHtml).join('');
+    const total = `PKR ${order.total.toLocaleString()}`;
+
+    const adminHtml = `
+<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="margin:0;padding:0;background:#f5f5f5;font-family:'Jost',Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:32px 16px;">
+<table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;">
+  <tr><td>${emailLogo()}</td></tr>
+  <tr><td style="padding:28px 32px 0;">
+    <div style="font-size:18px;font-weight:600;color:#0a0a0a;margin-bottom:4px;">New Order Received</div>
+    <div style="font-size:12px;color:#888;margin-bottom:20px;">${new Date(order.createdAt || Date.now()).toLocaleString('en-PK', { timeZone: 'Asia/Karachi' })}</div>
+    <table width="100%" cellpadding="8" cellspacing="0" style="background:#fdf8ee;border:1px solid #f5e8c0;border-radius:2px;font-size:13px;margin-bottom:24px;">
+      <tr><td style="color:#888;width:30%;">Customer</td><td style="font-weight:600;color:#0a0a0a;">${order.customerName}</td></tr>
+      <tr><td style="color:#888;">Phone</td><td style="font-weight:600;color:#0a0a0a;">${order.phone}</td></tr>
+      <tr><td style="color:#888;">Email</td><td style="color:#0a0a0a;">${order.email || '—'}</td></tr>
+      <tr><td style="color:#888;">Address</td><td style="color:#0a0a0a;">${order.address}</td></tr>
+      <tr><td style="color:#888;">Payment</td><td style="color:#0a0a0a;">${order.payment}</td></tr>
+    </table>
+    <div style="font-size:10px;letter-spacing:3px;color:#b8860b;text-transform:uppercase;margin-bottom:12px;">Order Items</div>
+    <table width="100%" cellpadding="0" cellspacing="0">${itemRows}</table>
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;">
+      <tr>
+        <td style="font-size:15px;font-weight:600;padding:12px 0;border-top:2px solid #0a0a0a;">Total</td>
+        <td align="right" style="font-size:15px;font-weight:600;color:#b8860b;padding:12px 0;border-top:2px solid #0a0a0a;">${total}</td>
+      </tr>
+    </table>
+  </td></tr>
+  <tr><td style="padding:24px 32px;text-align:center;font-size:11px;color:#aaa;border-top:1px solid #eee;margin-top:24px;">Elbnam — Lahore, Pakistan · +92 310 4508143</td></tr>
+</table>
+</td></tr></table>
+</body></html>`;
+
     await resend.emails.send({
       from: `Elbnam Orders <${from}>`,
       to: adminTo,
       subject: `New Order — ${order.customerName}`,
-      text: `New order received!\n\nCustomer: ${order.customerName}\nPhone: ${order.phone}\nEmail: ${order.email || 'N/A'}\nAddress: ${order.address}\n\nItems:\n${itemsList}\n\nTotal: PKR ${order.total.toLocaleString()}\nPayment: ${order.payment}`
+      html: adminHtml
     });
+
     if (order.email) {
+      const customerHtml = `
+<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="margin:0;padding:0;background:#f5f5f5;font-family:'Jost',Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:32px 16px;">
+<table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;">
+  <tr><td>${emailLogo()}</td></tr>
+  <tr><td style="padding:28px 32px 0;">
+    <div style="font-size:18px;font-weight:600;color:#0a0a0a;margin-bottom:8px;">Thank you, ${order.customerName}!</div>
+    <p style="font-size:13px;color:#555;line-height:1.8;margin-bottom:24px;">Your order has been received. Our team will contact you on WhatsApp to confirm delivery details.</p>
+    <div style="font-size:10px;letter-spacing:3px;color:#b8860b;text-transform:uppercase;margin-bottom:12px;">Your Order</div>
+    <table width="100%" cellpadding="0" cellspacing="0">${itemRows}</table>
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;">
+      <tr>
+        <td style="font-size:15px;font-weight:600;padding:12px 0;border-top:2px solid #0a0a0a;">Total</td>
+        <td align="right" style="font-size:15px;font-weight:600;color:#b8860b;padding:12px 0;border-top:2px solid #0a0a0a;">${total}</td>
+      </tr>
+    </table>
+    <table width="100%" cellpadding="8" cellspacing="0" style="background:#f8f8f8;border:1px solid #eee;margin-top:20px;font-size:13px;">
+      <tr><td style="color:#888;width:30%;">Delivery to</td><td style="color:#0a0a0a;">${order.address}</td></tr>
+      <tr><td style="color:#888;">Payment</td><td style="color:#0a0a0a;">${order.payment}</td></tr>
+    </table>
+  </td></tr>
+  <tr><td style="padding:28px 32px;text-align:center;">
+    <p style="font-size:12px;color:#555;margin-bottom:16px;">Questions? Reach us on WhatsApp</p>
+    <a href="https://wa.me/923104508143" style="display:inline-block;background:#b8860b;color:#ffffff;padding:12px 28px;font-size:11px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;">WhatsApp Us</a>
+  </td></tr>
+  <tr><td style="padding:16px 32px;text-align:center;font-size:11px;color:#aaa;border-top:1px solid #eee;">Elbnam — Lahore, Pakistan · +92 310 4508143</td></tr>
+</table>
+</td></tr></table>
+</body></html>`;
+
       await resend.emails.send({
         from: `Elbnam <${from}>`,
         to: order.email,
         subject: 'Order Confirmed — Elbnam',
-        text: `Thank you for your order, ${order.customerName}!\n\nYour order has been received and our team will contact you on WhatsApp to confirm delivery.\n\nOrder Summary:\n${itemsList}\n\nTotal: PKR ${order.total.toLocaleString()}\nPayment: ${order.payment}\nDelivery to: ${order.address}\n\n— Elbnam Team\nWhatsApp: +92 310 4508143`
+        html: customerHtml
       });
     }
   } catch (err) {
@@ -133,7 +235,6 @@ router.post('/import', async (req, res) => {
         continue;
       }
 
-      // Resolve product IDs by name
       const parsedItems = parseItems(row.items);
       for (const item of parsedItems) {
         if (item.name) {
@@ -143,15 +244,10 @@ router.post('/import', async (req, res) => {
         }
       }
 
-      // Dedup by externalId
       if (externalId) {
         const existing = await Order.findOne({ externalId });
         if (existing) {
-          if (existing.status === status) {
-            results.skipped++;
-            continue;
-          }
-          // Status changed — adjust stock
+          if (existing.status === status) { results.skipped++; continue; }
           const wasCancelled = existing.status === 'Cancelled';
           const nowCancelled = status === 'Cancelled';
           if (!wasCancelled && nowCancelled) await restoreStock(existing.items);
@@ -163,7 +259,6 @@ router.post('/import', async (req, res) => {
         }
       }
 
-      // New order
       const order = new Order({
         externalId: externalId || undefined,
         customerName, phone, email: email || '', address,
