@@ -57,44 +57,16 @@ async function sendOrderEmail(order) {
     const resend = new Resend(process.env.RESEND_API_KEY);
     const from = process.env.FROM_EMAIL || 'orders@elbnam.com';
     const adminTo = process.env.ADMIN_EMAIL || 'akashashahid07@gmail.com';
-
     const itemsWithImages = await buildItemsWithImages(order.items);
     const itemRows = itemsWithImages.map(itemCardHtml).join('');
     const total = `PKR ${order.total.toLocaleString()}`;
-
-    const adminHtml = `
-<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="margin:0;padding:0;background:#f5f5f5;font-family:Arial,sans-serif;">
-<table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:32px 16px;">
-<table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;">
-  <tr><td>${emailLogo()}</td></tr>
-  <tr><td style="padding:28px 32px 0;">
-    <div style="font-size:18px;font-weight:600;color:#0a0a0a;margin-bottom:4px;">New Order Received</div>
-    <div style="font-size:12px;color:#888;margin-bottom:20px;">${new Date(order.createdAt || Date.now()).toLocaleString('en-PK',{timeZone:'Asia/Karachi'})}</div>
-    <table width="100%" cellpadding="8" cellspacing="0" style="background:#fdf8ee;border:1px solid #f5e8c0;font-size:13px;margin-bottom:24px;">
-      <tr><td style="color:#888;width:30%;">Customer</td><td style="font-weight:600;">${order.customerName}</td></tr>
-      <tr><td style="color:#888;">Phone</td><td>${order.phone}</td></tr>
-      <tr><td style="color:#888;">Email</td><td>${order.email || '—'}</td></tr>
-      <tr><td style="color:#888;">Address</td><td>${order.address}</td></tr>
-      <tr><td style="color:#888;">Payment</td><td>${order.payment}</td></tr>
-    </table>
-    <div style="font-size:10px;letter-spacing:3px;color:#b8860b;text-transform:uppercase;margin-bottom:12px;">Items</div>
-    <table width="100%" cellpadding="0" cellspacing="0">${itemRows}</table>
-    <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;">
-      <tr><td style="font-size:15px;font-weight:600;padding:12px 0;border-top:2px solid #0a0a0a;">Total</td><td align="right" style="font-size:15px;font-weight:600;color:#b8860b;padding:12px 0;border-top:2px solid #0a0a0a;">${total}</td></tr>
-    </table>
-  </td></tr>
-  <tr><td style="padding:24px 32px;text-align:center;font-size:11px;color:#aaa;border-top:1px solid #eee;">Elbnam — Lahore, Pakistan · +92 310 4508143</td></tr>
-</table></td></tr></table></body></html>`;
-
+    const adminHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="margin:0;padding:0;background:#f5f5f5;font-family:Arial,sans-serif;"><table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:32px 16px;"><table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;"><tr><td>${emailLogo()}</td></tr><tr><td style="padding:28px 32px 0;"><div style="font-size:18px;font-weight:600;color:#0a0a0a;margin-bottom:4px;">New Order Received</div><div style="font-size:12px;color:#888;margin-bottom:20px;">${new Date(order.createdAt || Date.now()).toLocaleString('en-PK',{timeZone:'Asia/Karachi'})}</div><table width="100%" cellpadding="8" cellspacing="0" style="background:#fdf8ee;border:1px solid #f5e8c0;font-size:13px;margin-bottom:24px;"><tr><td style="color:#888;width:30%;">Customer</td><td style="font-weight:600;">${order.customerName}</td></tr><tr><td style="color:#888;">Phone</td><td>${order.phone}</td></tr><tr><td style="color:#888;">Email</td><td>${order.email || '—'}</td></tr><tr><td style="color:#888;">Address</td><td>${order.address}</td></tr><tr><td style="color:#888;">Payment</td><td>${order.payment}</td></tr></table><div style="font-size:10px;letter-spacing:3px;color:#b8860b;text-transform:uppercase;margin-bottom:12px;">Items</div><table width="100%" cellpadding="0" cellspacing="0">${itemRows}</table><table width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;"><tr><td style="font-size:15px;font-weight:600;padding:12px 0;border-top:2px solid #0a0a0a;">Total</td><td align="right" style="font-size:15px;font-weight:600;color:#b8860b;padding:12px 0;border-top:2px solid #0a0a0a;">${total}</td></tr></table></td></tr><tr><td style="padding:24px 32px;text-align:center;font-size:11px;color:#aaa;border-top:1px solid #eee;">Elbnam — Lahore, Pakistan · +92 310 4508143</td></tr></table></td></tr></table></body></html>`;
     await resend.emails.send({ from: `Elbnam Orders <${from}>`, to: adminTo, subject: `New Order — ${order.customerName}`, html: adminHtml });
-
     if (order.email) {
       const customerHtml = buildCustomerHtml(order, itemRows, total, null);
       await resend.emails.send({ from: `Elbnam <${from}>`, to: order.email, subject: 'Order Confirmed — Elbnam', html: customerHtml });
     }
-  } catch (err) {
-    console.log('Email error (non-fatal):', err.message);
-  }
+  } catch (err) { console.log('Email error (non-fatal):', err.message); }
 }
 
 async function sendStatusEmail(order, newStatus) {
@@ -109,37 +81,14 @@ async function sendStatusEmail(order, newStatus) {
     const total = `PKR ${order.total.toLocaleString()}`;
     const html = buildCustomerHtml(order, itemRows, total, info);
     await resend.emails.send({ from: `Elbnam <${from}>`, to: order.email, subject: info.subject, html });
-  } catch (err) {
-    console.log('Status email error (non-fatal):', err.message);
-  }
+  } catch (err) { console.log('Status email error (non-fatal):', err.message); }
 }
 
 function buildCustomerHtml(order, itemRows, total, statusInfo) {
   const headline = statusInfo ? statusInfo.headline : `Thank you, ${order.customerName}!`;
   const headlineColor = statusInfo ? statusInfo.color : '#0a0a0a';
   const bodyText = statusInfo ? statusInfo.body : 'Your order has been received. Our team will contact you on WhatsApp to confirm delivery details.';
-  return `<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="margin:0;padding:0;background:#f5f5f5;font-family:Arial,sans-serif;">
-<table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:32px 16px;">
-<table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;">
-  <tr><td>${emailLogo()}</td></tr>
-  <tr><td style="padding:28px 32px 0;">
-    <div style="font-size:20px;font-weight:600;color:${headlineColor};margin-bottom:8px;">${headline}</div>
-    <p style="font-size:13px;color:#555;line-height:1.8;margin-bottom:24px;">${bodyText}</p>
-    <div style="font-size:10px;letter-spacing:3px;color:#b8860b;text-transform:uppercase;margin-bottom:12px;">Your Order</div>
-    <table width="100%" cellpadding="0" cellspacing="0">${itemRows}</table>
-    <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;">
-      <tr><td style="font-size:15px;font-weight:600;padding:12px 0;border-top:2px solid #0a0a0a;">Total</td><td align="right" style="font-size:15px;font-weight:600;color:#b8860b;padding:12px 0;border-top:2px solid #0a0a0a;">${total}</td></tr>
-    </table>
-    <table width="100%" cellpadding="8" cellspacing="0" style="background:#f8f8f8;border:1px solid #eee;margin-top:20px;font-size:13px;">
-      <tr><td style="color:#888;width:30%;">Delivery to</td><td>${order.address}</td></tr>
-      <tr><td style="color:#888;">Payment</td><td>${order.payment}</td></tr>
-    </table>
-  </td></tr>
-  <tr><td style="padding:28px 32px;text-align:center;">
-    <a href="https://wa.me/923104508143" style="display:inline-block;background:#b8860b;color:#ffffff;padding:12px 28px;font-size:11px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;">WhatsApp Us</a>
-  </td></tr>
-  <tr><td style="padding:16px 32px;text-align:center;font-size:11px;color:#aaa;border-top:1px solid #eee;">Elbnam — Lahore, Pakistan · +92 310 4508143</td></tr>
-</table></td></tr></table></body></html>`;
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="margin:0;padding:0;background:#f5f5f5;font-family:Arial,sans-serif;"><table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:32px 16px;"><table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;"><tr><td>${emailLogo()}</td></tr><tr><td style="padding:28px 32px 0;"><div style="font-size:20px;font-weight:600;color:${headlineColor};margin-bottom:8px;">${headline}</div><p style="font-size:13px;color:#555;line-height:1.8;margin-bottom:24px;">${bodyText}</p><div style="font-size:10px;letter-spacing:3px;color:#b8860b;text-transform:uppercase;margin-bottom:12px;">Your Order</div><table width="100%" cellpadding="0" cellspacing="0">${itemRows}</table><table width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;"><tr><td style="font-size:15px;font-weight:600;padding:12px 0;border-top:2px solid #0a0a0a;">Total</td><td align="right" style="font-size:15px;font-weight:600;color:#b8860b;padding:12px 0;border-top:2px solid #0a0a0a;">${total}</td></tr></table><table width="100%" cellpadding="8" cellspacing="0" style="background:#f8f8f8;border:1px solid #eee;margin-top:20px;font-size:13px;"><tr><td style="color:#888;width:30%;">Delivery to</td><td>${order.address}</td></tr><tr><td style="color:#888;">Payment</td><td>${order.payment}</td></tr></table></td></tr><tr><td style="padding:28px 32px;text-align:center;"><a href="https://wa.me/923104508143" style="display:inline-block;background:#b8860b;color:#ffffff;padding:12px 28px;font-size:11px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;">WhatsApp Us</a></td></tr><tr><td style="padding:16px 32px;text-align:center;font-size:11px;color:#aaa;border-top:1px solid #eee;">Elbnam — Lahore, Pakistan · +92 310 4508143</td></tr></table></td></tr></table></body></html>`;
 }
 
 async function sendWhatsApp(phone, message) {
@@ -192,41 +141,29 @@ router.get('/', async (req, res) => {
   try {
     const orders = await Order.find().sort({ createdAt: -1 });
     res.json(orders);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+  } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
 router.post('/', async (req, res) => {
   try {
     const items = req.body.items || [];
-
-    // Validate stock in parallel
     const validationErrors = await Promise.all(items.map(async item => {
       if (!item.productId || !item.size) return null;
       const product = await Product.findById(item.productId).catch(() => null);
       if (product && product.sizeStock && product.sizeStock.size > 0) {
         const available = product.sizeStock.get(item.size) ?? 0;
-        if (item.qty > available) {
-          return `Only ${available} unit(s) of "${item.name}" in size ${item.size} are available.`;
-        }
+        if (item.qty > available) return `Only ${available} unit(s) of "${item.name}" in size ${item.size} are available.`;
       }
       return null;
     }));
     const firstError = validationErrors.find(e => e !== null);
     if (firstError) return res.status(400).json({ success: false, error: firstError });
-
     const order = new Order(req.body);
     await order.save();
-
-    // Deduct stock in parallel (non-blocking — order is already saved)
     deductStock(items).catch(err => console.log('Stock deduct error:', err.message));
-
     sendOrderEmail(order);
     res.json({ success: true, order });
-  } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
-  }
+  } catch (err) { res.status(500).json({ success: false, error: err.message }); }
 });
 
 router.post('/import', async (req, res) => {
@@ -264,9 +201,7 @@ router.post('/import', async (req, res) => {
       await order.save();
       if (!isCancelled) await deductStock(parsedItems);
       results.created++;
-    } catch (err) {
-      results.errors.push(`Row "${row.externalId||'?'}": ${err.message}`);
-    }
+    } catch (err) { results.errors.push(`Row "${row.externalId||'?'}": ${err.message}`); }
   }
   res.json({ success: true, ...results });
 });
@@ -276,11 +211,8 @@ router.put('/:id', async (req, res) => {
     const order = await Order.findById(req.params.id);
     if (!order) return res.status(404).json({ error: 'Order not found' });
     const newStatus = req.body.status;
-    if (newStatus === 'Cancelled' && order.status !== 'Cancelled') {
-      await restoreStock(order.items);
-    } else if (newStatus && newStatus !== 'Cancelled' && order.status === 'Cancelled') {
-      await deductStock(order.items);
-    }
+    if (newStatus === 'Cancelled' && order.status !== 'Cancelled') await restoreStock(order.items);
+    else if (newStatus && newStatus !== 'Cancelled' && order.status === 'Cancelled') await deductStock(order.items);
     const updated = await Order.findByIdAndUpdate(req.params.id, { status: newStatus }, { new: true });
     sendStatusEmail(updated, newStatus);
     if (updated.phone) {
@@ -293,18 +225,14 @@ router.put('/:id', async (req, res) => {
       if (statusMsgs[newStatus]) sendWhatsApp(updated.phone, statusMsgs[newStatus]);
     }
     res.json({ success: true, order: updated });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+  } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
 router.delete('/:id', async (req, res) => {
   try {
     await Order.findByIdAndDelete(req.params.id);
     res.json({ success: true });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+  } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
 module.exports = router;
