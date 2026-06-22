@@ -161,33 +161,31 @@ function parseItems(itemsStr) {
 }
 
 async function deductStock(items) {
-  for (const item of items) {
-    if (item.productId && item.size && item.qty) {
-      const product = await Product.findById(item.productId).catch(() => null);
-      if (product && product.sizeStock) {
-        const current = product.sizeStock.get(item.size) ?? 0;
-        product.sizeStock.set(item.size, Math.max(0, current - item.qty));
-        product.inStock = product.sizes.some(s => (product.sizeStock.get(s) ?? 0) > 0);
-        product.markModified('sizeStock');
-        await product.save();
-      }
+  await Promise.all(items.map(async item => {
+    if (!item.productId || !item.size || !item.qty) return;
+    const product = await Product.findById(item.productId).catch(() => null);
+    if (product && product.sizeStock) {
+      const current = product.sizeStock.get(item.size) ?? 0;
+      product.sizeStock.set(item.size, Math.max(0, current - item.qty));
+      product.inStock = product.sizes.some(s => (product.sizeStock.get(s) ?? 0) > 0);
+      product.markModified('sizeStock');
+      await product.save();
     }
-  }
+  }));
 }
 
 async function restoreStock(items) {
-  for (const item of items) {
-    if (item.productId && item.size && item.qty) {
-      const product = await Product.findById(item.productId).catch(() => null);
-      if (product && product.sizeStock) {
-        const current = product.sizeStock.get(item.size) ?? 0;
-        product.sizeStock.set(item.size, current + item.qty);
-        product.inStock = true;
-        product.markModified('sizeStock');
-        await product.save();
-      }
+  await Promise.all(items.map(async item => {
+    if (!item.productId || !item.size || !item.qty) return;
+    const product = await Product.findById(item.productId).catch(() => null);
+    if (product && product.sizeStock) {
+      const current = product.sizeStock.get(item.size) ?? 0;
+      product.sizeStock.set(item.size, current + item.qty);
+      product.inStock = true;
+      product.markModified('sizeStock');
+      await product.save();
     }
-  }
+  }));
 }
 
 router.get('/', async (req, res) => {
@@ -202,31 +200,28 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const items = req.body.items || [];
-    for (const item of items) {
-      if (item.productId && item.size) {
-        const product = await Product.findById(item.productId);
-        if (product && product.sizeStock && product.sizeStock.size > 0) {
-          const available = product.sizeStock.get(item.size) ?? 0;
-          if (item.qty > available) {
-            return res.status(400).json({ success: false, error: `Only ${available} unit(s) of "${item.name}" in size ${item.size} are available.` });
-          }
+
+    // Validate stock in parallel
+    const validationErrors = await Promise.all(items.map(async item => {
+      if (!item.productId || !item.size) return null;
+      const product = await Product.findById(item.productId).catch(() => null);
+      if (product && product.sizeStock && product.sizeStock.size > 0) {
+        const available = product.sizeStock.get(item.size) ?? 0;
+        if (item.qty > available) {
+          return `Only ${available} unit(s) of "${item.name}" in size ${item.size} are available.`;
         }
       }
-    }
+      return null;
+    }));
+    const firstError = validationErrors.find(e => e !== null);
+    if (firstError) return res.status(400).json({ success: false, error: firstError });
+
     const order = new Order(req.body);
     await order.save();
-    for (const item of items) {
-      if (item.productId && item.size && item.qty) {
-        const product = await Product.findById(item.productId);
-        if (product && product.sizeStock) {
-          const current = product.sizeStock.get(item.size) ?? 0;
-          product.sizeStock.set(item.size, Math.max(0, current - item.qty));
-          product.inStock = product.sizes.some(s => (product.sizeStock.get(s) ?? 0) > 0);
-          product.markModified('sizeStock');
-          await product.save();
-        }
-      }
-    }
+
+    // Deduct stock in parallel (non-blocking — order is already saved)
+    deductStock(items).catch(err => console.log('Stock deduct error:', err.message));
+
     sendOrderEmail(order);
     res.json({ success: true, order });
   } catch (err) {
@@ -287,7 +282,6 @@ router.put('/:id', async (req, res) => {
       await deductStock(order.items);
     }
     const updated = await Order.findByIdAndUpdate(req.params.id, { status: newStatus }, { new: true });
-    // Send status notification email + WhatsApp
     sendStatusEmail(updated, newStatus);
     if (updated.phone) {
       const statusMsgs = {

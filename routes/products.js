@@ -76,14 +76,23 @@ router.put('/:id', upload.array('images', 5), async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
     if (!product) return res.status(404).json({ error: 'Product not found' });
-    let imageUrls = product.images && product.images.length ? product.images : (product.image ? [product.image] : []);
+
+    // Start with kept existing images (if provided), else keep all current images
+    let imageUrls;
+    if (req.body.keepImages !== undefined) {
+      try { imageUrls = JSON.parse(req.body.keepImages); } catch(e) { imageUrls = []; }
+    } else {
+      imageUrls = product.images && product.images.length ? product.images : (product.image ? [product.image] : []);
+    }
+
+    // Append any newly uploaded images
     if (req.files && req.files.length > 0) {
-      imageUrls = [];
       for (const file of req.files) {
         const url = await uploadToCloudinary(file.buffer);
         imageUrls.push(url);
       }
     }
+
     const sizes = req.body.sizes ? req.body.sizes.split(',').map(s => s.trim()).filter(Boolean) : product.sizes;
     let sizeStock = product.sizeStock ? Object.fromEntries(product.sizeStock) : {};
     if (req.body.sizeStock) {
@@ -139,17 +148,13 @@ router.post('/import', async (req, res) => {
     const sizeStock = {};
 
     if (availableRaw.includes(':')) {
-      // Per-size format: "S:5;M:3;L:4;XL:2"
       availableRaw.split(';').forEach(part => {
         const [s, q] = part.split(':').map(x => x.trim());
         if (s) sizeStock[s] = parseInt(q) || 0;
       });
-      // Ensure Sizes column entries exist in map
       sizeList.forEach(s => { if (!(s in sizeStock)) sizeStock[s] = 0; });
-      // Add any extra sizes from per-size string that weren't in Sizes column
       Object.keys(sizeStock).forEach(s => { if (!sizeList.includes(s)) sizeList.push(s); });
     } else {
-      // Total number — distribute evenly across sizes
       const total = parseInt(availableRaw) || 0;
       if (sizeList.length > 0) {
         const perSize   = Math.floor(total / sizeList.length);
@@ -160,7 +165,6 @@ router.post('/import', async (req, res) => {
 
     const inStock = Object.values(sizeStock).some(v => v > 0);
 
-    // Upsert by exact name (case-insensitive)
     const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const existing = await Product.findOne({ name: new RegExp(`^${escaped}$`, 'i') });
 
@@ -182,7 +186,6 @@ router.post('/import', async (req, res) => {
       return res.json({ success: true, updated: true, product: updatedProduct });
     }
 
-    // Create new (no image — add via Edit after import)
     const product = new Product({
       name,
       category:      category ? category.toLowerCase() : 'mens',

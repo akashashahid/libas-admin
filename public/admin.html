@@ -50,7 +50,6 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
 .filter-tab { padding:8px 16px; background:transparent; border:none; font-size:10px; letter-spacing:2px; text-transform:uppercase; cursor:pointer; color:#999; border-right:1px solid #e5e5e5; }
 .filter-tab:last-child { border-right:none; }
 .filter-tab.active { background:#0a0a0a; color:#fff; }
-/* Product cards (list style with stock info) */
 .product-list { display:flex; flex-direction:column; gap:12px; }
 .product-row { display:flex; gap:16px; border:1px solid #e5e5e5; border-radius:4px; overflow:hidden; background:#fff; align-items:stretch; }
 .product-row-img { width:90px; flex-shrink:0; overflow:hidden; position:relative; }
@@ -92,11 +91,21 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
 .import-btn.outline { background:transparent; color:#0a0a0a; border:1px solid #ddd; }
 .import-btn.outline:hover { border-color:#b8860b; color:#b8860b; }
 .csv-import-panel { background:#f8f8f8; border:1px solid #e5e5e5; border-radius:4px; padding:16px; margin-bottom:20px; display:none; }
+/* Order filters */
+.order-filters { background:#f8f8f8; border:1px solid #e5e5e5; border-radius:4px; padding:14px 16px; margin-bottom:16px; display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; }
+.filter-group { display:flex; flex-direction:column; gap:4px; }
+.filter-group label { font-size:9px; letter-spacing:1px; color:#999; text-transform:uppercase; }
+.filter-group input, .filter-group select { padding:7px 10px; border:1px solid #e5e5e5; border-radius:2px; font-size:12px; outline:none; background:#fff; }
+.filter-group input:focus, .filter-group select:focus { border-color:#b8860b; }
 .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:300; align-items:center; justify-content:center; }
 .modal.open { display:flex; }
 .modal-content { background:#fff; padding:32px; border-radius:4px; width:90%; max-width:500px; max-height:90vh; overflow-y:auto; position:relative; }
 .modal-title { font-family:Georgia,serif; font-size:22px; font-weight:600; margin-bottom:20px; color:#0a0a0a; }
 .modal-close { position:absolute; top:16px; right:16px; background:none; border:none; font-size:24px; cursor:pointer; color:#999; }
+/* Per-image delete thumbnails */
+.edit-img-thumb { position:relative; width:70px; height:86px; flex-shrink:0; }
+.edit-img-thumb img { width:70px; height:86px; object-fit:cover; border:1px solid #ddd; border-radius:2px; display:block; }
+.edit-img-del { position:absolute; top:-6px; right:-6px; width:18px; height:18px; background:#e53935; color:#fff; border:none; border-radius:50%; cursor:pointer; font-size:10px; display:flex; align-items:center; justify-content:center; padding:0; line-height:1; }
 @media (max-width:768px) {
   .main { grid-template-columns:1fr; padding:16px; }
   .form-row { grid-template-columns:1fr; }
@@ -105,6 +114,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
   .modal-content { width:95%; padding:20px; }
   .products-card { padding:16px; }
   .product-row-img { width:70px; }
+  .order-filters { flex-direction:column; }
 }
 </style>
 </head>
@@ -206,12 +216,12 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
               <button type="button" class="filter-tab" onclick="filterProducts('kids',this)">Kids'</button>
               <button type="button" class="filter-tab" onclick="filterProducts('festive',this)">Festive</button>
             </div>
+            <button type="button" class="import-btn outline" onclick="downloadInventoryReport()" style="padding:7px 14px;font-size:9px;">&#11015; Export CSV</button>
             <button type="button" class="import-btn outline" onclick="toggleProductImport()" style="padding:7px 14px;font-size:9px;">&#128202; Import CSV</button>
           </div>
         </div>
         <div class="csv-import-panel" id="productImportPanel">
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
-            <button type="button" class="import-btn outline" onclick="downloadInventoryReport()">&#11015; Inventory Report</button>
             <input type="file" id="productCsvFile" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleProductUpload(this)">
             <label for="productCsvFile" class="import-btn" style="cursor:pointer;">&#128194; Select File (.xlsx / .csv)</label>
             <span id="productFileName" style="font-size:12px;color:#999;"></span>
@@ -236,9 +246,39 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
           <div class="card-title" style="margin:0;border:none;padding:0">Customer <span style="color:#b8860b;font-style:italic">Orders</span></div>
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
             <span class="products-count" id="ordersCount">0 orders</span>
+            <button type="button" class="import-btn" onclick="exportOrdersExcel()" style="padding:7px 14px;font-size:9px;background:#2e7d32;">&#11015; Export Excel</button>
             <button type="button" class="import-btn outline" onclick="toggleOrderImport()" style="padding:7px 14px;font-size:9px;">&#128202; Import CSV</button>
           </div>
         </div>
+
+        <!-- Order Filters -->
+        <div class="order-filters">
+          <div class="filter-group">
+            <label>Search Name / Email</label>
+            <input type="text" id="filterName" placeholder="Customer name or email…" oninput="applyOrderFilter()" style="width:200px;">
+          </div>
+          <div class="filter-group">
+            <label>Status</label>
+            <select id="filterStatus" onchange="applyOrderFilter()">
+              <option value="">All Statuses</option>
+              <option>Pending</option>
+              <option>Confirmed</option>
+              <option>Processing</option>
+              <option>Delivered</option>
+              <option>Cancelled</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Date From</label>
+            <input type="date" id="filterDateFrom" onchange="applyOrderFilter()">
+          </div>
+          <div class="filter-group">
+            <label>Date To</label>
+            <input type="date" id="filterDateTo" onchange="applyOrderFilter()">
+          </div>
+          <button type="button" class="import-btn outline" onclick="clearOrderFilters()" style="padding:7px 14px;font-size:9px;align-self:flex-end;">&#10005; Clear</button>
+        </div>
+
         <div class="csv-import-panel" id="orderImportPanel">
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
             <button type="button" class="import-btn outline" onclick="downloadOrderTemplate()">&#11015; Download Sample</button>
@@ -320,13 +360,11 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
       <div id="eStockInputs" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;margin-top:8px;"></div>
     </div>
     <div class="form-group">
-      <label class="form-label">Product Images (Max 5)</label>
-      <input type="file" id="eImage" accept="image/*" multiple style="display:none" onchange="previewImgs(this,'eImgPreview','eImgPreviewText','eImgPreviewGrid')">
-      <div class="img-preview" onclick="document.getElementById('eImage').click()">
-        <img id="eImgPreview">
-        <div class="img-preview-text" id="eImgPreviewText">&#128247; Click to change images</div>
-      </div>
-      <div id="eImgPreviewGrid" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;"></div>
+      <label class="form-label">Current Images <span style="color:#aaa;font-weight:400;">(click ✕ to remove)</span></label>
+      <div id="editImgGrid" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;min-height:30px;"></div>
+      <input type="file" id="eImage" accept="image/*" multiple style="display:none" onchange="onEditImagesSelected(this)">
+      <label for="eImage" class="import-btn outline" style="cursor:pointer;padding:8px 14px;font-size:9px;display:inline-block;">&#43; Add New Images</label>
+      <div id="eNewImgGrid" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;"></div>
     </div>
     <button type="button" class="submit-btn" id="updateBtn" onclick="updateProduct()">Update Product</button>
   </div>
@@ -342,7 +380,9 @@ const SUBCATEGORIES = {
   festive: ['Sherwani','Kurta','Lehenga','Saree','Gharara']
 };
 let allProducts = [], editingProductId = null, productImportData = [], orderImportData = [];
-let soldMap = {}; // productId|size -> qty sold
+let soldMap = {};
+let allOrders = [];
+let editKeepImages = [];
 
 function isLoggedIn() { return localStorage.getItem('elbnam_admin') === 'true'; }
 function login() {
@@ -434,7 +474,6 @@ async function loadProducts() {
       fetch(ORDERS_URL).then(r => r.json()).catch(() => [])
     ]);
     allProducts = Array.isArray(prods) ? prods : [];
-    // Build sold map
     soldMap = {};
     (Array.isArray(orders) ? orders : []).filter(o => o.status !== 'Cancelled').forEach(o => {
       (o.items || []).forEach(item => {
@@ -530,6 +569,37 @@ async function addProduct() {
   } catch (err) { alert('Error: ' + err.message); }
   btn.disabled = false; btn.textContent = '◆ Add Product';
 }
+
+/* ---- Edit modal per-image handling ---- */
+function renderEditImgGrid() {
+  const grid = document.getElementById('editImgGrid');
+  if (!editKeepImages.length) {
+    grid.innerHTML = '<div style="font-size:12px;color:#ccc;padding:4px 0;">No existing images</div>';
+    return;
+  }
+  grid.innerHTML = editKeepImages.map((url, i) => `
+    <div class="edit-img-thumb">
+      <img src="${url}" alt="">
+      <button type="button" class="edit-img-del" onclick="removeEditKeepImage(${i})" title="Remove">✕</button>
+    </div>`).join('');
+}
+
+function removeEditKeepImage(idx) {
+  editKeepImages.splice(idx, 1);
+  renderEditImgGrid();
+}
+
+function onEditImagesSelected(input) {
+  const grid = document.getElementById('eNewImgGrid');
+  grid.innerHTML = '';
+  Array.from(input.files).forEach(file => {
+    const img = document.createElement('img');
+    img.src = URL.createObjectURL(file);
+    img.style.cssText = 'width:60px;height:60px;object-fit:cover;border:1px solid #ddd;border-radius:2px;';
+    grid.appendChild(img);
+  });
+}
+
 function openEditModal(id) {
   const p = allProducts.find(x => x._id === id);
   if (!p) return;
@@ -546,23 +616,16 @@ function openEditModal(id) {
     const stockMap = p.sizeStock || {};
     document.querySelectorAll('#eStockInputs input').forEach(i => { i.value = stockMap[i.dataset.size] ?? 0; });
   }, 0);
-  document.getElementById('eImage').value = '';
-  document.getElementById('eImgPreviewGrid').innerHTML = '';
+  // Populate existing images
   const imgs = p.images?.length ? p.images : (p.image ? [p.image] : []);
-  if (imgs.length) {
-    document.getElementById('eImgPreview').src = imgs[0];
-    document.getElementById('eImgPreview').style.display = 'block';
-    document.getElementById('eImgPreviewText').style.display = 'none';
-    imgs.slice(1).forEach(url => {
-      const img = document.createElement('img');
-      img.src = url;
-      img.style.cssText = 'width:60px;height:60px;object-fit:cover;border:1px solid #ddd;border-radius:2px;';
-      document.getElementById('eImgPreviewGrid').appendChild(img);
-    });
-  }
+  editKeepImages = [...imgs];
+  renderEditImgGrid();
+  document.getElementById('eImage').value = '';
+  document.getElementById('eNewImgGrid').innerHTML = '';
   document.getElementById('editModal').classList.add('open');
 }
 function closeEditModal() { document.getElementById('editModal').classList.remove('open'); editingProductId = null; }
+
 async function updateProduct() {
   if (!editingProductId) return;
   const name  = document.getElementById('eName').value.trim();
@@ -579,6 +642,7 @@ async function updateProduct() {
   fd.append('label', document.getElementById('eLabel').value);
   fd.append('sizes', document.getElementById('eSizes').value);
   fd.append('sizeStock', JSON.stringify(getStockData('eStockInputs')));
+  fd.append('keepImages', JSON.stringify(editKeepImages));
   Array.from(document.getElementById('eImage').files).forEach(f => fd.append('images', f));
   try {
     const res  = await fetch(API_URL + '/' + editingProductId, { method: 'PUT', body: fd });
@@ -588,13 +652,30 @@ async function updateProduct() {
   } catch (err) { alert('Error: ' + err.message); }
   btn.disabled = false; btn.textContent = 'Update Product';
 }
+
 async function deleteProduct(id) {
   if (!confirm('Delete this product?')) return;
   try { await fetch(API_URL + '/' + id, { method: 'DELETE' }); loadProducts(); }
   catch { alert('Error deleting product'); }
 }
 
-// Product CSV Import
+/* ---- Products CSV Export ---- */
+async function downloadInventoryReport() {
+  try {
+    const [prods, orders] = await Promise.all([ fetch(API_URL).then(r=>r.json()), fetch(ORDERS_URL).then(r=>r.json()) ]);
+    const sm = {};
+    orders.filter(o=>o.status!=='Cancelled').forEach(o=>{ (o.items||[]).forEach(item=>{ const k1=(item.productId||'')+`|${item.size}`, k2=(item.name||'')+`|${item.size}`; sm[k1]=(sm[k1]||0)+(item.qty||0); sm[k2]=(sm[k2]||0)+(item.qty||0); }); });
+    const rows=[['Name','Category','Subcategory','Price','Original Price','Sizes','Label','Available','Sold']];
+    prods.forEach(p=>{ const sizes=p.sizes||[]; const stock=p.sizeStock||{}; const availStr=sizes.map(sz=>`${sz}:${stock[sz]??0}`).join(';'); const soldStr=sizes.map(sz=>{ const k1=(p._id||'')+`|${sz}`, k2=(p.name||'')+`|${sz}`; return `${sz}:${sm[k1]||sm[k2]||0}`; }).join(';'); rows.push([p.name,p.category,p.subcategory||'',p.price,p.originalPrice||'',sizes.join(','),p.label||'',availStr||'0',soldStr||'0']); });
+    const ws = XLSX.utils.aoa_to_sheet(rows);
+    ws['!cols'] = [20,10,14,8,12,16,8,20,20].map(w => ({ wch: w }));
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Inventory');
+    XLSX.writeFile(wb, 'elbnam_inventory_'+new Date().toISOString().slice(0,10)+'.xlsx');
+  } catch(err){ alert('Could not generate report: '+err.message); }
+}
+
+/* ---- Product CSV Import ---- */
 function handleProductUpload(input) {
   const file = input.files[0]; if (!file) return;
   document.getElementById('productFileName').textContent = file.name;
@@ -631,19 +712,54 @@ async function startProductImport() {
   btn.disabled = false; btn.textContent = '► Import Again';
   loadProducts();
 }
-async function downloadInventoryReport() {
-  try {
-    const [prods, orders] = await Promise.all([ fetch(API_URL).then(r=>r.json()), fetch(ORDERS_URL).then(r=>r.json()) ]);
-    const sm = {};
-    orders.filter(o=>o.status!=='Cancelled').forEach(o=>{ (o.items||[]).forEach(item=>{ const k1=(item.productId||'')+`|${item.size}`, k2=(item.name||'')+`|${item.size}`; sm[k1]=(sm[k1]||0)+(item.qty||0); sm[k2]=(sm[k2]||0)+(item.qty||0); }); });
-    const rows=[['Name','Category','Subcategory','Price','Original Price','Sizes','Label','Available','Sold']];
-    prods.forEach(p=>{ const sizes=p.sizes||[]; const stock=p.sizeStock||{}; const availStr=sizes.map(sz=>`${sz}:${stock[sz]??0}`).join(';'); const soldStr=sizes.map(sz=>{ const k1=(p._id||'')+`|${sz}`, k2=(p.name||'')+`|${sz}`; return `${sz}:${sm[k1]||sm[k2]||0}`; }).join(';'); rows.push([p.name,p.category,p.subcategory||'',p.price,p.originalPrice||'',sizes.join(','),p.label||'',availStr||'0',soldStr||'0']); });
-    const csv=rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
-    const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download='elbnam_inventory_'+new Date().toISOString().slice(0,10)+'.csv'; a.click();
-  } catch(err){ alert('Could not generate report: '+err.message); }
+
+/* ---- Order Filters ---- */
+function applyOrderFilter() {
+  const name   = (document.getElementById('filterName').value || '').toLowerCase().trim();
+  const status = document.getElementById('filterStatus').value;
+  const from   = document.getElementById('filterDateFrom').value;
+  const to     = document.getElementById('filterDateTo').value;
+  const filtered = allOrders.filter(o => {
+    if (name && !(o.customerName||'').toLowerCase().includes(name) && !(o.email||'').toLowerCase().includes(name)) return false;
+    if (status && o.status !== status) return false;
+    if (from && new Date(o.createdAt) < new Date(from)) return false;
+    if (to   && new Date(o.createdAt) > new Date(to + 'T23:59:59')) return false;
+    return true;
+  });
+  renderOrderRows(filtered);
+}
+function clearOrderFilters() {
+  ['filterName','filterDateFrom','filterDateTo'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('filterStatus').value = '';
+  renderOrderRows(allOrders);
 }
 
-// Order CSV Import
+/* ---- Orders Export ---- */
+function exportOrdersExcel() {
+  const name   = (document.getElementById('filterName').value || '').toLowerCase().trim();
+  const status = document.getElementById('filterStatus').value;
+  const from   = document.getElementById('filterDateFrom').value;
+  const to     = document.getElementById('filterDateTo').value;
+  const filtered = allOrders.filter(o => {
+    if (name && !(o.customerName||'').toLowerCase().includes(name) && !(o.email||'').toLowerCase().includes(name)) return false;
+    if (status && o.status !== status) return false;
+    if (from && new Date(o.createdAt) < new Date(from)) return false;
+    if (to   && new Date(o.createdAt) > new Date(to + 'T23:59:59')) return false;
+    return true;
+  });
+  const rows = [['#','Customer','Email','Phone','Address','Items','Total (PKR)','Date','Status']];
+  filtered.forEach((o, i) => {
+    const items = (o.items||[]).map(it => `${it.name} (${it.size}) x${it.qty}`).join('; ');
+    rows.push([i+1, o.customerName, o.email||'', o.phone, o.address, items, o.total, new Date(o.createdAt).toLocaleDateString('en-PK'), o.status]);
+  });
+  const ws = XLSX.utils.aoa_to_sheet(rows);
+  ws['!cols'] = [4,16,20,14,24,40,12,12,10].map(w=>({wch:w}));
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Orders');
+  XLSX.writeFile(wb, 'elbnam_orders_'+new Date().toISOString().slice(0,10)+'.xlsx');
+}
+
+/* ---- Order CSV Import ---- */
 function parseOrderStr(str) {
   str = String(str||'').trim();
   const m = str.match(/^(.+?)\s*\(([^)]+)\)\s*[×xX]\s*(\d+)\s*$/i);
@@ -695,34 +811,38 @@ function downloadOrderTemplate() {
   const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, 'Customers'); XLSX.writeFile(wb, 'elbnam_customers_template.xlsx');
 }
 
-// Orders
+/* ---- Orders ---- */
 async function loadOrders() {
   try {
     const res = await fetch(ORDERS_URL);
-    const orders = await res.json();
-    document.getElementById('ordersCount').textContent = orders.length + ' orders';
-    const tbody = document.getElementById('ordersBody');
-    if (!orders.length) { tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:40px;color:#ccc;">No orders yet</td></tr>'; return; }
-    tbody.innerHTML = orders.map((o, idx) => {
-      const itemsHtml = o.items.map(i => `<div class="item-line">${i.name} (${i.size}) &times;${i.qty}</div>`).join('');
-      const statusClass = 'status-' + (o.status || 'Pending');
-      const statusOptions = ['Pending','Confirmed','Processing','Delivered','Cancelled'].map(s => `<option ${o.status===s?'selected':''}>${s}</option>`).join('');
-      return `<tr>
-        <td style="color:#aaa;font-size:11px;">${idx+1}</td>
-        <td><div style="font-weight:600;">${o.customerName}</div><div style="font-size:10px;color:#999;">${o.email||''}</div></td>
-        <td>${o.phone}</td>
-        <td style="max-width:160px;font-size:11px;color:#666;">${o.address}</td>
-        <td class="items-cell">${itemsHtml}</td>
-        <td style="font-weight:600;color:#b8860b;white-space:nowrap;">PKR ${o.total.toLocaleString()}</td>
-        <td style="font-size:11px;color:#999;white-space:nowrap;">${new Date(o.createdAt).toLocaleDateString('en-PK')}</td>
-        <td>
-          <select onchange="updateOrderStatus('${o._id}',this.value)" style="padding:4px 6px;border:1px solid #ddd;font-size:11px;border-radius:2px;">${statusOptions}</select>
-        </td>
-        <td><button type="button" onclick="deleteOrder('${o._id}')" style="background:none;border:1px solid #eee;color:#ccc;cursor:pointer;padding:4px 8px;font-size:12px;border-radius:2px;">&#10005;</button></td>
-      </tr>`;
-    }).join('');
+    allOrders = await res.json();
+    document.getElementById('ordersCount').textContent = allOrders.length + ' orders';
+    applyOrderFilter();
   } catch(err) { console.log('Orders error:', err); }
 }
+
+function renderOrderRows(orders) {
+  const tbody = document.getElementById('ordersBody');
+  if (!orders.length) { tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:40px;color:#ccc;">No orders found</td></tr>'; return; }
+  tbody.innerHTML = orders.map((o, idx) => {
+    const itemsHtml = o.items.map(i => `<div class="item-line">${i.name} (${i.size}) &times;${i.qty}</div>`).join('');
+    const statusOptions = ['Pending','Confirmed','Processing','Delivered','Cancelled'].map(s => `<option ${o.status===s?'selected':''}>${s}</option>`).join('');
+    return `<tr>
+      <td style="color:#aaa;font-size:11px;">${idx+1}</td>
+      <td><div style="font-weight:600;">${o.customerName}</div><div style="font-size:10px;color:#999;">${o.email||''}</div></td>
+      <td>${o.phone}</td>
+      <td style="max-width:160px;font-size:11px;color:#666;">${o.address}</td>
+      <td class="items-cell">${itemsHtml}</td>
+      <td style="font-weight:600;color:#b8860b;white-space:nowrap;">PKR ${o.total.toLocaleString()}</td>
+      <td style="font-size:11px;color:#999;white-space:nowrap;">${new Date(o.createdAt).toLocaleDateString('en-PK')}</td>
+      <td>
+        <select onchange="updateOrderStatus('${o._id}',this.value)" style="padding:4px 6px;border:1px solid #ddd;font-size:11px;border-radius:2px;">${statusOptions}</select>
+      </td>
+      <td><button type="button" onclick="deleteOrder('${o._id}')" style="background:none;border:1px solid #eee;color:#ccc;cursor:pointer;padding:4px 8px;font-size:12px;border-radius:2px;">&#10005;</button></td>
+    </tr>`;
+  }).join('');
+}
+
 async function updateOrderStatus(id, status) {
   try { await fetch(ORDERS_URL+'/'+id,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({status})}); loadOrders(); }
   catch(err){ console.log(err); }
