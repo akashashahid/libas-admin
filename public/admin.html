@@ -50,56 +50,71 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
 .filter-tab { padding:8px 16px; background:transparent; border:none; font-size:10px; letter-spacing:2px; text-transform:uppercase; cursor:pointer; color:#999; border-right:1px solid #e5e5e5; }
 .filter-tab:last-child { border-right:none; }
 .filter-tab.active { background:#0a0a0a; color:#fff; }
-.products-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); gap:16px; }
-.product-item { border:1px solid #e5e5e5; border-radius:2px; overflow:hidden; cursor:grab; transition:all 0.2s; position:relative; }
-.product-item:active { cursor:grabbing; }
-.product-item.dragging { opacity:0.4; border:2px dashed #b8860b; }
-.product-item.drag-over { border:2px solid #b8860b; transform:scale(1.02); }
-.drag-handle { position:absolute; top:8px; right:8px; color:#ccc; font-size:16px; z-index:2; cursor:grab; }
-.product-img { height:140px; overflow:hidden; position:relative; }
-.product-img img { width:100%; height:100%; object-fit:cover; }
-.product-label-tag { position:absolute; top:8px; left:8px; background:#0a0a0a; color:#fff; font-size:8px; letter-spacing:2px; padding:3px 8px; text-transform:uppercase; }
-.product-info-mini { padding:12px; }
-.product-name-mini { font-family:Georgia,serif; font-size:13px; font-weight:600; margin-bottom:4px; }
-.product-cat-mini { font-size:9px; letter-spacing:2px; color:#b8860b; text-transform:uppercase; margin-bottom:6px; }
-.product-price-mini { font-size:12px; color:#333; margin-bottom:10px; }
-.product-actions { display:flex; gap:6px; }
-.action-btn { flex:1; padding:7px; background:#fff; border:1px solid #ddd; color:#333; font-size:9px; letter-spacing:2px; text-transform:uppercase; cursor:pointer; border-radius:2px; transition:all 0.2s; }
-.action-btn:hover { border-color:#b8860b; color:#b8860b; }
-.action-btn.delete { border-color:#ffcdd2; color:#e53935; }
-.action-btn.delete:hover { background:#ffebee; }
-.import-section { background:#fff; padding:24px 32px; border-radius:4px; border:1px solid #e5e5e5; margin:0 32px 24px; display:none; }
-.import-title { font-family:Georgia,serif; font-size:16px; font-weight:600; margin-bottom:16px; color:#0a0a0a; }
-.import-title span { color:#b8860b; font-style:italic; }
-.import-row { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
-.import-btn { padding:10px 20px; background:#0a0a0a; color:#fff; border:none; font-size:10px; letter-spacing:3px; text-transform:uppercase; cursor:pointer; border-radius:2px; }
-.import-btn:hover { background:#b8860b; }
+.product-list { display:flex; flex-direction:column; gap:12px; }
+.product-row { display:flex; gap:16px; border:1px solid #e5e5e5; border-radius:4px; overflow:hidden; background:#fff; align-items:stretch; }
+.product-row-img { width:90px; flex-shrink:0; overflow:hidden; position:relative; }
+.product-row-img img { width:100%; height:100%; object-fit:cover; display:block; }
+.product-row-img-count { position:absolute; bottom:4px; right:4px; background:rgba(0,0,0,0.6); color:#fff; font-size:9px; padding:2px 5px; border-radius:2px; }
+.product-row-body { flex:1; padding:14px 16px; min-width:0; }
+.product-row-top { display:flex; align-items:flex-start; justify-content:space-between; gap:8px; margin-bottom:6px; }
+.product-row-name { font-family:Georgia,serif; font-size:15px; font-weight:600; color:#0a0a0a; }
+.product-row-cat { font-size:9px; letter-spacing:2px; color:#b8860b; text-transform:uppercase; margin-bottom:2px; }
+.product-row-price { font-size:13px; color:#333; white-space:nowrap; }
+.product-row-label { font-size:8px; letter-spacing:2px; padding:2px 7px; text-transform:uppercase; background:#0a0a0a; color:#fff; border-radius:2px; white-space:nowrap; }
+.product-row-label.sale { background:#b8860b; }
+.product-row-label.hot { background:#c62828; }
+.product-row-label.new { background:#0a0a0a; }
+.stock-table { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+.stock-chip { background:#f8f8f8; border:1px solid #eee; padding:4px 8px; border-radius:2px; font-size:10px; text-align:center; }
+.stock-chip-sz { font-weight:700; color:#0a0a0a; letter-spacing:1px; }
+.stock-chip-avail { color:#2e7d32; }
+.stock-chip-sold { color:#c62828; }
+.product-row-actions { display:flex; flex-direction:column; justify-content:center; gap:6px; padding:14px 12px; border-left:1px solid #f0f0f0; flex-shrink:0; }
+.icon-btn { width:34px; height:34px; border:1px solid #e5e5e5; background:#fff; cursor:pointer; border-radius:2px; display:flex; align-items:center; justify-content:center; font-size:15px; transition:all 0.2s; }
+.icon-btn:hover { border-color:#b8860b; background:#fdf8ee; }
+.icon-btn.del:hover { border-color:#e53935; background:#ffebee; }
+/* Orders table */
+.orders-table-wrap { overflow-x:auto; }
+.orders-table { width:100%; border-collapse:collapse; font-size:12px; }
+.orders-table th { background:#0a0a0a; color:#fff; padding:10px 12px; text-align:left; font-size:9px; letter-spacing:2px; text-transform:uppercase; white-space:nowrap; }
+.orders-table td { padding:10px 12px; border-bottom:1px solid #f0f0f0; vertical-align:top; }
+.orders-table tr:hover td { background:#fdf8ee; }
+.orders-table .items-cell { max-width:200px; }
+.orders-table .item-line { font-size:11px; color:#555; line-height:1.6; }
+.status-badge { display:inline-block; padding:3px 8px; border-radius:2px; font-size:9px; letter-spacing:1px; text-transform:uppercase; font-weight:600; }
+.status-Pending { background:#fff8e1; color:#f57f17; }
+.status-Confirmed { background:#fdf8ee; color:#b8860b; }
+.status-Delivered { background:#e8f5e9; color:#2e7d32; }
+.status-Cancelled { background:#ffebee; color:#c62828; }
+.import-btn { display:inline-block; padding:10px 20px; background:#0a0a0a; color:#fff; border:none; font-size:10px; letter-spacing:3px; text-transform:uppercase; cursor:pointer; border-radius:2px; text-decoration:none; }
+.import-btn:hover { background:#b8860b; color:#fff; }
 .import-btn.outline { background:transparent; color:#0a0a0a; border:1px solid #ddd; }
 .import-btn.outline:hover { border-color:#b8860b; color:#b8860b; }
-.import-progress { margin-top:12px; display:none; }
-.progress-bar-wrap { background:#f0f0f0; border-radius:4px; height:6px; margin-top:8px; }
-.progress-bar { height:6px; background:#b8860b; border-radius:4px; transition:width 0.3s; width:0%; }
-.import-log { margin-top:10px; font-size:11px; color:#666; max-height:80px; overflow-y:auto; }
+.csv-import-panel { background:#f8f8f8; border:1px solid #e5e5e5; border-radius:4px; padding:16px; margin-bottom:20px; display:none; }
+/* Order filters */
+.order-filters { background:#f8f8f8; border:1px solid #e5e5e5; border-radius:4px; padding:14px 16px; margin-bottom:16px; display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; }
+.filter-group { display:flex; flex-direction:column; gap:4px; }
+.filter-group label { font-size:9px; letter-spacing:1px; color:#999; text-transform:uppercase; }
+.filter-group input, .filter-group select { padding:7px 10px; border:1px solid #e5e5e5; border-radius:2px; font-size:12px; outline:none; background:#fff; }
+.filter-group input:focus, .filter-group select:focus { border-color:#b8860b; }
 .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:300; align-items:center; justify-content:center; }
 .modal.open { display:flex; }
 .modal-content { background:#fff; padding:32px; border-radius:4px; width:90%; max-width:500px; max-height:90vh; overflow-y:auto; position:relative; }
 .modal-title { font-family:Georgia,serif; font-size:22px; font-weight:600; margin-bottom:20px; color:#0a0a0a; }
 .modal-close { position:absolute; top:16px; right:16px; background:none; border:none; font-size:24px; cursor:pointer; color:#999; }
-.order-import-panel { background:#f8f8f8; border:1px solid #e5e5e5; border-radius:4px; padding:16px; margin-bottom:20px; display:none; }
+/* Per-image delete thumbnails */
+.edit-img-thumb { position:relative; width:70px; height:86px; flex-shrink:0; }
+.edit-img-thumb img { width:70px; height:86px; object-fit:cover; border:1px solid #ddd; border-radius:2px; display:block; }
+.edit-img-del { position:absolute; top:-6px; right:-6px; width:18px; height:18px; background:#e53935; color:#fff; border:none; border-radius:50%; cursor:pointer; font-size:10px; display:flex; align-items:center; justify-content:center; padding:0; line-height:1; }
 @media (max-width:768px) {
   .main { grid-template-columns:1fr; padding:16px; }
-  .products-grid { grid-template-columns:repeat(2,1fr); gap:10px; }
   .form-row { grid-template-columns:1fr; }
   .topbar { padding:12px 16px; flex-wrap:wrap; gap:8px; }
   .topbar-tag { display:none; }
-  .import-section { margin:0 16px 16px; padding:16px; }
-  .import-row { flex-direction:column; align-items:flex-start; }
   .modal-content { width:95%; padding:20px; }
   .products-card { padding:16px; }
-}
-@media (max-width:480px) {
-  .products-grid { grid-template-columns:1fr; }
-  .topbar-brand { font-size:16px; }
+  .product-row-img { width:70px; }
+  .order-filters { flex-direction:column; }
 }
 </style>
 </head>
@@ -110,7 +125,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
     <div class="login-logo"><span>El</span>bnam</div>
     <div class="login-sub">Admin Panel</div>
     <input type="password" class="login-input" id="passwordInput" placeholder="Enter admin password" onkeypress="if(event.key==='Enter')login()">
-    <button class="login-btn" onclick="login()">Access Dashboard</button>
+    <button type="button" class="login-btn" onclick="login()">Access Dashboard</button>
     <div class="login-error" id="loginError">Incorrect password!</div>
   </div>
 </div>
@@ -120,26 +135,9 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
     <div class="topbar-brand"><span>El</span>bnam</div>
     <div class="topbar-right">
       <span class="topbar-tag">Admin Panel</span>
-      <button class="topbar-btn active" onclick="showSection('products')" id="tabProducts">Products</button>
-      <button class="topbar-btn" onclick="showSection('orders')" id="tabOrders">Orders</button>
-      <button class="topbar-btn" onclick="toggleImport()">&#128202; Excel Import</button>
-      <button class="topbar-btn" onclick="logout()">Logout</button>
-    </div>
-  </div>
-
-  <div class="import-section" id="importSection">
-    <div class="import-title">Bulk Import via <span>Excel / CSV</span></div>
-    <div class="import-row">
-      <button class="import-btn outline" onclick="downloadInventoryReport()">&#11015; Inventory Report</button>
-      <input type="file" id="excelFile" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleExcelUpload(this)">
-      <button class="import-btn" onclick="document.getElementById('excelFile').click()">&#128194; Select File (.xlsx / .csv)</button>
-      <span id="excelFileName" style="font-size:12px;color:#999;"></span>
-      <button class="import-btn" id="startImportBtn" onclick="startImport()" style="display:none;background:#b8860b;">&#9654; Start Import</button>
-    </div>
-    <div class="import-progress" id="importProgress">
-      <div style="font-size:12px;color:#666;" id="importStatus">Importing...</div>
-      <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
-      <div class="import-log" id="importLog"></div>
+      <button type="button" class="topbar-btn active" onclick="showSection('products')" id="tabProducts">Products</button>
+      <button type="button" class="topbar-btn" onclick="showSection('orders')" id="tabOrders">Orders</button>
+      <button type="button" class="topbar-btn" onclick="logout()">Logout</button>
     </div>
   </div>
 
@@ -202,7 +200,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
         </div>
         <div id="imgPreviewGrid" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;"></div>
       </div>
-      <button class="submit-btn" id="submitBtn" onclick="addProduct()">&#9670; Add Product</button>
+      <button type="button" class="submit-btn" id="submitBtn" onclick="addProduct()">&#9670; Add Product</button>
       <div class="success-toast" id="successToast">&#10003; Product added successfully!</div>
     </div>
 
@@ -210,17 +208,35 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
       <div class="products-card">
         <div class="products-header">
           <div class="card-title" style="margin:0;border:none;padding:0">All <span style="color:#b8860b;font-style:italic">Products</span></div>
-          <div style="display:flex;align-items:center;gap:16px;">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
             <span class="products-count" id="productsCount">0 products</span>
             <div class="filter-tabs">
-              <button class="filter-tab active" onclick="filterProducts('all',this)">All</button>
-              <button class="filter-tab" onclick="filterProducts('mens',this)">Men's</button>
-              <button class="filter-tab" onclick="filterProducts('kids',this)">Kids'</button>
-              <button class="filter-tab" onclick="filterProducts('festive',this)">Festive</button>
+              <button type="button" class="filter-tab active" onclick="filterProducts('all',this)">All</button>
+              <button type="button" class="filter-tab" onclick="filterProducts('mens',this)">Men's</button>
+              <button type="button" class="filter-tab" onclick="filterProducts('kids',this)">Kids'</button>
+              <button type="button" class="filter-tab" onclick="filterProducts('festive',this)">Festive</button>
             </div>
+            <button type="button" class="import-btn outline" onclick="downloadInventoryReport()" style="padding:7px 14px;font-size:9px;">&#11015; Export CSV</button>
+            <button type="button" class="import-btn outline" onclick="toggleProductImport()" style="padding:7px 14px;font-size:9px;">&#128202; Import CSV</button>
           </div>
         </div>
-        <div class="products-grid" id="productsGrid"></div>
+        <div class="csv-import-panel" id="productImportPanel">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
+            <input type="file" id="productCsvFile" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleProductUpload(this)">
+            <label for="productCsvFile" class="import-btn" style="cursor:pointer;">&#128194; Select File (.xlsx / .csv)</label>
+            <span id="productFileName" style="font-size:12px;color:#999;"></span>
+            <button type="button" class="import-btn" id="startProductImportBtn" onclick="startProductImport()" style="display:none;background:#b8860b;">&#9654; Import Products</button>
+          </div>
+          <div id="productImportResult" style="display:none;font-size:12px;padding:10px;background:#fff;border-radius:2px;border:1px solid #e5e5e5;">
+            <div id="productImportStatus" style="font-weight:600;margin-bottom:6px;"></div>
+            <div id="productImportLog" style="max-height:80px;overflow-y:auto;color:#e53935;"></div>
+          </div>
+          <div style="font-size:11px;color:#aaa;margin-top:8px;line-height:1.8;">
+            Columns: <code style="background:#eee;padding:1px 5px;">Name, Category, Subcategory, Price, Original Price, Sizes, Label, Available, Sold</code><br>
+            Available &amp; Sold are per-size: <code style="background:#eee;padding:1px 5px;">S:5;M:3;L:4;XL:2</code>
+          </div>
+        </div>
+        <div class="product-list" id="productsGrid"></div>
       </div>
     </div>
 
@@ -230,31 +246,63 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
           <div class="card-title" style="margin:0;border:none;padding:0">Customer <span style="color:#b8860b;font-style:italic">Orders</span></div>
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
             <span class="products-count" id="ordersCount">0 orders</span>
-            <button class="import-btn outline" onclick="toggleOrderImport()" style="padding:7px 14px;font-size:9px;">&#128202; Import Excel</button>
+            <button type="button" class="import-btn" onclick="exportOrdersExcel()" style="padding:7px 14px;font-size:9px;background:#2e7d32;">&#11015; Export Excel</button>
+            <button type="button" class="import-btn outline" onclick="toggleOrderImport()" style="padding:7px 14px;font-size:9px;">&#128202; Import CSV</button>
           </div>
         </div>
 
-        <!-- Order Excel Import Panel -->
-        <div class="order-import-panel" id="orderImportPanel">
+        <!-- Order Filters -->
+        <div class="order-filters">
+          <div class="filter-group">
+            <label>Search Name / Email</label>
+            <input type="text" id="filterName" placeholder="Customer name or email…" oninput="applyOrderFilter()" style="width:200px;">
+          </div>
+          <div class="filter-group">
+            <label>Status</label>
+            <select id="filterStatus" onchange="applyOrderFilter()">
+              <option value="">All Statuses</option>
+              <option>Pending</option>
+              <option>Confirmed</option>
+              <option>Processing</option>
+              <option>Delivered</option>
+              <option>Cancelled</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Date From</label>
+            <input type="date" id="filterDateFrom" onchange="applyOrderFilter()">
+          </div>
+          <div class="filter-group">
+            <label>Date To</label>
+            <input type="date" id="filterDateTo" onchange="applyOrderFilter()">
+          </div>
+          <button type="button" class="import-btn outline" onclick="clearOrderFilters()" style="padding:7px 14px;font-size:9px;align-self:flex-end;">&#10005; Clear</button>
+        </div>
+
+        <div class="csv-import-panel" id="orderImportPanel">
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
-            <button class="import-btn outline" onclick="downloadOrderTemplate()">&#11015; Download Sample</button>
-            <input type="file" id="orderExcelFile" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleOrderExcelUpload(this)">
-            <button class="import-btn" onclick="document.getElementById('orderExcelFile').click()">&#128194; Select File (.xlsx / .csv)</button>
-            <span id="orderExcelFileName" style="font-size:12px;color:#999;"></span>
-            <button class="import-btn" id="startOrderImportBtn" onclick="startOrderImport()" style="display:none;background:#b8860b;">&#9654; Import Orders</button>
+            <button type="button" class="import-btn outline" onclick="downloadOrderTemplate()">&#11015; Download Sample</button>
+            <input type="file" id="orderCsvFile" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleOrderUpload(this)">
+            <label for="orderCsvFile" class="import-btn" style="cursor:pointer;">&#128194; Select File (.xlsx / .csv)</label>
+            <span id="orderFileName" style="font-size:12px;color:#999;"></span>
+            <button type="button" class="import-btn" id="startOrderImportBtn" onclick="startOrderImport()" style="display:none;background:#b8860b;">&#9654; Import Orders</button>
           </div>
           <div id="orderImportResult" style="display:none;font-size:12px;padding:10px;background:#fff;border-radius:2px;border:1px solid #e5e5e5;">
             <div id="orderImportStatus" style="font-weight:600;margin-bottom:6px;"></div>
             <div id="orderImportLog" style="max-height:80px;overflow-y:auto;color:#e53935;"></div>
           </div>
-          <div style="font-size:11px;color:#aaa;margin-top:8px;line-height:1.6;">
-            Items column format: <code style="background:#eee;padding:1px 5px;border-radius:2px;">ProductName:Size:Qty:Price</code>
-            &nbsp;&mdash;&nbsp; separate multiple items with <code style="background:#eee;padding:1px 5px;border-radius:2px;">;</code><br>
-            Orders with same <strong>Order ID</strong> are skipped unless status changed (no duplicate stock deduction).
+          <div style="font-size:11px;color:#aaa;margin-top:8px;line-height:1.8;">
+            Columns: <code style="background:#eee;padding:1px 5px;">Customer, Phone, Address, Order, Price, Order Date, Status</code>
           </div>
         </div>
-
-        <div id="ordersBody"></div>
+        <div class="orders-table-wrap">
+          <table class="orders-table">
+            <thead><tr>
+              <th>#</th><th>Customer</th><th>Phone</th><th>Address</th><th>Items</th><th>Total</th><th>Date</th><th>Status</th><th></th>
+            </tr></thead>
+            <tbody id="ordersBody"></tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -262,7 +310,7 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
 
 <div class="modal" id="editModal">
   <div class="modal-content">
-    <button class="modal-close" onclick="closeEditModal()">&#10005;</button>
+    <button type="button" class="modal-close" onclick="closeEditModal()">&#10005;</button>
     <h2 class="modal-title">Edit Product</h2>
     <div class="form-group">
       <label class="form-label">Product Name</label>
@@ -312,32 +360,30 @@ body { font-family: 'Segoe UI', sans-serif; background:#f5f5f5; }
       <div id="eStockInputs" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;margin-top:8px;"></div>
     </div>
     <div class="form-group">
-      <label class="form-label">Product Images (Max 5)</label>
-      <input type="file" id="eImage" accept="image/*" multiple style="display:none" onchange="previewImgs(this,'eImgPreview','eImgPreviewText','eImgPreviewGrid')">
-      <div class="img-preview" onclick="document.getElementById('eImage').click()">
-        <img id="eImgPreview">
-        <div class="img-preview-text" id="eImgPreviewText">&#128247; Click to change images</div>
-      </div>
-      <div id="eImgPreviewGrid" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;"></div>
+      <label class="form-label">Current Images <span style="color:#aaa;font-weight:400;">(click ✕ to remove)</span></label>
+      <div id="editImgGrid" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;min-height:30px;"></div>
+      <input type="file" id="eImage" accept="image/*" multiple style="display:none" onchange="onEditImagesSelected(this)">
+      <label for="eImage" class="import-btn outline" style="cursor:pointer;padding:8px 14px;font-size:9px;display:inline-block;">&#43; Add New Images</label>
+      <div id="eNewImgGrid" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;"></div>
     </div>
-    <button class="submit-btn" id="updateBtn" onclick="updateProduct()">Update Product</button>
+    <button type="button" class="submit-btn" id="updateBtn" onclick="updateProduct()">Update Product</button>
   </div>
 </div>
 
 <script src="./admin_files/xlsx.full.min.js.download"></script>
 <script>
-const API_URL = CONFIG.API_BASE + '/api/products';
+const API_URL    = CONFIG.API_BASE + '/api/products';
 const ORDERS_URL = CONFIG.API_BASE + '/api/orders';
-
 const SUBCATEGORIES = {
   mens:    ['Shirts','Pants','Kurta','Waistcoat','Shalwar Kameez'],
   kids:    ['Shirts','Pants','Frocks','Suits','Shalwar Kameez'],
   festive: ['Sherwani','Kurta','Lehenga','Saree','Gharara']
 };
+let allProducts = [], editingProductId = null, productImportData = [], orderImportData = [];
+let soldMap = {};
+let allOrders = [];
+let editKeepImages = [];
 
-let allProducts = [], editingProductId = null, excelData = [], orderExcelData = [];
-
-// ─── Session
 function isLoggedIn() { return localStorage.getItem('elbnam_admin') === 'true'; }
 function login() {
   const pwd = document.getElementById('passwordInput').value;
@@ -357,25 +403,23 @@ function showDashboard() {
   loadProducts();
 }
 
-// ─── UI Sections
 function showSection(section) {
   const isProducts = section === 'products';
   document.getElementById('productsSection').style.display = isProducts ? 'block' : 'none';
-  document.getElementById('ordersSection').style.display  = isProducts ? 'none'  : 'block';
-  document.getElementById('tabProducts').classList.toggle('active', isProducts);
-  document.getElementById('tabOrders').classList.toggle('active', !isProducts);
+  document.getElementById('ordersSection').style.display   = isProducts ? 'none'  : 'block';
+  document.getElementById('tabProducts').classList.toggle('active',  isProducts);
+  document.getElementById('tabOrders').classList.toggle('active',   !isProducts);
   if (!isProducts) loadOrders();
 }
-function toggleImport() {
-  const s = document.getElementById('importSection');
-  s.style.display = s.style.display === 'none' ? 'block' : 'none';
+function toggleProductImport() {
+  const p = document.getElementById('productImportPanel');
+  p.style.display = p.style.display === 'none' ? 'block' : 'none';
 }
 function toggleOrderImport() {
-  const s = document.getElementById('orderImportPanel');
-  s.style.display = s.style.display === 'none' ? 'block' : 'none';
+  const p = document.getElementById('orderImportPanel');
+  p.style.display = p.style.display === 'none' ? 'block' : 'none';
 }
 
-// ─── Subcategory
 function updateSubcategory(catId, subId, selected = '') {
   const cat = document.getElementById(catId).value;
   const el  = document.getElementById(subId);
@@ -384,7 +428,6 @@ function updateSubcategory(catId, subId, selected = '') {
   ).join('');
 }
 
-// ─── Image Preview
 function previewImgs(input, mainId, textId, gridId) {
   const grid = document.getElementById(gridId);
   grid.innerHTML = '';
@@ -400,7 +443,6 @@ function previewImgs(input, mainId, textId, gridId) {
   });
 }
 
-// ─── Stock Inputs
 function updateStockInputs(containerId, sizesId, groupId) {
   const sizes = document.getElementById(sizesId).value.split(',').map(s => s.trim()).filter(Boolean);
   const group = document.getElementById(groupId);
@@ -425,11 +467,20 @@ function getStockData(containerId) {
   return stock;
 }
 
-// ─── Products
 async function loadProducts() {
   try {
-    const res = await fetch(API_URL);
-    allProducts = await res.json();
+    const [prods, orders] = await Promise.all([
+      fetch(API_URL).then(r => r.json()),
+      fetch(ORDERS_URL).then(r => r.json()).catch(() => [])
+    ]);
+    allProducts = Array.isArray(prods) ? prods : [];
+    soldMap = {};
+    (Array.isArray(orders) ? orders : []).filter(o => o.status !== 'Cancelled').forEach(o => {
+      (o.items || []).forEach(item => {
+        const k = (item.productId || item.name || '') + '|' + item.size;
+        soldMap[k] = (soldMap[k] || 0) + (item.qty || 0);
+      });
+    });
     renderProducts(allProducts);
   } catch {
     document.getElementById('productsGrid').innerHTML = '<div style="padding:20px;color:#999;">Could not load products</div>';
@@ -446,29 +497,43 @@ function renderProducts(products) {
   if (!products.length) { grid.innerHTML = '<div style="padding:20px;color:#999;">No products yet</div>'; return; }
   grid.innerHTML = products.map(p => {
     const stockMap = p.sizeStock || {};
-    const stockSummary = (p.sizes || []).map(s => `${s}:${stockMap[s] ?? '–'}`).join(' · ');
+    const imgs = p.images && p.images.length ? p.images : (p.image ? [p.image] : []);
+    const imgCount = imgs.length;
+    const stockChips = (p.sizes || []).map(sz => {
+      const avail = stockMap[sz] ?? 0;
+      const sk = (p._id || p.name || '') + '|' + sz;
+      const sold = soldMap[sk] || 0;
+      return `<div class="stock-chip"><span class="stock-chip-sz">${sz}</span> <span class="stock-chip-avail">✓${avail}</span> <span class="stock-chip-sold">✕${sold}</span></div>`;
+    }).join('');
+    const labelHtml = p.label ? `<span class="product-row-label ${p.label.toLowerCase()}">${p.label}</span>` : '';
     return `
-    <div class="product-item" draggable="true" data-id="${p._id}" style="${!p.inStock ? 'border-color:#ffcdd2;' : ''}">
-      <div class="drag-handle">⢷</div>
-      <div class="product-img">
-        ${p.label ? `<div class="product-label-tag">${p.label}</div>` : ''}
-        ${!p.inStock ? '<div style="position:absolute;bottom:0;left:0;right:0;background:rgba(229,57,53,0.85);color:#fff;font-size:9px;letter-spacing:2px;text-align:center;padding:4px;text-transform:uppercase;">Out of Stock</div>' : ''}
-        <img src="${p.image}" alt="${p.name}">
+    <div class="product-row">
+      <div class="product-row-img">
+        <img src="${imgs[0] || ''}" alt="${p.name}">
+        ${imgCount > 1 ? `<div class="product-row-img-count">${imgCount} imgs</div>` : ''}
       </div>
-      <div class="product-info-mini">
-        <div class="product-cat-mini">${p.category}${p.subcategory ? ' · ' + p.subcategory : ''}</div>
-        <div class="product-name-mini">${p.name}</div>
-        <div class="product-price-mini">PKR ${p.price.toLocaleString()}</div>
-        ${stockSummary ? `<div style="font-size:9px;color:#999;margin-bottom:8px;">${stockSummary}</div>` : ''}
-        <div class="product-actions">
-          <button class="action-btn" onclick="openEditModal('${p._id}')">Edit</button>
-          <button class="action-btn delete" onclick="deleteProduct('${p._id}')">Delete</button>
+      <div class="product-row-body">
+        <div class="product-row-top">
+          <div>
+            <div class="product-row-cat">${p.category}${p.subcategory ? ' · ' + p.subcategory : ''}</div>
+            <div class="product-row-name">${p.name}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
+            <div class="product-row-price">PKR ${p.price.toLocaleString()}${p.originalPrice ? ` <del style="color:#aaa;font-size:11px;">PKR ${p.originalPrice.toLocaleString()}</del>` : ''}</div>
+            ${labelHtml}
+          </div>
         </div>
+        ${stockChips ? `<div class="stock-table">${stockChips}</div>` : ''}
+        ${!p.inStock ? '<div style="font-size:10px;color:#e53935;margin-top:6px;letter-spacing:1px;">OUT OF STOCK</div>' : ''}
+      </div>
+      <div class="product-row-actions">
+        <button type="button" class="icon-btn" onclick="openEditModal('${p._id}')" title="Edit">✏️</button>
+        <button type="button" class="icon-btn del" onclick="deleteProduct('${p._id}')" title="Delete">🗑️</button>
       </div>
     </div>`;
   }).join('');
-  initDragDrop();
 }
+
 async function addProduct() {
   const name  = document.getElementById('pName').value.trim();
   const price = document.getElementById('pPrice').value;
@@ -504,6 +569,37 @@ async function addProduct() {
   } catch (err) { alert('Error: ' + err.message); }
   btn.disabled = false; btn.textContent = '◆ Add Product';
 }
+
+/* ---- Edit modal per-image handling ---- */
+function renderEditImgGrid() {
+  const grid = document.getElementById('editImgGrid');
+  if (!editKeepImages.length) {
+    grid.innerHTML = '<div style="font-size:12px;color:#ccc;padding:4px 0;">No existing images</div>';
+    return;
+  }
+  grid.innerHTML = editKeepImages.map((url, i) => `
+    <div class="edit-img-thumb">
+      <img src="${url}" alt="">
+      <button type="button" class="edit-img-del" onclick="removeEditKeepImage(${i})" title="Remove">✕</button>
+    </div>`).join('');
+}
+
+function removeEditKeepImage(idx) {
+  editKeepImages.splice(idx, 1);
+  renderEditImgGrid();
+}
+
+function onEditImagesSelected(input) {
+  const grid = document.getElementById('eNewImgGrid');
+  grid.innerHTML = '';
+  Array.from(input.files).forEach(file => {
+    const img = document.createElement('img');
+    img.src = URL.createObjectURL(file);
+    img.style.cssText = 'width:60px;height:60px;object-fit:cover;border:1px solid #ddd;border-radius:2px;';
+    grid.appendChild(img);
+  });
+}
+
 function openEditModal(id) {
   const p = allProducts.find(x => x._id === id);
   if (!p) return;
@@ -520,23 +616,16 @@ function openEditModal(id) {
     const stockMap = p.sizeStock || {};
     document.querySelectorAll('#eStockInputs input').forEach(i => { i.value = stockMap[i.dataset.size] ?? 0; });
   }, 0);
-  document.getElementById('eImage').value = '';
-  document.getElementById('eImgPreviewGrid').innerHTML = '';
+  // Populate existing images
   const imgs = p.images?.length ? p.images : (p.image ? [p.image] : []);
-  if (imgs.length) {
-    document.getElementById('eImgPreview').src = imgs[0];
-    document.getElementById('eImgPreview').style.display = 'block';
-    document.getElementById('eImgPreviewText').style.display = 'none';
-    imgs.slice(1).forEach(url => {
-      const img = document.createElement('img');
-      img.src = url;
-      img.style.cssText = 'width:60px;height:60px;object-fit:cover;border:1px solid #ddd;border-radius:2px;';
-      document.getElementById('eImgPreviewGrid').appendChild(img);
-    });
-  }
+  editKeepImages = [...imgs];
+  renderEditImgGrid();
+  document.getElementById('eImage').value = '';
+  document.getElementById('eNewImgGrid').innerHTML = '';
   document.getElementById('editModal').classList.add('open');
 }
 function closeEditModal() { document.getElementById('editModal').classList.remove('open'); editingProductId = null; }
+
 async function updateProduct() {
   if (!editingProductId) return;
   const name  = document.getElementById('eName').value.trim();
@@ -553,6 +642,7 @@ async function updateProduct() {
   fd.append('label', document.getElementById('eLabel').value);
   fd.append('sizes', document.getElementById('eSizes').value);
   fd.append('sizeStock', JSON.stringify(getStockData('eStockInputs')));
+  fd.append('keepImages', JSON.stringify(editKeepImages));
   Array.from(document.getElementById('eImage').files).forEach(f => fd.append('images', f));
   try {
     const res  = await fetch(API_URL + '/' + editingProductId, { method: 'PUT', body: fd });
@@ -562,228 +652,207 @@ async function updateProduct() {
   } catch (err) { alert('Error: ' + err.message); }
   btn.disabled = false; btn.textContent = 'Update Product';
 }
+
 async function deleteProduct(id) {
   if (!confirm('Delete this product?')) return;
   try { await fetch(API_URL + '/' + id, { method: 'DELETE' }); loadProducts(); }
   catch { alert('Error deleting product'); }
 }
 
-// ─── Drag & Drop
-function initDragDrop() {
-  const grid = document.getElementById('productsGrid');
-  let dragged = null;
-  grid.querySelectorAll('.product-item').forEach(item => {
-    item.addEventListener('dragstart', () => { dragged = item; setTimeout(() => item.classList.add('dragging'), 0); });
-    item.addEventListener('dragend',   () => { item.classList.remove('dragging'); grid.querySelectorAll('.product-item').forEach(i => i.classList.remove('drag-over')); saveNewOrder(); });
-    item.addEventListener('dragover',  e => { e.preventDefault(); grid.querySelectorAll('.product-item').forEach(i => i.classList.remove('drag-over')); if (item !== dragged) item.classList.add('drag-over'); });
-    item.addEventListener('drop',      e => { e.preventDefault(); if (item !== dragged) { const all = [...grid.querySelectorAll('.product-item')]; all.indexOf(dragged) < all.indexOf(item) ? grid.insertBefore(dragged, item.nextSibling) : grid.insertBefore(dragged, item); } });
-  });
-}
-async function saveNewOrder() {
-  const order = [...document.getElementById('productsGrid').querySelectorAll('.product-item')].map((el,i) => ({ id: el.dataset.id, position: i }));
-  try { await fetch(CONFIG.API_BASE + '/api/products/reorder', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ order }) }); }
-  catch { console.log('Reorder save failed'); }
-}
-
-// ─── Orders
-async function loadOrders() {
+/* ---- Products CSV Export ---- */
+async function downloadInventoryReport() {
   try {
-    const res    = await fetch(ORDERS_URL);
-    const orders = await res.json();
-    document.getElementById('ordersCount').textContent = orders.length + ' orders';
-    const body = document.getElementById('ordersBody');
-    if (!orders.length) { body.innerHTML = '<div style="padding:40px;text-align:center;color:#ccc;">No orders yet</div>'; return; }
-    body.innerHTML = orders.map(o => `
-      <div style="border:1px solid #f0f0f0;border-radius:4px;padding:16px;margin-bottom:12px;">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
-          <div>
-            <div style="font-weight:600;font-size:14px;">${o.customerName}</div>
-            <div style="font-size:11px;color:#999;margin-top:2px;">${o.phone}${o.email ? ' &middot; ' + o.email : ''}${o.externalId ? ' &middot; <span style="background:#f0f0f0;padding:1px 5px;border-radius:2px;font-size:10px;">' + o.externalId + '</span>' : ''}</div>
-          </div>
-          <div style="text-align:right;">
-            <div style="font-weight:600;color:#b8860b;">PKR ${o.total.toLocaleString()}</div>
-            <div style="font-size:10px;color:#999;margin-top:2px;">${new Date(o.createdAt).toLocaleDateString('en-PK')}</div>
-          </div>
-        </div>
-        <div style="font-size:11px;color:#666;margin-bottom:10px;padding:8px;background:#f8f8f8;border-radius:2px;">${o.items.map(i=>`<div>${i.name} (${i.size}) &times; ${i.qty}</div>`).join('')}</div>
-        <div style="font-size:11px;color:#999;margin-bottom:10px;">&#128205; ${o.address}</div>
-        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
-          <div style="display:flex;align-items:center;gap:8px;">
-            <span style="font-size:10px;color:#999;text-transform:uppercase;">Status:</span>
-            <select onchange="updateOrderStatus('${o._id}',this.value)" style="padding:5px 8px;border:1px solid #ddd;font-size:11px;border-radius:2px;background:${o.status==='Delivered'?'#e6f4ea':o.status==='Cancelled'?'#fce8e6':o.status==='Confirmed'?'#fdf8ee':'#fff'};">
-              ${['Pending','Confirmed','Delivered','Cancelled'].map(s=>`<option ${o.status===s?'selected':''}>${s}</option>`).join('')}
-            </select>
-          </div>
-          <div style="display:flex;gap:8px;align-items:center;">
-            <span style="font-size:10px;background:#f0f0f0;padding:4px 8px;border-radius:2px;">&#128181; ${o.payment}</span>
-            <button onclick="deleteOrder('${o._id}')" style="background:none;border:1px solid #eee;color:#ccc;cursor:pointer;padding:4px 8px;font-size:12px;border-radius:2px;">&#10005;</button>
-          </div>
-        </div>
-      </div>`).join('');
-  } catch (err) { console.log('Orders error:', err); }
-}
-async function updateOrderStatus(id, status) {
-  try { await fetch(ORDERS_URL + '/' + id, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status }) }); loadOrders(); }
-  catch (err) { console.log(err); }
-}
-async function deleteOrder(id) {
-  if (!confirm('Delete this order?')) return;
-  try { await fetch(ORDERS_URL + '/' + id, { method: 'DELETE' }); loadOrders(); }
-  catch (err) { console.log(err); }
+    const [prods, orders] = await Promise.all([ fetch(API_URL).then(r=>r.json()), fetch(ORDERS_URL).then(r=>r.json()) ]);
+    const sm = {};
+    orders.filter(o=>o.status!=='Cancelled').forEach(o=>{ (o.items||[]).forEach(item=>{ const k1=(item.productId||'')+`|${item.size}`, k2=(item.name||'')+`|${item.size}`; sm[k1]=(sm[k1]||0)+(item.qty||0); sm[k2]=(sm[k2]||0)+(item.qty||0); }); });
+    const rows=[['Name','Category','Subcategory','Price','Original Price','Sizes','Label','Available','Sold']];
+    prods.forEach(p=>{ const sizes=p.sizes||[]; const stock=p.sizeStock||{}; const availStr=sizes.map(sz=>`${sz}:${stock[sz]??0}`).join(';'); const soldStr=sizes.map(sz=>{ const k1=(p._id||'')+`|${sz}`, k2=(p.name||'')+`|${sz}`; return `${sz}:${sm[k1]||sm[k2]||0}`; }).join(';'); rows.push([p.name,p.category,p.subcategory||'',p.price,p.originalPrice||'',sizes.join(','),p.label||'',availStr||'0',soldStr||'0']); });
+    const ws = XLSX.utils.aoa_to_sheet(rows);
+    ws['!cols'] = [20,10,14,8,12,16,8,20,20].map(w => ({ wch: w }));
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Inventory');
+    XLSX.writeFile(wb, 'elbnam_inventory_'+new Date().toISOString().slice(0,10)+'.xlsx');
+  } catch(err){ alert('Could not generate report: '+err.message); }
 }
 
-// ─── Order Excel Import
-function downloadOrderTemplate() {
-  const ws = XLSX.utils.aoa_to_sheet([
-    ['Order ID', 'Customer Name', 'Phone', 'Email', 'Address', 'Items', 'Total', 'Status', 'Payment'],
-    ['ORD-001', 'Ahmed Khan', '03001234567', 'ahmed@email.com', '123 Model Town, Lahore', 'Blue Ocean:XL:1:2500', '2500', 'Pending', 'COD'],
-    ['ORD-002', 'Sara Malik', '03109876543', '', '45 DHA Phase 5, Karachi', 'Red Kurta:M:2:1800;Classic Kurta:L:1:1400', '5000', 'Confirmed', 'COD'],
-    ['ORD-003', 'Usman Ali', '03331122334', 'usman@email.com', '7 Gulberg III, Lahore', 'White Sherwani:XL:1:4500', '4500', 'Delivered', 'COD'],
-    ['ORD-004', 'Ayesha Raza', '03215678901', '', '22 F-10, Islamabad', 'Kids Suit:S:2:900', '1800', 'Cancelled', 'COD']
-  ]);
-  ws['!cols'] = [10,18,14,22,28,38,8,12,10].map(w => ({ wch: w }));
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'Orders');
-  XLSX.writeFile(wb, 'elbnam_orders_template.xlsx');
-}
-function handleOrderExcelUpload(input) {
-  const file = input.files[0];
-  if (!file) return;
-  document.getElementById('orderExcelFileName').textContent = file.name;
+/* ---- Product CSV Import ---- */
+function handleProductUpload(input) {
+  const file = input.files[0]; if (!file) return;
+  document.getElementById('productFileName').textContent = file.name;
   const reader = new FileReader();
   reader.onload = e => {
     const wb = XLSX.read(e.target.result, { type: 'binary' });
-    orderExcelData = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
-    const btn = document.getElementById('startOrderImportBtn');
+    productImportData = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
+    const btn = document.getElementById('startProductImportBtn');
     btn.style.display = 'inline-block';
-    btn.textContent = `► Import ${orderExcelData.length} Orders`;
+    btn.textContent = `► Import ${productImportData.length} Products`;
+    document.getElementById('productImportResult').style.display = 'none';
+  };
+  reader.readAsBinaryString(file);
+}
+async function startProductImport() {
+  if (!productImportData.length) return;
+  const btn = document.getElementById('startProductImportBtn');
+  btn.disabled = true; btn.textContent = 'Importing...';
+  let created = 0, updated = 0, failed = 0; const errors = [];
+  for (const row of productImportData) {
+    const sizesRaw = row['Sizes'] ? String(row['Sizes']) : '';
+    const sizeList = sizesRaw.split(',').map(s => s.trim()).filter(Boolean);
+    const available = row['Available'] !== undefined ? String(row['Available']) : '0';
+    try {
+      const res = await fetch(API_URL + '/import', { method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ name: String(row['Name']||''), category: String(row['Category']||'mens').toLowerCase(), subcategory: String(row['Subcategory']||''), price: Number(row['Price'])||0, originalPrice: Number(row['Original Price'])||0, sizes: sizeList, label: String(row['Label']||''), available }) });
+      const data = await res.json();
+      if (data.success) { data.updated ? updated++ : created++; } else { failed++; errors.push(`${row['Name']} — ${data.message}`); }
+    } catch { failed++; errors.push(`${row['Name']} — Network error`); }
+  }
+  document.getElementById('productImportResult').style.display = 'block';
+  document.getElementById('productImportStatus').innerHTML = `✅ ${created} created &nbsp; 🔄 ${updated} updated &nbsp; ❌ ${failed} failed`;
+  document.getElementById('productImportLog').innerHTML = errors.map(e => `<div>${e}</div>`).join('');
+  btn.disabled = false; btn.textContent = '► Import Again';
+  loadProducts();
+}
+
+/* ---- Order Filters ---- */
+function applyOrderFilter() {
+  const name   = (document.getElementById('filterName').value || '').toLowerCase().trim();
+  const status = document.getElementById('filterStatus').value;
+  const from   = document.getElementById('filterDateFrom').value;
+  const to     = document.getElementById('filterDateTo').value;
+  const filtered = allOrders.filter(o => {
+    if (name && !(o.customerName||'').toLowerCase().includes(name) && !(o.email||'').toLowerCase().includes(name)) return false;
+    if (status && o.status !== status) return false;
+    if (from && new Date(o.createdAt) < new Date(from)) return false;
+    if (to   && new Date(o.createdAt) > new Date(to + 'T23:59:59')) return false;
+    return true;
+  });
+  renderOrderRows(filtered);
+}
+function clearOrderFilters() {
+  ['filterName','filterDateFrom','filterDateTo'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('filterStatus').value = '';
+  renderOrderRows(allOrders);
+}
+
+/* ---- Orders Export ---- */
+function exportOrdersExcel() {
+  const name   = (document.getElementById('filterName').value || '').toLowerCase().trim();
+  const status = document.getElementById('filterStatus').value;
+  const from   = document.getElementById('filterDateFrom').value;
+  const to     = document.getElementById('filterDateTo').value;
+  const filtered = allOrders.filter(o => {
+    if (name && !(o.customerName||'').toLowerCase().includes(name) && !(o.email||'').toLowerCase().includes(name)) return false;
+    if (status && o.status !== status) return false;
+    if (from && new Date(o.createdAt) < new Date(from)) return false;
+    if (to   && new Date(o.createdAt) > new Date(to + 'T23:59:59')) return false;
+    return true;
+  });
+  const rows = [['#','Customer','Email','Phone','Address','Items','Total (PKR)','Date','Status']];
+  filtered.forEach((o, i) => {
+    const items = (o.items||[]).map(it => `${it.name} (${it.size}) x${it.qty}`).join('; ');
+    rows.push([i+1, o.customerName, o.email||'', o.phone, o.address, items, o.total, new Date(o.createdAt).toLocaleDateString('en-PK'), o.status]);
+  });
+  const ws = XLSX.utils.aoa_to_sheet(rows);
+  ws['!cols'] = [4,16,20,14,24,40,12,12,10].map(w=>({wch:w}));
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Orders');
+  XLSX.writeFile(wb, 'elbnam_orders_'+new Date().toISOString().slice(0,10)+'.xlsx');
+}
+
+/* ---- Order CSV Import ---- */
+function parseOrderStr(str) {
+  str = String(str||'').trim();
+  const m = str.match(/^(.+?)\s*\(([^)]+)\)\s*[×xX]\s*(\d+)\s*$/i);
+  if (m) return { name: m[1].trim(), size: m[2].trim(), qty: parseInt(m[3]) };
+  const xMatch = str.match(/^(.*?)\(([^)]+)\)\s*[×xX*]\s*(\d+)\s*$/);
+  if (xMatch) return { name: xMatch[1].trim(), size: xMatch[2].trim(), qty: parseInt(xMatch[3]) };
+  return null;
+}
+function handleOrderUpload(input) {
+  const file = input.files[0]; if (!file) return;
+  document.getElementById('orderFileName').textContent = file.name;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const wb = XLSX.read(e.target.result, { type: 'binary' });
+    const raw = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
+    const isCustomerFmt = raw.length > 0 && 'Customer' in raw[0];
+    if (isCustomerFmt) {
+      orderImportData = raw.map(row => {
+        const parsed = parseOrderStr(row['Order']||''); const price=parseFloat(row['Price'])||0; const qty=parsed?parsed.qty:1;
+        return { externalId:null, customerName:String(row['Customer']||''), phone:String(row['Phone']||''), email:'', address:String(row['Address']||''), items:parsed?`${parsed.name}:${parsed.size}:${qty}:${price}`:'', total:price, status:String(row['Status']||'Pending'), payment:'COD' };
+      });
+    } else {
+      orderImportData = raw.map(row => ({ externalId:row['Order ID']?String(row['Order ID']):null, customerName:String(row['Customer Name']||''), phone:String(row['Phone']||''), email:String(row['Email']||''), address:String(row['Address']||''), items:String(row['Items']||''), total:parseFloat(row['Total'])||0, status:String(row['Status']||'Pending'), payment:String(row['Payment']||'COD') }));
+    }
+    const btn = document.getElementById('startOrderImportBtn');
+    btn.style.display = 'inline-block'; btn.textContent = `► Import ${orderImportData.length} Orders`;
     document.getElementById('orderImportResult').style.display = 'none';
   };
   reader.readAsBinaryString(file);
 }
 async function startOrderImport() {
-  if (!orderExcelData.length) return;
+  if (!orderImportData.length) return;
   const btn = document.getElementById('startOrderImportBtn');
   btn.disabled = true; btn.textContent = 'Importing...';
-  const orders = orderExcelData.map(row => ({
-    externalId:   row['Order ID']      ? String(row['Order ID'])      : null,
-    customerName: String(row['Customer Name'] || ''),
-    phone:        String(row['Phone']         || ''),
-    email:        String(row['Email']         || ''),
-    address:      String(row['Address']       || ''),
-    items:        String(row['Items']         || ''),
-    total:        parseFloat(row['Total'])    || 0,
-    status:       row['Status']              || 'Pending',
-    payment:      row['Payment']             || 'COD'
-  }));
   try {
-    const res  = await fetch(ORDERS_URL + '/import', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ orders }) });
+    const res = await fetch(ORDERS_URL + '/import', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({orders:orderImportData}) });
     const data = await res.json();
-    const resultEl = document.getElementById('orderImportResult');
-    const statusEl = document.getElementById('orderImportStatus');
-    const logEl    = document.getElementById('orderImportLog');
-    resultEl.style.display = 'block';
-    statusEl.innerHTML = `✅ ${data.created} created &nbsp; 🔄 ${data.updated} updated &nbsp; ⏩ ${data.skipped} skipped`;
-    logEl.innerHTML = '';
-    if (data.errors && data.errors.length) {
-      data.errors.forEach(e => { logEl.innerHTML += `<div>❌ ${e}</div>`; });
-    }
-    loadOrders();
-  } catch (err) {
     document.getElementById('orderImportResult').style.display = 'block';
-    document.getElementById('orderImportStatus').textContent = 'Error: ' + err.message;
-  }
-  btn.disabled = false;
-  btn.textContent = `► Import Again`;
-}
-
-// ─── Inventory Report Download
-async function downloadInventoryReport() {
-  try {
-    const [prods, orders] = await Promise.all([
-      fetch(API_URL).then(r => r.json()),
-      fetch(ORDERS_URL).then(r => r.json())
-    ]);
-
-    // Build sold map: productId|size => qty sold (exclude Cancelled)
-    const soldMap = {};
-    orders.filter(o => o.status !== 'Cancelled').forEach(o => {
-      (o.items || []).forEach(item => {
-        const key = (item.productId || '') + '|' + item.size;
-        const nameKey = (item.name || '') + '|' + item.size;
-        soldMap[key]     = (soldMap[key]     || 0) + (item.qty || 0);
-        soldMap[nameKey] = (soldMap[nameKey] || 0) + (item.qty || 0);
-      });
-    });
-
-    const rows = [['Product Name', 'Category', 'Sub-category', 'Price (PKR)', 'Size', 'Remaining Stock', 'Units Sold']];
-    prods.forEach(p => {
-      const sizes = p.sizes || [];
-      const stock = p.sizeStock || {};
-      if (!sizes.length) {
-        rows.push([p.name, p.category, p.subcategory || '', p.price, '–', '–', '–']);
-        return;
-      }
-      sizes.forEach(size => {
-        const byId   = (p._id   || '') + '|' + size;
-        const byName = (p.name  || '') + '|' + size;
-        const sold   = soldMap[byId] || soldMap[byName] || 0;
-        rows.push([p.name, p.category, p.subcategory || '', p.price, size, stock[size] ?? 0, sold]);
-      });
-    });
-
-    const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
-    a.download = 'elbnam_inventory_' + new Date().toISOString().slice(0, 10) + '.csv';
-    a.click();
-  } catch (err) {
-    alert('Could not generate report: ' + err.message);
-  }
-}
-
-// ─── Product Excel / CSV Import
-function handleExcelUpload(input) {
-  const file = input.files[0];
-  if (!file) return;
-  document.getElementById('excelFileName').textContent = file.name;
-  const reader = new FileReader();
-  reader.onload = e => {
-    const wb = XLSX.read(e.target.result, { type: 'binary' });
-    excelData = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
-    const btn = document.getElementById('startImportBtn');
-    btn.style.display = 'inline-block';
-    btn.textContent = `► Import ${excelData.length} Products`;
-  };
-  reader.readAsBinaryString(file);
-}
-async function startImport() {
-  if (!excelData.length) return;
-  const btn      = document.getElementById('startImportBtn');
-  const statusEl = document.getElementById('importStatus');
-  const logEl    = document.getElementById('importLog');
-  const bar      = document.getElementById('progressBar');
-  document.getElementById('importProgress').style.display = 'block';
-  btn.disabled = true; logEl.innerHTML = '';
-  let ok = 0, fail = 0;
-  for (let i = 0; i < excelData.length; i++) {
-    const row = excelData[i];
-    bar.style.width = Math.round(((i+1)/excelData.length)*100) + '%';
-    statusEl.textContent = `Importing ${i+1} of ${excelData.length}...`;
-    try {
-      const res  = await fetch(API_URL + '/import', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: row['Name']||'', category: (row['Category']||'mens').toLowerCase(), subcategory: row['Subcategory']||'', price: Number(row['Price'])||0, originalPrice: Number(row['Original Price'])||0, sizes: row['Sizes']?row['Sizes'].toString().split(',').map(s=>s.trim()):[], label: row['Label']||'', image: row['Image URL']||'' }) });
-      const data = await res.json();
-      if (data.success) { ok++;   logEl.innerHTML += `<div style="color:green">✓ ${row['Name']}</div>`; }
-      else              { fail++; logEl.innerHTML += `<div style="color:red">✗ ${row['Name']} — ${data.message}</div>`; }
-    } catch { fail++; logEl.innerHTML += `<div style="color:red">✗ ${row['Name']} — Network error</div>`; }
-    logEl.scrollTop = logEl.scrollHeight;
-  }
-  statusEl.textContent = `Done! ✓ ${ok} imported, ✗ ${fail} failed`;
+    document.getElementById('orderImportStatus').innerHTML = `✅ ${data.created} created &nbsp; 🔄 ${data.updated} updated &nbsp; ⏩ ${data.skipped} skipped`;
+    const logEl = document.getElementById('orderImportLog'); logEl.innerHTML = '';
+    if (data.errors && data.errors.length) data.errors.forEach(err => { logEl.innerHTML += `<div>❌ ${err}</div>`; });
+    loadOrders();
+  } catch(err) { document.getElementById('orderImportResult').style.display='block'; document.getElementById('orderImportStatus').textContent='Error: '+err.message; }
   btn.disabled = false; btn.textContent = '► Import Again';
-  loadProducts();
+}
+function downloadOrderTemplate() {
+  const ws = XLSX.utils.aoa_to_sheet([['Customer','Phone','Address','Order','Price','Order Date','Status'],['Ahmed Khan','03001234567','123 Model Town, Lahore','Blue Ocean (XL) × 1','2500','20/06/2026','Pending'],['Sara Malik','03109876543','45 DHA Phase 5, Karachi','Red Kurta (M) × 2','3600','20/06/2026','Confirmed']]);
+  ws['!cols'] = [18,14,28,32,8,14,12].map(w => ({ wch: w }));
+  const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, 'Customers'); XLSX.writeFile(wb, 'elbnam_customers_template.xlsx');
 }
 
-// ─── Init
+/* ---- Orders ---- */
+async function loadOrders() {
+  try {
+    const res = await fetch(ORDERS_URL);
+    allOrders = await res.json();
+    document.getElementById('ordersCount').textContent = allOrders.length + ' orders';
+    applyOrderFilter();
+  } catch(err) { console.log('Orders error:', err); }
+}
+
+function renderOrderRows(orders) {
+  const tbody = document.getElementById('ordersBody');
+  if (!orders.length) { tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:40px;color:#ccc;">No orders found</td></tr>'; return; }
+  tbody.innerHTML = orders.map((o, idx) => {
+    const itemsHtml = o.items.map(i => `<div class="item-line">${i.name} (${i.size}) &times;${i.qty}</div>`).join('');
+    const statusOptions = ['Pending','Confirmed','Processing','Delivered','Cancelled'].map(s => `<option ${o.status===s?'selected':''}>${s}</option>`).join('');
+    return `<tr>
+      <td style="color:#aaa;font-size:11px;">${idx+1}</td>
+      <td><div style="font-weight:600;">${o.customerName}</div><div style="font-size:10px;color:#999;">${o.email||''}</div></td>
+      <td>${o.phone}</td>
+      <td style="max-width:160px;font-size:11px;color:#666;">${o.address}</td>
+      <td class="items-cell">${itemsHtml}</td>
+      <td style="font-weight:600;color:#b8860b;white-space:nowrap;">PKR ${o.total.toLocaleString()}</td>
+      <td style="font-size:11px;color:#999;white-space:nowrap;">${new Date(o.createdAt).toLocaleDateString('en-PK')}</td>
+      <td>
+        <select onchange="updateOrderStatus('${o._id}',this.value)" style="padding:4px 6px;border:1px solid #ddd;font-size:11px;border-radius:2px;">${statusOptions}</select>
+      </td>
+      <td><button type="button" onclick="deleteOrder('${o._id}')" style="background:none;border:1px solid #eee;color:#ccc;cursor:pointer;padding:4px 8px;font-size:12px;border-radius:2px;">&#10005;</button></td>
+    </tr>`;
+  }).join('');
+}
+
+async function updateOrderStatus(id, status) {
+  try { await fetch(ORDERS_URL+'/'+id,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({status})}); loadOrders(); }
+  catch(err){ console.log(err); }
+}
+async function deleteOrder(id) {
+  if (!confirm('Delete this order?')) return;
+  try { await fetch(ORDERS_URL+'/'+id,{method:'DELETE'}); loadOrders(); }
+  catch(err){ console.log(err); }
+}
+
 if (isLoggedIn()) { showDashboard(); } else { document.getElementById('loginWrap').style.display = 'flex'; }
 </script>
 </body>

@@ -76,14 +76,23 @@ router.put('/:id', upload.array('images', 5), async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
     if (!product) return res.status(404).json({ error: 'Product not found' });
-    let imageUrls = product.images && product.images.length ? product.images : (product.image ? [product.image] : []);
+
+    // Start with kept existing images (if provided), else keep all current images
+    let imageUrls;
+    if (req.body.keepImages !== undefined) {
+      try { imageUrls = JSON.parse(req.body.keepImages); } catch(e) { imageUrls = []; }
+    } else {
+      imageUrls = product.images && product.images.length ? product.images : (product.image ? [product.image] : []);
+    }
+
+    // Append any newly uploaded images
     if (req.files && req.files.length > 0) {
-      imageUrls = [];
       for (const file of req.files) {
         const url = await uploadToCloudinary(file.buffer);
         imageUrls.push(url);
       }
     }
+
     const sizes = req.body.sizes ? req.body.sizes.split(',').map(s => s.trim()).filter(Boolean) : product.sizes;
     let sizeStock = product.sizeStock ? Object.fromEntries(product.sizeStock) : {};
     if (req.body.sizeStock) {
@@ -123,21 +132,74 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+// Upsert by name. Available can be:
+//   a number  → distribute evenly across sizes
+//   "S:5;M:3" → per-size stock
 router.post('/import', async (req, res) => {
   try {
-    const { name, category, subcategory, price, originalPrice, sizes, label, image } = req.body;
+    const { name, category, subcategory, price, originalPrice, sizes, label } = req.body;
     if (!name || !price) return res.json({ success: false, message: 'Name and price required' });
-    const sizeList = sizes || [];
+
+    let sizeList = Array.isArray(sizes)
+      ? sizes
+      : (sizes ? String(sizes).split(',').map(s => s.trim()).filter(Boolean) : []);
+
+    const availableRaw = String(req.body.available || '0').trim();
     const sizeStock = {};
-    sizeList.forEach(s => { sizeStock[s] = 0; });
+
+    if (availableRaw.includes(':')) {
+      availableRaw.split(';').forEach(part => {
+        const [s, q] = part.split(':').map(x => x.trim());
+        if (s) sizeStock[s] = parseInt(q) || 0;
+      });
+      sizeList.forEach(s => { if (!(s in sizeStock)) sizeStock[s] = 0; });
+      Object.keys(sizeStock).forEach(s => { if (!sizeList.includes(s)) sizeList.push(s); });
+    } else {
+      const total = parseInt(availableRaw) || 0;
+      if (sizeList.length > 0) {
+        const perSize   = Math.floor(total / sizeList.length);
+        const remainder = total % sizeList.length;
+        sizeList.forEach((s, i) => { sizeStock[s] = perSize + (i === 0 ? remainder : 0); });
+      }
+    }
+
+    const inStock = Object.values(sizeStock).some(v => v > 0);
+
+    const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const existing = await Product.findOne({ name: new RegExp(`^${escaped}$`, 'i') });
+
+    if (existing) {
+      const updatedProduct = await Product.findByIdAndUpdate(
+        existing._id,
+        {
+          category:      category ? category.toLowerCase() : existing.category,
+          subcategory:   subcategory    || existing.subcategory,
+          price:         Number(price),
+          originalPrice: originalPrice  ? Number(originalPrice) : existing.originalPrice,
+          label:         label !== undefined ? label : existing.label,
+          sizes:         sizeList.length ? sizeList : existing.sizes,
+          sizeStock:     sizeList.length ? sizeStock : Object.fromEntries(existing.sizeStock || new Map()),
+          inStock
+        },
+        { new: true }
+      );
+      return res.json({ success: true, updated: true, product: updatedProduct });
+    }
+
     const product = new Product({
-      name, category: category || 'mens', subcategory: subcategory || '',
-      price: Number(price), originalPrice: originalPrice ? Number(originalPrice) : undefined,
-      image: image || '', images: image ? [image] : [],
-      label: label || '', sizes: sizeList, sizeStock, inStock: true
+      name,
+      category:      category ? category.toLowerCase() : 'mens',
+      subcategory:   subcategory || '',
+      price:         Number(price),
+      originalPrice: originalPrice ? Number(originalPrice) : undefined,
+      image: '', images: [],
+      label: label || '',
+      sizes: sizeList,
+      sizeStock,
+      inStock
     });
     await product.save();
-    res.json({ success: true, product });
+    res.json({ success: true, updated: false, product });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
